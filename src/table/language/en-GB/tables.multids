@@ -51,7 +51,6 @@ Tables/Expand/ExpandTooltip: show this record's text
 Tables/Expand/CollapseTooltip: hide this record's text
 Tables/Expand/CollapseAllTooltip: hide all expanded records
 Tables/Clone/RecordTooltip: clone this record
-Tables/Clone/AllTooltip: clone all records
 Tables/Clone/NameLabel: clone name
 Tables/Clone/Confirm: clone
 Tables/Clone/Cancel: cancel

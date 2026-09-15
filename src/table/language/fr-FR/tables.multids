@@ -51,7 +51,6 @@ Tables/Expand/ExpandTooltip: afficher le texte de cet enregistrement
 Tables/Expand/CollapseTooltip: masquer le texte de cet enregistrement
 Tables/Expand/CollapseAllTooltip: masquer tous les enregistrements dépliés
 Tables/Clone/RecordTooltip: dupliquer cet enregistrement
-Tables/Clone/AllTooltip: dupliquer tous les enregistrements
 Tables/Clone/NameLabel: nom du clone
 Tables/Clone/Confirm: dupliquer
 Tables/Clone/Cancel: annuler
