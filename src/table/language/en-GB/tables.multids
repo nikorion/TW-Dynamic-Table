@@ -52,6 +52,10 @@ Tables/Expand/CollapseTooltip: hide this record's text
 Tables/Expand/CollapseAllTooltip: hide all expanded records
 Tables/Clone/RecordTooltip: clone this record
 Tables/Clone/AllTooltip: clone all records
+Tables/Clone/NameLabel: clone name
+Tables/Clone/Confirm: clone
+Tables/Clone/Cancel: cancel
+Tables/Clone/ExistsWarning: a tiddler with this title already exists, choose another one
 Tables/Checkbox/RecordTooltip: mark this record as done
 Tables/Checkbox/AllTooltip: mark all records as done
 

@@ -21,5 +21,16 @@ type: text/vnd.tiddlywiki
 <td><$list filter="[[$:/config/nikorion/table/editor-type]is[tiddler]]"><$button tooltip=<<table-lingo-text Settings/ResetTooltip>>>
 <$action-deletetiddler $tiddler="$:/config/nikorion/table/editor-type"/>↺</$button></$list></td>
 </tr>
+<tr>
+<td><<table-lingo Settings/Label/EntriesPerPage>></td>
+<td><$select tiddler="$:/config/nikorion/table/entries-per-page" field="text" default="25">
+<$list filter='5 10 15 20 25 30 40 50' variable=num>
+<option value=<<num>>><<num>></option>
+</$list>
+</$select></td>
+<td><em><<table-lingo-text Settings/DefaultLabel>>&nbsp;<code>25</code></em></td>
+<td><$list filter="[[$:/config/nikorion/table/entries-per-page]is[tiddler]]"><$button tooltip=<<table-lingo-text Settings/ResetTooltip>>>
+<$action-deletetiddler $tiddler="$:/config/nikorion/table/entries-per-page"/>↺</$button></$list></td>
+</tr>
 </tbody>
 </table>

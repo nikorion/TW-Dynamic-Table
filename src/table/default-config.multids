@@ -1,3 +1,4 @@
 title: $:/config/nikorion/table/
 
 editor-type: simple
+entries-per-page: 25

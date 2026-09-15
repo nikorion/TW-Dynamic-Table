@@ -24,7 +24,7 @@ type: text/vnd.tiddlywiki
 
 \procedure limit-entries()
 <!-- set number of entries per page -->
-<$select tiddler=<<entryPerPageStateTiddler>> default=25 actions="""<$action-setfield $tiddler=<<pageStateTiddler>> text=1/>""">
+<$select tiddler=<<entryPerPageStateTiddler>> default={{$:/config/nikorion/table/entries-per-page}} actions="""<$action-setfield $tiddler=<<pageStateTiddler>> text=1/>""">
 <$list filter='5 10 15 20 25 30 40 50' variable=num>
 <option value=<<num>>><<table-lingo "Tables/Pagination/Limit">></option>
 </$list>

@@ -52,6 +52,10 @@ Tables/Expand/CollapseTooltip: masquer le texte de cet enregistrement
 Tables/Expand/CollapseAllTooltip: masquer tous les enregistrements dépliés
 Tables/Clone/RecordTooltip: dupliquer cet enregistrement
 Tables/Clone/AllTooltip: dupliquer tous les enregistrements
+Tables/Clone/NameLabel: nom du clone
+Tables/Clone/Confirm: dupliquer
+Tables/Clone/Cancel: annuler
+Tables/Clone/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
 Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
 Tables/Checkbox/AllTooltip: marquer tous les enregistrements comme faits
 

@@ -94,6 +94,32 @@ table thead .tbl-delete-confirm > th > button {
 	max-width:28px;
 }
 
+/* CLONE popup (rename-on-clone) */
+.tbldyn-clone-popup {
+	display: flex;
+	align-items: center;
+	gap: 0.3em;
+	padding: 6px 8px;
+}
+.tbldyn-clone-label {
+	font-size: 0.85em;
+	opacity: 0.7;
+	white-space: nowrap;
+}
+.tbldyn-clone-popup input {
+	width: 10rem;
+	box-sizing: border-box;
+}
+.tbldyn-clone-warning {
+	color: #ff0033;
+	font-size: 0.85em;
+	white-space: normal;
+}
+.tbldyn-clone-warning svg {
+	fill: #ff0033;
+	height: 0.85em;
+}
+
 /* this ensure short title in small width table */
 .tbldyn-title{
 	max-width: 15rem;

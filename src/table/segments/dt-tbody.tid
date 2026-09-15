@@ -56,7 +56,7 @@ type: text/vnd.tiddlywiki
 <!-- setup pagination variables -->
 <$let total-entries={{{ [subfilter<inputFilter>count[]]                      }}}
 	raw-page=         {{{ [<pageStateTiddler>get[text]] ~[[1]]                 }}} 
-	entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[25]]        }}} 
+	entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[$:/config/nikorion/table/entries-per-page]get[text]] ~[[25]] }}}
 	page-count=       {{{ [<total-entries>divide<entries-per-page>ceil[]max[1]] }}}
 	page-number=      {{{ [<raw-page>compare:number:gt<page-count>then<page-count>else<raw-page>] }}}
 	low=              {{{ [<page-number>subtract[1]multiply<entries-per-page>] }}}  
