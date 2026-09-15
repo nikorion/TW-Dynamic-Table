@@ -1,0 +1,83 @@
+title: $:/plugins/nikorion/table/language/en-GB/
+
+Tables/Select: Select...
+Tables/EmptyMessage: filter input is empty
+Tables/Error/NoColumns: `<<table>>`: set the columns with `fields` or `indexes`.
+Tables/Error/BothColumns: `<<table>>`: use either `fields` or `indexes`, not both.
+
+Tables/Column/title: Title
+Tables/Column/text: Text
+Tables/Column/caption: Caption
+Tables/Column/type: Type
+Tables/Column/created: Created
+Tables/Column/modified: Modified
+Tables/Column/creator: Creator
+Tables/Column/modifier: Modifier
+Tables/Column/color: Colour
+Tables/Column/email: Email
+Tables/Column/priority: Priority
+Tables/Column/status: Status
+Tables/Column/due-date: Due date
+Tables/Column/due: Due
+
+Tables/Format/Date: YYYY.0MM.0DD
+
+Tables/Priority/very-high: very high
+Tables/Priority/high: high
+Tables/Priority/normal: normal
+Tables/Priority/low: low
+Tables/Priority/very-low: very low
+Tables/Priority/no-priority: no priority
+
+Tables/Status/open: open
+Tables/Status/in-work: in work
+Tables/Status/on-hold: on hold
+Tables/Status/complete: complete
+Tables/Status/rework: rework
+Tables/Status/closed: closed
+
+Tables/NodeType/Header: Node
+Tables/NodeType/link: link
+Tables/NodeType/backlink: backlink
+Tables/NodeType/tagging: tagging
+Tables/NodeType/subtiddler: subtiddler
+Tables/NodeType/transclude: transclude
+Tables/NodeType/backtransclude: backtransclude
+Tables/NodeType/unknown: unknown
+
+Tables/Edit/EditTooltip: edit table cells
+Tables/Edit/DoneTooltip: done editing
+Tables/Expand/ExpandTooltip: show this record's text
+Tables/Expand/CollapseTooltip: hide this record's text
+Tables/Expand/CollapseAllTooltip: hide all expanded records
+Tables/Clone/RecordTooltip: clone this record
+Tables/Clone/AllTooltip: clone all records
+Tables/Checkbox/RecordTooltip: mark this record as done
+Tables/Checkbox/AllTooltip: mark all records as done
+
+Tables/Delete/ConfirmAll: Delete all <$count filter="[subfilter<inputFilter>]"/> records?
+Tables/Delete/Warning: Warning! this action cannot be undone!
+Tables/Delete/Or: or
+Tables/Delete/Yes: yes
+Tables/Delete/No: no
+Tables/Delete/Perform: delete
+Tables/Delete/Cancel: cancel
+Tables/Delete/MarkTooltip: mark for delete
+Tables/Delete/CancelTooltip: cancel delete
+Tables/Delete/PerformTooltip: delete all records or move to trashbin
+Tables/Delete/CancelOpTooltip: cancel the operation
+Tables/Delete/RecordTooltip: delete this record or move it to trash
+Tables/Delete/AllTooltip: delete all records or move them to trashbin
+
+Tables/Warning/MixedTypes: ''Danger'': Editable dynamic tables created from indexes with mixed types of tiddlers.
+Tables/Warning/DismissTooltip: Dismiss alert and continue with the current selection!
+Tables/Warning/WrongTypes: Tiddlers with wrong type:
+Tables/Warning/TypeLabel: type
+
+Tables/Pagination/Prev: Prev
+Tables/Pagination/Next: Next
+Tables/Pagination/Limit: Limit <$text text=<<num>>/>
+Tables/Pagination/ShowAll: Show all
+Tables/Pagination/Summary: Displaying <$text text=<<range-from>>/> through <$text text=<<range-to>>/> of <$text text=<<total-entries>>/> results
+
+Tables/Footer/Summary: Numerical summary:

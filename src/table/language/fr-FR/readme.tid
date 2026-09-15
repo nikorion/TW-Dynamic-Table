@@ -1,0 +1,53 @@
+title: $:/plugins/nikorion/table/language/fr-FR/readme
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+Affiche un tableau HTML éditable, triable et paginable à partir d'un filtre — une ligne par tiddler, une colonne par champ ou index de data-tiddler. Extrait de la fonctionnalité Dynamic Table de [[Shiraz|https://github.com/kookma/TW-Shiraz]] sous forme de plugin indépendant, sans dépendance à Shiraz lui-même.
+
+! Utilisation
+
+```
+<<table filter:"[tag[task]]" fields:"title status priority due-date"/>>
+```
+
+! Paramètres
+
+|!Paramètre |!Défaut |!Description |
+|`filter` | |le filtre source — une ligne par tiddler correspondant (obligatoire) |
+|`fields` |`""` |noms de champs séparés par des espaces, une colonne chacun |
+|`indexes` |`""` |noms d'index de data-tiddler séparés par des espaces, une colonne chacun (à la place de `fields` quand la source est un data-tiddler — donner les deux, ou aucun, affiche une erreur) |
+|`sortType` |`"string"` |type de comparaison utilisé lors du tri par clic sur l'en-tête (`string`, `number`, `date`, …) |
+|`caption` |`""` |wikitext rendu comme légende du tableau |
+|`class` |`""` |classe(s) CSS appliquée(s) à l'élément `<table>` |
+|`footerRows` |`"0"` |nombre de lignes de pied de tableau pour une synthèse numérique ; en mode édition, chaque cellule du pied est une zone de texte dont le wikitext est rendu en mode vue dans le contexte de sa colonne — saisir `<<sum>>`, `<<average>>`, `<<median>>`, `<<count>>`, `<<product>>`, `<<minall>>`, `<<maxall>>` (argument optionnel = nombre de décimales, ex. `<<average 2>>`) |
+|`stateTiddler` |tiddler courant |titre servant de clé à l'état de ce tableau (tri, pagination, mode édition…) — à préciser quand le même filtre est affiché plusieurs fois sur le même tiddler |
+|`editButton` |`"yes"` |affiche le bouton bascule édition/vue dans la légende |
+|`pagination` |`"no"` |pagine les lignes au lieu de toutes les afficher |
+|`emptyMessage` |« le filtre fourni est vide » (localisé) |wikitext affiché quand `filter` ne renvoie rien |
+
+! Templates de colonne
+
+Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/Table/HeaderTemplate`, `$:/tags/Table/BodyTemplate` et `$:/tags/Table/FooterTemplate`, sélectionnés via leur champ `tbl-column-list`, avec repli sur `templates/header|body|footer/default`. Les templates fournis couvrent `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, ainsi que les champs de gestion de tâches `priority`, `status`, `due-date`/`due`, et les colonnes d'action `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `tbl-column-list`.
+
+Pour masquer certains tags de la colonne `tags`, définir autour du tableau une variable `sv-exclude-tags` contenant un filtre, ex. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<table ...>></$let>`.
+
+! Localisation
+
+Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé trouvé sous `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `due-date`, `due` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` contenant `Budget`.
+
+Les valeurs de statut et les types de relation sont traduits de la même façon (`Tables/Status/<valeur>`, `Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Les dates des colonnes `created`, `modified` et `due-date` utilisent le [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`.
+
+! Réglages
+
+L'éditeur utilisé en mode édition/déplié (simple zone de texte ou éditeur principal de TiddlyWiki) se configure depuis l'onglet ''Table'' du panneau de configuration.
+
+! Compatibilité
+
+Ne pas installer en même temps que Shiraz : les deux paquets taggent leurs procédures internes avec les mêmes tags `$:/tags/Table/*` (importés en bloc via `[all[shadows+tiddlers]tag[...]]`), donc avoir les deux actifs provoque des définitions dupliquées/conflictuelles, même si la macro principale porte ici un nom différent (`<<table>>` contre `<<table-dynamic>>` chez Shiraz). Même mécanisme de templates de colonne, espace de noms d'état/config interne différent (sans collision) : `$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`.
+
+Plugins optionnels utilisés s'ils sont présents, ignorés sinon : [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (la suppression déplace les enregistrements à la corbeille au lieu de les supprimer définitivement), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (sélecteur de date sur les colonnes `due-date`).
+
+! Prérequis
+
+TiddlyWiki >= 5.3.5.

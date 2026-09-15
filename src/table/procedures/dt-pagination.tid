@@ -1,0 +1,36 @@
+tags: $:/tags/Table/Procedure
+title: $:/plugins/nikorion/table/procedures/dt-pagination
+type: text/vnd.tiddlywiki
+
+\procedure prev-button()
+<!-- create previous page button --->
+<$list filter="[<page-number>compare:number:lt[2]then[yes]else[no]]" variable=state>
+<$button disabled=<<state>> class="tbldyn-page-prev tc-btn-invisible">
+{{$:/core/images/chevron-left}}&nbsp;<strong><<table-lingo "Tables/Pagination/Prev">></strong>
+<$action-setfield $tiddler=<<pageStateTiddler>> text={{{ [<page-number>subtract[1]max[1]] }}}/>
+</$button>
+</$list>
+\end prev-button
+
+\procedure next-button()
+<!-- create next page button --->
+<$list filter="[<high>compare:number:gteq<total-entries>then[yes]else[no]]" variable=state>
+<$button disabled=<<state>> class="tbldyn-page-next tc-btn-invisible">
+<strong><<table-lingo "Tables/Pagination/Next">></strong>&nbsp;{{$:/core/images/chevron-right}}
+<$action-setfield $tiddler=<<pageStateTiddler>> text={{{ [<page-number>add[1]min<page-count>] }}}/>
+</$button>
+</$list>
+\end next-button
+
+\procedure limit-entries()
+<!-- set number of entries per page -->
+<$select tiddler=<<entryPerPageStateTiddler>> default=25 actions="""<$action-setfield $tiddler=<<pageStateTiddler>> text=1/>""">
+<$list filter='5 10 15 20 25 30 40 50' variable=num>
+<option value=<<num>>><<table-lingo "Tables/Pagination/Limit">></option>
+</$list>
+<option value=<<total-entries>> ><<table-lingo "Tables/Pagination/ShowAll">></option>
+</$select>
+\end limit-entries
+
+<!-- prev/next step from the CLAMPED page-number (segments/dt-tbody), not from the
+  stored state: after the record count shrinks, the stored page may exceed page-count -->

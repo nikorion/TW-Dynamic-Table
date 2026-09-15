@@ -1,0 +1,53 @@
+title: $:/plugins/nikorion/table/language/en-GB/readme
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+Renders an editable, sortable, paginated HTML table from a filter — one row per tiddler, one column per field or data-index. Extracted from [[Shiraz|https://github.com/kookma/TW-Shiraz]]'s Dynamic Table feature as an independent plugin, with no dependency on Shiraz itself.
+
+! Usage
+
+```
+<<table filter:"[tag[task]]" fields:"title status priority due-date"/>>
+```
+
+! Parameters
+
+|!Parameter |!Default |!Description |
+|`filter` | |the source filter — one row per matching tiddler (required) |
+|`fields` |`""` |space-separated field names, one column each |
+|`indexes` |`""` |space-separated data-tiddler index names, one column each (use instead of `fields` when the source is a data tiddler — giving both, or neither, shows an error) |
+|`sortType` |`"string"` |sort comparison used when a column header is clicked (`string`, `number`, `date`, …) |
+|`caption` |`""` |wikitext rendered as the table caption |
+|`class` |`""` |CSS class(es) applied to the `<table>` element |
+|`footerRows` |`"0"` |number of numerical-summary footer rows; in edit mode each footer cell is a text box whose wikitext is rendered in view mode within its column — type `<<sum>>`, `<<average>>`, `<<median>>`, `<<count>>`, `<<product>>`, `<<minall>>`, `<<maxall>>` (optional argument = decimal places, e.g. `<<average 2>>`) |
+|`stateTiddler` |current tiddler |title used to key this table's state (sort, pagination, edit mode…) — set it when the same filter is rendered more than once on the same tiddler |
+|`editButton` |`"yes"` |show the edit/view toggle button in the caption |
+|`pagination` |`"no"` |paginate the rows instead of showing them all |
+|`emptyMessage` |localised "filter input is empty" |wikitext shown when `filter` matches nothing |
+
+! Column templates
+
+A column's rendering is looked up by field/index name against tiddlers tagged `$:/tags/Table/HeaderTemplate`, `$:/tags/Table/BodyTemplate` and `$:/tags/Table/FooterTemplate`, matched on their `tbl-column-list` field, falling back to `templates/header|body|footer/default`. Built-in templates cover `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, and the task-manager fields `priority`, `status`, `due-date`/`due`, plus action columns `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Add your own by tagging a tiddler with the matching template tag and a `tbl-column-list` field.
+
+To hide some tags from the `tags` column, define an `sv-exclude-tags` variable holding a filter around the table, e.g. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<table ...>></$let>`.
+
+! Localisation
+
+Every label, tooltip and message follows the wiki language (`en-GB` and `fr-FR` shipped, falling back to `en-GB`). Column headers show the label found under `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<name>` — shipped for `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `due-date`, `due` — and otherwise the raw field/index name: `tags` and your own fields display as is. To label a custom column, create a tiddler with that title, e.g. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` containing `Budget`.
+
+Status values and link types are translated the same way (`Tables/Status/<value>`, `Tables/NodeType/<type>`); the values stored in the fields stay canonical, so switching the language never alters your data. Dates in the `created`, `modified` and `due-date` columns use the [[date format|https://tiddlywiki.com/#DateFormat]] in `Tables/Format/Date`.
+
+! Settings
+
+The record editor used in expanded/edit mode (simple text box vs. the main TiddlyWiki editor) is configurable from the ''Table'' tab in the control panel.
+
+! Compatibility
+
+Do not install alongside Shiraz: both packages tag their internal procedures with the same `$:/tags/Table/*` tags (imported wholesale via `[all[shadows+tiddlers]tag[...]]`), so having both active causes duplicate/conflicting definitions even though the main macro is named differently here (`<<table>>` vs. Shiraz's `<<table-dynamic>>`). Same column-template mechanism, non-conflicting internal state and config namespace (`$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`).
+
+Optional plugins used if present, ignored otherwise: [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (delete moves records to trash instead of deleting permanently), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (date picker on `due-date` columns).
+
+! Requirements
+
+TiddlyWiki >= 5.3.5.

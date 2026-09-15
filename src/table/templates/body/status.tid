@@ -1,0 +1,52 @@
+tags: $:/tags/Table/BodyTemplate
+tbl-column-list: status
+title: $:/plugins/nikorion/table/templates/body/status
+type: text/vnd.tiddlywiki
+
+\function status-values() open in-work on-hold complete rework closed
+
+<!--
+status-label translates the DISPLAYED value without touching the value STORED in
+the field: that one stays canonical (`open`, `in-work`, …), like priority.tid's
+1-5. Otherwise switching the wiki language would orphan existing records and make
+the field unreadable from one language to another.
+
+It goes through table-lingo-value rather than table-lingo-text so that the final
+fallback is the RAW value, not the key: a user who replaces status-values with
+their own statuses sees them as is, not as `Tables/Status/their-status`.
+Parameterless function reading statusValue from the ambient scope.
+-->
+\function status-label() [function[table-lingo-value],[Tables/Status/],<statusValue>]
+
+\procedure show-cell()
+<$let statusValue={{{ [<currentRecord>get<currentColumn>] }}}>
+<$text text={{{ [function[status-label]] }}}/>
+</$let>
+\end show-cell
+
+\procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
+
+\procedure select_status()
+<$select tiddler=<<currentRecord>> field=<<currentColumn>> default="">
+	<option value=''><<table-lingo "Tables/Select">></option>
+	<$list filter="[function[status-values]]" variable=statusValue>
+		<option value=<<statusValue>>><$text text={{{ [function[status-label]] }}}/></option>
+	</$list>
+</$select>
+\end select_status
+
+<td class="tbldyn-col-fixedsize">
+	<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+		<<show-cell>>
+	<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+		<<show-cell-locked>>
+	<%else%>
+		<<select_status>>
+	<%endif%>
+</td>
+
+<!-- Part of Task Manager
+  this template ALWAYS works on fields
+  change default status values `open in-work on-hold complete rework closed` as you like;
+  add the matching Tables/Status/<value> keys in language/<lang>/tables.multids to
+  translate them, otherwise the raw value is displayed as is-->

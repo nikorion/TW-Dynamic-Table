@@ -1,0 +1,4 @@
+title: $:/plugins/nikorion/table/language/fr-FR/history
+type: text/vnd.tiddlywiki
+
+* ''1.0.0'' -- 2026.09.15 -- Bonjour ! Dynamic Table extrait de [[Shiraz|https://github.com/kookma/TW-Shiraz]] sous forme de plugin indépendant, entièrement localisé (en-GB, fr-FR : en-têtes de colonne, infobulles, pagination, pied, format de date).

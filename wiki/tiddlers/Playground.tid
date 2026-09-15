@@ -1,0 +1,28 @@
+title: Playground
+type: text/vnd.tiddlywiki
+
+<!--
+All prose comes from the plugin's language/<lang>/playground.multids through
+table-lingo / table-lingo-text: nothing is hard-coded here, so the playground
+follows the wiki language like the rest of the plugin.
+-->
+
+<<table-lingo Playground/Intro>>
+
+!! <<table-lingo-text Playground/Basic/Heading>>
+
+<<table-lingo Playground/Basic/Intro>>
+
+<<table filter:"[tag[Demo Task]]" fields:"title status priority due-date tags" stateTiddler:"Playground/basic" editButton:"no">>
+
+!! <<table-lingo-text Playground/Editable/Heading>>
+
+<<table-lingo Playground/Editable/Intro>>
+
+<<table filter:"[tag[Demo Task]]" fields:"tbl-checkbox tbl-expand title status priority due-date tbl-clone tbl-delete" pagination:"yes" caption:"<<table-lingo Playground/Editable/Caption>>" stateTiddler:"Playground/editable">>
+
+!! <<table-lingo-text Playground/Footer/Heading>>
+
+<<table-lingo Playground/Footer/Intro>>
+
+<<table filter:"[tag[Demo Task]]" fields:"title priority" sortType:"number" footerRows:"2" stateTiddler:"Playground/footer">>

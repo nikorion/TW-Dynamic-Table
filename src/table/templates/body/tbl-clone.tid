@@ -1,0 +1,14 @@
+tags: $:/tags/Table/BodyTemplate
+tbl-column-list: tbl-clone
+title: $:/plugins/nikorion/table/templates/body/tbl-clone
+type: text/vnd.tiddlywiki
+
+\procedure clone-record() <$action-createtiddler $basetitle=<<currentRecord>> $template=<<currentRecord>> />
+
+<%if [<tempTableEdit>getindex[mode]match[edit]] %><!-- only works in edit mode-->
+<td class="tbldyn-svg">
+  <$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Clone/RecordTooltip">> aria-label=<<table-lingo-text "Tables/Clone/RecordTooltip">> actions=<<clone-record>>>
+	  {{$:/core/images/clone-button}}
+	</$button>
+</td>
+<%endif%>

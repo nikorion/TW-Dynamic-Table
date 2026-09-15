@@ -1,0 +1,35 @@
+tags: $:/tags/Table/BodyTemplate
+tbl-column-list: due-date due
+title: $:/plugins/nikorion/table/templates/body/due-date
+type: text/vnd.tiddlywiki
+
+\procedure show-cell()
+<$let date-format=<<table-lingo-text "Tables/Format/Date">>
+      fmt=`[UTC]$(date-format)$`
+      due-date={{{ [<currentRecord>get<currentColumn>] }}} >
+	<$text text={{{[<due-date>split[-]split[.]join[]format:date<fmt>]}}} />
+</$let>
+\end show-cell
+
+\procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
+
+\procedure edit-date() 
+	<%if [[$:/plugins/kookma/pikaday]!is[missing]] :filter[lookup:no[$:/config/Plugins/Disabled/]match[no]] %>
+		<<edit-cell>>
+	<%else%>
+		<$edit-text tag=input type=date tiddler=<<currentRecord>> field=<<currentColumn>>/>
+	<%endif%>
+\end edit-date
+
+<td class="tbldyn-date">
+	<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+		<<show-cell>>
+	<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+		<<show-cell-locked>>
+	<%else%>
+		<<edit-date>>
+	<%endif%>
+</td>
+
+<!-- Part of Task Manager
+  this template ALWAYS works on fields -->

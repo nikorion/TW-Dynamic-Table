@@ -1,0 +1,16 @@
+tags: $:/tags/Table/BodyTemplate
+tbl-column-list: tbl-checkbox
+title: $:/plugins/nikorion/table/templates/body/tbl-checkbox
+type: text/vnd.tiddlywiki
+
+\procedure check-actions()
+		<$action-setfield $tiddler=<<currentRecord>> status="complete"/>
+\end check-actions
+\procedure uncheck-actions()
+		<$action-setfield $tiddler=<<currentRecord>> status="rework"/>
+\end uncheck-actions
+
+<td class="tbldyn-svg" title=<<table-lingo-text "Tables/Checkbox/RecordTooltip">>>
+	<$checkbox tiddler=<<currentRecord>> tag="Done" checkactions=<<check-actions>> uncheckactions=<<uncheck-actions>> />
+</td>
+<!-- the `Done` tag and the `complete`/`rework` statuses are stored data, never translated -->

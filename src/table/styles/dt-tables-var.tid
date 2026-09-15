@@ -1,0 +1,30 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/nikorion/table/styles/dt-tables-var
+type: text/vnd.tiddlywiki
+
+/* these are dynamic or variable properties based on the tiddlywiki palette */
+
+.tbldyn-page-footer select{
+	background-color: <<color table-header-background>>;
+	color:<<color foreground>>;
+}
+
+.tbldyn-page-footer > td{
+	background-color: <<color table-header-background>>;
+}
+
+/* customize the table footer used for numerical summary*/
+.tbldyn-footer tr td{
+	background-color: <<color table-footer-background>>40;
+	border:none;
+}
+
+/* correct button color to support dark theme */
+.tbl-container table thead th button{
+	color:<<colour button-foreground>>
+}
+.tbl-container table thead th button svg {
+	fill:<<colour button-foreground>>;
+}
+
+ 

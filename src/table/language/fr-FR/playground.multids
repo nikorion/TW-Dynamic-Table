@@ -1,0 +1,12 @@
+title: $:/plugins/nikorion/table/language/fr-FR/Playground/
+
+Intro: Exemples en direct de la macro `<<table>>` sur les trois tiddlers `Demo Task`. Libellés, infobulles, statuts et format de date suivent la langue du wiki : changez-la dans le panneau de configuration pour voir les tableaux s'adapter. Chaque tableau a son propre `stateTiddler`, donc mode édition, tri et pagination restent indépendants.
+Basic/Heading: Tableau simple
+Basic/Intro: Vue en lecture seule : cliquer sur un en-tête de colonne pour trier, cliquer à nouveau pour inverser l'ordre. `tags` est affiché tel quel, les autres colonnes fournies ont un en-tête traduit.
+Editable/Heading: Éditable, avec actions et pagination
+Editable/Intro: Cliquer sur le crayon de la légende pour basculer en mode édition : modification en ligne, colonnes case à cocher (marque une tâche ''Done''), duplication et suppression. La colonne flèche déplie un enregistrement pour afficher son texte. La colonne servant au tri reste verrouillée en mode édition.
+Editable/Caption: Tâches de démo
+Footer/Heading: Pied de synthèse numérique
+Footer/Intro: `footerRows:"2"` ajoute deux lignes de pied. En mode édition, chaque cellule du pied est une zone de texte dont le wikitext est rendu en mode vue, dans le contexte de sa colonne : saisir `<<sum>>`, `<<average 1>>`, `<<count>>`, `<<median>>`, `<<product>>`, `<<minall>>` ou `<<maxall>>` (argument optionnel = nombre de décimales). Les cellules ci-dessous sont pré-remplies dans `$:/keepstate/nikorion/table/Playground/footer/footer`.
+Footer/Sum: Somme
+Footer/Average: Moyenne

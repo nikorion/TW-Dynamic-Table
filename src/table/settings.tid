@@ -1,0 +1,25 @@
+title: $:/plugins/nikorion/table/settings
+tags: $:/tags/ControlPanel/SettingsTab
+caption: <<table-lingo Settings/Caption>>
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+
+<h2><<table-lingo Settings/Heading>></h2>
+
+<p><<table-lingo Settings/Intro>></p>
+
+<table class="tc-pref-table tc-table-no-border">
+<tbody>
+<tr>
+<td><<table-lingo Settings/Label/EditorType>></td>
+<td><$select tiddler="$:/config/nikorion/table/editor-type" field="text" default="simple">
+<option value="simple"><<table-lingo-text Settings/Option/Simple>></option>
+<option value="main-editor"><<table-lingo-text Settings/Option/MainEditor>></option>
+</$select></td>
+<td><em><<table-lingo-text Settings/DefaultLabel>>&nbsp;<code>simple</code></em></td>
+<td><$list filter="[[$:/config/nikorion/table/editor-type]is[tiddler]]"><$button tooltip=<<table-lingo-text Settings/ResetTooltip>>>
+<$action-deletetiddler $tiddler="$:/config/nikorion/table/editor-type"/>↺</$button></$list></td>
+</tr>
+</tbody>
+</table>

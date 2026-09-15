@@ -1,0 +1,8 @@
+tags: $:/tags/Table/BodyTemplate
+tbl-column-list: title
+title: $:/plugins/nikorion/table/templates/body/title
+type: text/vnd.tiddlywiki
+
+<td class="tbldyn-title">
+<$link to=<<currentRecord>>><$text text=<<currentRecord>> /></$link>
+</td>

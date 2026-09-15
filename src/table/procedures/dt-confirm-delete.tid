@@ -1,0 +1,52 @@
+tags: $:/tags/Table/Procedure
+title: $:/plugins/nikorion/table/procedures/dt-confirm-delete
+type: text/vnd.tiddlywiki
+
+\procedure confirm-delete()
+<%if [[$:/temp/nikorion/table/delete-all-records]has:index<currentTable>] %><!-- reveals deletion confirmation -->
+<tr class="tbl-delete-confirm">
+<th colspan=<<columnsCount>> >
+<$list filter="[[$:/temp/nikorion/table/delete-all-records]getindex<currentTable>match[delete-confirmed]]" 
+  variable=ignore emptyMessage=<<ask-for-delete>> >
+  <<perform-delete>>
+</$list>
+</th>
+</tr>
+<%endif%>
+\end confirm-delete
+
+\procedure ask-for-delete()
+	\whitespace notrim
+	<<table-lingo "Tables/Delete/ConfirmAll">>
+	<$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Delete/MarkTooltip">> actions='<$action-setfield $tiddler="$:/temp/nikorion/table/delete-all-records" $index=<<currentTable>> $value="delete-confirmed"/>'>
+		{{$:/core/images/delete-button}} <<table-lingo "Tables/Delete/Yes">>
+	</$button> <<table-lingo "Tables/Delete/Or">>
+	<$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Delete/CancelTooltip">> actions='<$action-setfield $tiddler="$:/temp/nikorion/table/delete-all-records" $index=<<currentTable>>/>'>
+		{{$:/core/images/close-button}} <<table-lingo "Tables/Delete/No">>
+	</$button>
+\end ask-for-delete
+
+<!--actions for perform-delete button-->
+\procedure delete-all-records-action() 
+	\import $:/plugins/kookma/trashbin/macros/move-to-trashbin
+	<$action-setfield $tiddler="$:/temp/nikorion/table/delete-all-records" $index=<<currentTable>>/>
+	<$action-deletetiddler $filter="[<tempTableSort>] [<tempTableExpand>] [<tempTableEdit>]"/><!-- delete this table's states, by exact title: a prefix match would also wipe tables whose key starts the same (Task / Tasks) -->
+	<%if [[$:/plugins/kookma/trashbin]is[missing]] %>
+		<$action-deletetiddler $filter=<<inputFilter>> /><!--delete permanently-->
+	<%else%>
+		<$list filter=<<inputFilter>> variable="currentRecord"><!-- move all to trashbin -->
+			<$transclude $variable="move-to-trashbin" tiddler=<<currentRecord>> />
+		</$list>
+	<%endif%>
+\end delete-all-records-action
+
+\procedure perform-delete()
+\whitespace notrim
+	<<table-lingo "Tables/Delete/Warning">>
+	<$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Delete/PerformTooltip">> actions=<<delete-all-records-action>> >
+		{{$:/core/images/delete-button}}  <<table-lingo "Tables/Delete/Perform">>
+	</$button> <<table-lingo "Tables/Delete/Or">>
+	<$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Delete/CancelOpTooltip">> actions='<$action-setfield $tiddler="$:/temp/nikorion/table/delete-all-records" $index=<<currentTable>>/>'>
+		{{$:/core/images/close-button}} <<table-lingo "Tables/Delete/Cancel">>
+	</$button>
+\end perform-delete

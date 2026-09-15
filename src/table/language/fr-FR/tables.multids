@@ -1,0 +1,83 @@
+title: $:/plugins/nikorion/table/language/fr-FR/
+
+Tables/Select: Sélectionner...
+Tables/EmptyMessage: le filtre fourni est vide
+Tables/Error/NoColumns: `<<table>>` : indiquer les colonnes avec `fields` ou `indexes`.
+Tables/Error/BothColumns: `<<table>>` : utiliser `fields` ou `indexes`, pas les deux.
+
+Tables/Column/title: Titre
+Tables/Column/text: Texte
+Tables/Column/caption: Légende
+Tables/Column/type: Type
+Tables/Column/created: Créé
+Tables/Column/modified: Modifié
+Tables/Column/creator: Créateur
+Tables/Column/modifier: Modificateur
+Tables/Column/color: Couleur
+Tables/Column/email: E-mail
+Tables/Column/priority: Priorité
+Tables/Column/status: Statut
+Tables/Column/due-date: Échéance
+Tables/Column/due: Échéance
+
+Tables/Format/Date: 0DD/0MM/YYYY
+
+Tables/Priority/very-high: très haute
+Tables/Priority/high: haute
+Tables/Priority/normal: normale
+Tables/Priority/low: basse
+Tables/Priority/very-low: très basse
+Tables/Priority/no-priority: sans priorité
+
+Tables/Status/open: ouvert
+Tables/Status/in-work: en cours
+Tables/Status/on-hold: en attente
+Tables/Status/complete: terminé
+Tables/Status/rework: à reprendre
+Tables/Status/closed: clos
+
+Tables/NodeType/Header: Relation
+Tables/NodeType/link: lien
+Tables/NodeType/backlink: rétrolien
+Tables/NodeType/tagging: taggé
+Tables/NodeType/subtiddler: sous-tiddler
+Tables/NodeType/transclude: transclusion
+Tables/NodeType/backtransclude: rétro-transclusion
+Tables/NodeType/unknown: inconnu
+
+Tables/Edit/EditTooltip: modifier les cellules du tableau
+Tables/Edit/DoneTooltip: terminer la modification
+Tables/Expand/ExpandTooltip: afficher le texte de cet enregistrement
+Tables/Expand/CollapseTooltip: masquer le texte de cet enregistrement
+Tables/Expand/CollapseAllTooltip: masquer tous les enregistrements dépliés
+Tables/Clone/RecordTooltip: dupliquer cet enregistrement
+Tables/Clone/AllTooltip: dupliquer tous les enregistrements
+Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
+Tables/Checkbox/AllTooltip: marquer tous les enregistrements comme faits
+
+Tables/Delete/ConfirmAll: Supprimer les <$count filter="[subfilter<inputFilter>]"/> enregistrements ?
+Tables/Delete/Warning: Attention ! cette action est irréversible.
+Tables/Delete/Or: ou
+Tables/Delete/Yes: oui
+Tables/Delete/No: non
+Tables/Delete/Perform: supprimer
+Tables/Delete/Cancel: annuler
+Tables/Delete/MarkTooltip: marquer pour suppression
+Tables/Delete/CancelTooltip: annuler la suppression
+Tables/Delete/PerformTooltip: supprimer tous les enregistrements ou les mettre à la corbeille
+Tables/Delete/CancelOpTooltip: annuler l'opération
+Tables/Delete/RecordTooltip: supprimer cet enregistrement ou le mettre à la corbeille
+Tables/Delete/AllTooltip: supprimer tous les enregistrements ou les mettre à la corbeille
+
+Tables/Warning/MixedTypes: ''Danger'' : tableau dynamique éditable construit à partir d'index sur des tiddlers de types hétérogènes.
+Tables/Warning/DismissTooltip: Ignorer l'alerte et poursuivre avec la sélection actuelle !
+Tables/Warning/WrongTypes: Tiddlers de type incorrect :
+Tables/Warning/TypeLabel: type
+
+Tables/Pagination/Prev: Préc.
+Tables/Pagination/Next: Suiv.
+Tables/Pagination/Limit: <$text text=<<num>>/> par page
+Tables/Pagination/ShowAll: Tout afficher
+Tables/Pagination/Summary: Enregistrements <$text text=<<range-from>>/> à <$text text=<<range-to>>/> sur <$text text=<<total-entries>>/>
+
+Tables/Footer/Summary: Synthèse numérique :

@@ -1,0 +1,45 @@
+tags: $:/tags/Table/BodyTemplate
+tbl-column-list: tags
+title: $:/plugins/nikorion/table/templates/body/tags
+type: text/vnd.tiddlywiki
+
+<!-- sv-exclude-tags (inherited from Shiraz, kept on purpose): optional filter variable set
+  by the caller around the table to hide tags from this column; documented in the readme -->
+\procedure show-cell()
+<$list filter="[<currentRecord>tags[]sort[title]]  :except[subfilter<sv-exclude-tags>]">
+<$transclude tiddler="$:/plugins/nikorion/table/templates/body/tag-template"/>
+</$list>
+\end show-cell
+
+\procedure show-cell-locked()  <span class=""><<show-cell>></span>
+
+\procedure edit-cell()
+\import $:/core/ui/EditTemplate/tags
+\whitespace trim
+<div class="tbldyn-tc-edit-tags">
+<$let currentTiddler=<<currentRecord>> transclusion=<<currentTiddler>> saveTiddler=<<currentRecord>> >
+<$list filter="[list[!!tags]sort[title]]" storyview="pop">
+<$macrocall $name="tag-body" colour={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerColourFilter]!is[draft]get[text]] }}} palette={{$:/palette}} icon={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerIconFilter]!is[draft]get[text]] }}} tagField="tags"/>
+</$list>
+<$vars tabIndex={{$:/config/EditTabIndex}} cancelPopups="yes">
+<$macrocall $name="tag-picker" tagField="tags"/>
+</$vars>
+</$let>
+</div>
+\end edit-cell
+
+
+<td>
+<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+<<show-cell>>
+<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+<<show-cell-locked>>
+<%else%>
+<<edit-cell>>
+<%endif%>
+</td>
+
+
+<!-- The edit tags (edit-cell procedure) is copied from $:/core/ui/EditTemplate/tags.
+So when you upgrade to new TW version pay attention to this
+-->
