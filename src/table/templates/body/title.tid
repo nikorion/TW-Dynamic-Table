@@ -3,6 +3,36 @@ tbl-column-list: title
 title: $:/plugins/nikorion/table/templates/body/title
 type: text/vnd.tiddlywiki
 
+\function tempTableRenameName()  [<tempTable>]"rename-name"+[join[/]]
+\function rename-popup-state()   [<qualify "$:/state/popup/tbl-rename">] [<currentTable>] [<currentRecord>] +[join[/]]
+\function rename-newtitle-value() [<tempTableRenameName>getindex<currentRecord>] :else[<currentRecord>]
+
+\procedure close-rename() <$action-setfield $tiddler=<<tempTableRenameName>> $index=<<currentRecord>>/><$action-deletetiddler $tiddler=<<rename-popup-state>>/>
+\procedure rename-record-as()
+<%if [<rename-newtitle-value>match<currentRecord>] %>
+<<close-rename>>
+<%elseif [<rename-newtitle-value>is[missing]] %>
+<$action-sendmessage $message="tm-rename-tiddler" from=<<currentRecord>> to=<<rename-newtitle-value>>/>
+<<close-rename>>
+<%endif%>
+\end rename-record-as
+
 <td class="tbldyn-title">
 <$link to=<<currentRecord>>><$text text=<<currentRecord>> /></$link>
+<%if [<tempTableEdit>getindex[mode]match[edit]] %><!-- only works in edit mode-->
+  <$button popup=<<rename-popup-state>> popupAbsCoords="yes" class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Rename/Tooltip">> aria-label=<<table-lingo-text "Tables/Rename/Tooltip">>>
+	  {{$:/core/images/edit-button}}
+	</$button>
+  <$reveal state=<<rename-popup-state>> type="popup" position="below" animate="yes" class="tc-drop-down">
+    <div class="tbldyn-clone-popup tc-popup-keep">
+      <label class="tbldyn-clone-label"><<table-lingo-text "Tables/Rename/NameLabel">></label>
+      <$edit-text tiddler=<<tempTableRenameName>> index=<<currentRecord>> default=<<currentRecord>> tag="input" class="tbldyn-textbox" focus="true"/>
+      <%if [<rename-newtitle-value>!match<currentRecord>] +[!is[missing]] %>
+        <div class="tbldyn-clone-warning">{{$:/core/images/warning}} <<table-lingo-text "Tables/Rename/ExistsWarning">></div>
+      <%endif%>
+      <$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Rename/Confirm">> aria-label=<<table-lingo-text "Tables/Rename/Confirm">> actions=<<rename-record-as>>>{{$:/core/images/done-button}} <<table-lingo "Tables/Rename/Confirm">></$button>
+      <$button class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Rename/Cancel">> aria-label=<<table-lingo-text "Tables/Rename/Cancel">> actions=<<close-rename>>>{{$:/core/images/close-button}}</$button>
+    </div>
+  </$reveal>
+<%endif%>
 </td>

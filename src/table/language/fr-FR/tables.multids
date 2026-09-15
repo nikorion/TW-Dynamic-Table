@@ -55,6 +55,11 @@ Tables/Clone/NameLabel: nom du clone
 Tables/Clone/Confirm: dupliquer
 Tables/Clone/Cancel: annuler
 Tables/Clone/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
+Tables/Rename/Tooltip: renommer cet enregistrement
+Tables/Rename/NameLabel: nouveau titre
+Tables/Rename/Confirm: renommer
+Tables/Rename/Cancel: annuler
+Tables/Rename/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
 Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
 
 Tables/Delete/RecordTooltip: supprimer cet enregistrement ou le mettre à la corbeille
