@@ -2,7 +2,6 @@ title: $:/plugins/nikorion/table/segments/dt-thead
 type: text/vnd.tiddlywiki
 
 <$transclude $variable="check_tiddlers_type_for_table_from_indexes"/>
-<$transclude $variable="confirm-delete"/>
 <tr class="tbldyn-header">
 <$list filter=<<columnFilter>> variable="currentColumn" >
 <$set name="headerLookup"

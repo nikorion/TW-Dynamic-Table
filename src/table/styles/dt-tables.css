@@ -29,21 +29,6 @@ button.tbl-sort-svg > svg { text-shadow: none; fill:#000000; height:10px; paddin
 .tbl-container th .tc-tiddlylink, .tbl-container th a { text-shadow: none; margin: 0 0 0 0; padding: 0 0 0 0; color:unset; font-weight: bold; }
 
 
-/* DELETE CONFIRMATION */
-table thead .tbl-delete-confirm > th {
-	color: white;
-	background-color:#ff0033;
-	padding: 8px;
-	margin: 0px;
-	text-align:center;
-	font-weight:normal;
-}
-
-table thead .tbl-delete-confirm > th > button {
-	color: white;
-	fill: white;
-}
-
 /* -- pagination --*/
 .tbldyn-page-footer td{
 	margin: 0 0 0 0;

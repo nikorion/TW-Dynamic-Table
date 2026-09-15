@@ -56,21 +56,8 @@ Tables/Clone/Confirm: dupliquer
 Tables/Clone/Cancel: annuler
 Tables/Clone/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
 Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
-Tables/Checkbox/AllTooltip: marquer tous les enregistrements comme faits
 
-Tables/Delete/ConfirmAll: Supprimer les <$count filter="[subfilter<inputFilter>]"/> enregistrements ?
-Tables/Delete/Warning: Attention ! cette action est irréversible.
-Tables/Delete/Or: ou
-Tables/Delete/Yes: oui
-Tables/Delete/No: non
-Tables/Delete/Perform: supprimer
-Tables/Delete/Cancel: annuler
-Tables/Delete/MarkTooltip: marquer pour suppression
-Tables/Delete/CancelTooltip: annuler la suppression
-Tables/Delete/PerformTooltip: supprimer tous les enregistrements ou les mettre à la corbeille
-Tables/Delete/CancelOpTooltip: annuler l'opération
 Tables/Delete/RecordTooltip: supprimer cet enregistrement ou le mettre à la corbeille
-Tables/Delete/AllTooltip: supprimer tous les enregistrements ou les mettre à la corbeille
 
 Tables/Warning/MixedTypes: ''Danger'' : tableau dynamique éditable construit à partir d'index sur des tiddlers de types hétérogènes.
 Tables/Warning/DismissTooltip: Ignorer l'alerte et poursuivre avec la sélection actuelle !

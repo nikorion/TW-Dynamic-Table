@@ -56,21 +56,8 @@ Tables/Clone/Confirm: clone
 Tables/Clone/Cancel: cancel
 Tables/Clone/ExistsWarning: a tiddler with this title already exists, choose another one
 Tables/Checkbox/RecordTooltip: mark this record as done
-Tables/Checkbox/AllTooltip: mark all records as done
 
-Tables/Delete/ConfirmAll: Delete all <$count filter="[subfilter<inputFilter>]"/> records?
-Tables/Delete/Warning: Warning! this action cannot be undone!
-Tables/Delete/Or: or
-Tables/Delete/Yes: yes
-Tables/Delete/No: no
-Tables/Delete/Perform: delete
-Tables/Delete/Cancel: cancel
-Tables/Delete/MarkTooltip: mark for delete
-Tables/Delete/CancelTooltip: cancel delete
-Tables/Delete/PerformTooltip: delete all records or move to trashbin
-Tables/Delete/CancelOpTooltip: cancel the operation
 Tables/Delete/RecordTooltip: delete this record or move it to trash
-Tables/Delete/AllTooltip: delete all records or move them to trashbin
 
 Tables/Warning/MixedTypes: ''Danger'': Editable dynamic tables created from indexes with mixed types of tiddlers.
 Tables/Warning/DismissTooltip: Dismiss alert and continue with the current selection!
