@@ -1,7 +1,9 @@
+created: 20260915223152160
 due-date: 2026-09-20
+modified: 20260915223248196
 priority: 5
-status: open
-tags: [[Demo Task]]
+status: done
+tags: [[Demo Task]] Done
 title: Task 1
 type: text/vnd.tiddlywiki
 

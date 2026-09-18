@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: tbl-clone
 title: $:/plugins/nikorion/table/templates/body/tbl-clone
 type: text/vnd.tiddlywiki

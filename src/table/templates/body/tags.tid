@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: tags
 title: $:/plugins/nikorion/table/templates/body/tags
 type: text/vnd.tiddlywiki
@@ -22,7 +22,7 @@ type: text/vnd.tiddlywiki
 <$macrocall $name="tag-body" colour={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerColourFilter]!is[draft]get[text]] }}} palette={{$:/palette}} icon={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerIconFilter]!is[draft]get[text]] }}} tagField="tags"/>
 </$list>
 <$vars tabIndex={{$:/config/EditTabIndex}} cancelPopups="yes">
-<$macrocall $name="tag-picker" tagField="tags"/>
+<<tag-picker tagField="tags">>
 </$vars>
 </$let>
 </div>

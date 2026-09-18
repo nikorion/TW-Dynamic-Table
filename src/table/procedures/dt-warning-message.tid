@@ -1,4 +1,4 @@
-tags: $:/tags/Table/Procedure
+tags: $:/tags/nk-Table/Procedure
 title: $:/plugins/nikorion/table/procedures/dt-warning-message
 type: text/vnd.tiddlywiki
 
@@ -34,4 +34,4 @@ type: text/vnd.tiddlywiki
 		</tr>
 	<%endif%>
 <%endif%>
-\end	check_tiddlers_type_for_table_from_indexes
+\end check_tiddlers_type_for_table_from_indexes

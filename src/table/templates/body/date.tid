@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: created modified
 title: $:/plugins/nikorion/table/templates/body/date
 type: text/vnd.tiddlywiki

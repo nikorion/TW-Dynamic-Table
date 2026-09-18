@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: color
 title: $:/plugins/nikorion/table/templates/body/color
 type: text/vnd.tiddlywiki

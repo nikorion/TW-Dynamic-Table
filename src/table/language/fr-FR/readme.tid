@@ -28,23 +28,54 @@ Affiche un tableau HTML éditable, triable et paginable à partir d'un filtre �
 
 ! Templates de colonne
 
-Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/Table/HeaderTemplate`, `$:/tags/Table/BodyTemplate` et `$:/tags/Table/FooterTemplate`, sélectionnés via leur champ `tbl-column-list`, avec repli sur `templates/header|body|footer/default`. Les templates fournis couvrent `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, ainsi que les champs de gestion de tâches `priority`, `status`, `due-date`/`due`, et les colonnes d'action `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `tbl-column-list`.
+Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/nk-Table/HeaderTemplate`, `$:/tags/nk-Table/BodyTemplate` et `$:/tags/nk-Table/FooterTemplate`, sélectionnés via leur champ `tbl-column-list`, avec repli sur `templates/header|body|footer/default`. Les templates fournis couvrent `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, ainsi que les champs de gestion de tâches `priority`, `status`, `role`, `maturity`, `due-date`/`due`, et les colonnes d'action `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Le champ `project` n'a pas de template dédié : c'est un champ libre, il utilise le repli générique `default` (texte éditable) et n'a qu'un libellé de colonne. Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `tbl-column-list`.
+
+Les colonnes `role`, `maturity` et `status` s'appuient sur le vocabulaire contrôlé de [[TW-Base-Fields|https://github.com/nikorion/TW-Base-Fields]] (`$:/plugins/nikorion/base-fields/vocab/<champ>`) : icône, libellé et éventuel regroupement (pour `role`) viennent de ce plugin, jamais stockés dans le champ. Sans TW-Base-Fields installé, ces trois colonnes restent vides plutôt que d'échouer. La ligne d'un enregistrement dont le `status` vaut `done` reçoit la classe `tbl-record-complete` (fond de ligne mis en évidence).
 
 Pour masquer certains tags de la colonne `tags`, définir autour du tableau une variable `sv-exclude-tags` contenant un filtre, ex. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<table ...>></$let>`.
 
 ! Localisation
 
-Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé trouvé sous `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `due-date`, `due` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` contenant `Budget`.
+Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé trouvé sous `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `role`, `maturity`, `project`, `due-date`, `due` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` contenant `Budget`.
 
-Les valeurs de statut et les types de relation sont traduits de la même façon (`Tables/Status/<valeur>`, `Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Les dates des colonnes `created`, `modified` et `due-date` utilisent le [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`.
+Les valeurs de priorité et les types de relation sont traduits de la même façon (`Tables/Priority/<valeur>`, `Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Les valeurs de `role`, `maturity` et `status`, elles, sont traduites par TW-Base-Fields (voir plus haut). Les dates des colonnes `created`, `modified` et `due-date` utilisent le [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`.
 
 ! Réglages
 
 L'éditeur utilisé en mode édition/déplié (simple zone de texte ou éditeur principal de TiddlyWiki) se configure depuis l'onglet ''Table'' du panneau de configuration.
 
+! Styliser le tableau (`class=`)
+
+`class=` de `<<table>>` accepte n'importe quelle classe CSS, y compris les classes utilitaires façon Bootstrap fournies par [[Shiraz|https://github.com/kookma/TW-Shiraz]] (`styles/bs/`) ou, sans Shiraz, par [[TW-Tiny-Bootstrap|https://github.com/nikorion/TW-Tiny-Bootstrap]] seul (mêmes classes, s'auto-désactive si Shiraz est présent — donc si les deux sont installés, c'est le CSS de Shiraz qui prime et Tiny Bootstrap reste inactif).
+
+|!Groupe |!Classes exemple |!Effet |
+|Dimensions |`w-100`, `w-50`, `h-auto` |largeur/hauteur en % du conteneur, ou `auto` |
+|Marges / espacement |`m-3`, `mt-0`, `p-2`, `gap-1` |marge/padding/espacement sur une échelle 0–5 |
+|Bordures |`border`, `border-primary`, `border-2` |ajoute une bordure, la colore, règle son épaisseur |
+|Coins arrondis |`rounded`, `rounded-circle`, `rounded-pill` |arrondit les coins (ou fait un cercle/une pilule) |
+|Couleurs texte / fond |`text-danger`, `bg-success-subtle`, `text-bg-warning` |couleurs sémantiques (primary, success, danger…), pleines ou « subtle » |
+|Alignement / effets de texte |`text-center`, `text-truncate`, `text-uppercase` |aligne, tronque avec une ellipse, change la casse |
+|Ombres / flottement |`shadow-sm`, `float-end`, `clearfix` |ombre portée, fait flotter une cellule/un élément, annule le flottement |
+
+Liste complète des classes : le [[readme|https://github.com/nikorion/TW-Tiny-Bootstrap]] de TW-Tiny-Bootstrap ou la [[documentation des utilitaires Bootstrap 5.3|https://getbootstrap.com/docs/5.3/utilities/]].
+
+Des variantes spécifiques aux tableaux sont livrées directement dans ce plugin (aucune dépendance), portées depuis `styles/tables.css` de Shiraz :
+
+|!Classe |!Effet |
+|`table-hover` |surligne la ligne sous la souris |
+|`table-hover-yellow`, `table-hover-cyan` |pareil, en jaune/cyan |
+|`table-striped-row` |alterne la couleur de fond des lignes |
+|`table-striped-col` |alterne la couleur de fond des colonnes |
+|`table-borderless` |retire toutes les bordures de cellule |
+|`table-lines` |filet horizontal sous chaque ligne uniquement (à combiner avec `table-borderless`) |
+|`table-center` |centre le tableau dans son conteneur |
+|`table-caption-top` |place la légende au-dessus du tableau au lieu d'en dessous |
+|`table-tight` |taille de police réduite |
+|`thead-primary`, `thead-secondary`, `thead-success`, `thead-warning`, `thead-danger`, `thead-info`, `thead-dark`, `thead-light` |colore la ligne d'en-tête |
+
 ! Compatibilité
 
-Ne pas installer en même temps que Shiraz : les deux paquets taggent leurs procédures internes avec les mêmes tags `$:/tags/Table/*` (importés en bloc via `[all[shadows+tiddlers]tag[...]]`), donc avoir les deux actifs provoque des définitions dupliquées/conflictuelles, même si la macro principale porte ici un nom différent (`<<table>>` contre `<<table-dynamic>>` chez Shiraz). Même mécanisme de templates de colonne, espace de noms d'état/config interne différent (sans collision) : `$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`.
+Installable en même temps que Shiraz : les procédures internes sont taggées `$:/tags/nk-Table/*` (espace de noms propre, importé via `[all[shadows+tiddlers]tag[...]]`), distinct des tags `$:/tags/Table/*` de Shiraz — plus de tags partagés, donc plus de définitions dupliquées/conflictuelles, en plus du nom de macro (`<<table>>` contre `<<table-dynamic>>` chez Shiraz), des titres de tiddlers, classes CSS et espace de noms d'état/config déjà séparés : `$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`. Installer les deux permet à `class=` de `<<table>>` de profiter des classes utilitaires de Shiraz (style Bootstrap).
 
 Plugins optionnels utilisés s'ils sont présents, ignorés sinon : [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (la suppression déplace les enregistrements à la corbeille au lieu de les supprimer définitivement), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (sélecteur de date sur les colonnes `due-date`).
 

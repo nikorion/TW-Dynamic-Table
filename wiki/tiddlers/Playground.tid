@@ -13,7 +13,8 @@ follows the wiki language like the rest of the plugin.
 
 <<table-lingo Playground/Basic/Intro>>
 
-<<table filter:"[tag[Demo Task]]" fields:"title status priority due-date tags" stateTiddler:"Playground/basic" editButton:"no">>
+<<table filter:"[tag[Demo Task]]" fields:"title status priority due-date tags" stateTiddler:"Playground/basic" editButton:"no" 
+class="table-borderless table-lines thead-dark table-tight">>
 
 !! <<table-lingo-text Playground/Editable/Heading>>
 
@@ -26,3 +27,15 @@ follows the wiki language like the rest of the plugin.
 <<table-lingo Playground/Footer/Intro>>
 
 <<table filter:"[tag[Demo Task]]" fields:"title priority" sortType:"number" footerRows:"2" stateTiddler:"Playground/footer">>
+
+!! <<table-lingo-text Playground/Content/Heading>>
+
+<<table-lingo Playground/Content/Intro>>
+
+<<table filter:"[tag[Demo Content]]" fields:"title role maturity" stateTiddler:"Playground/content">>
+
+!! <<table-lingo-text Playground/Grades/Heading>>
+
+<<table-lingo Playground/Grades/Intro>>
+
+<<table filter:"[tag[Demo Student]]" fields:"title grade-maths" sortType:"number" footerRows:"2" stateTiddler:"Playground/grades" class=w-100>>

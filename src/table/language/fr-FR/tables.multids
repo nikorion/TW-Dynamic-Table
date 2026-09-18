@@ -17,6 +17,9 @@ Tables/Column/color: Couleur
 Tables/Column/email: E-mail
 Tables/Column/priority: Priorité
 Tables/Column/status: Statut
+Tables/Column/role: Rôle
+Tables/Column/maturity: Maturité
+Tables/Column/project: Projet
 Tables/Column/due-date: Échéance
 Tables/Column/due: Échéance
 
@@ -28,13 +31,6 @@ Tables/Priority/normal: normale
 Tables/Priority/low: basse
 Tables/Priority/very-low: très basse
 Tables/Priority/no-priority: sans priorité
-
-Tables/Status/open: ouvert
-Tables/Status/in-work: en cours
-Tables/Status/on-hold: en attente
-Tables/Status/complete: terminé
-Tables/Status/rework: à reprendre
-Tables/Status/closed: clos
 
 Tables/NodeType/Header: Relation
 Tables/NodeType/link: lien
@@ -51,7 +47,7 @@ Tables/Expand/ExpandTooltip: afficher le texte de cet enregistrement
 Tables/Expand/CollapseTooltip: masquer le texte de cet enregistrement
 Tables/Expand/CollapseAllTooltip: masquer tous les enregistrements dépliés
 Tables/Clone/RecordTooltip: dupliquer cet enregistrement
-Tables/Clone/NameLabel: nom du clone
+Tables/Clone/NameLabel: nouveau nom
 Tables/Clone/Confirm: dupliquer
 Tables/Clone/Cancel: annuler
 Tables/Clone/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre

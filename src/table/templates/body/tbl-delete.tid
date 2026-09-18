@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: tbl-delete
 title: $:/plugins/nikorion/table/templates/body/tbl-delete
 type: text/vnd.tiddlywiki

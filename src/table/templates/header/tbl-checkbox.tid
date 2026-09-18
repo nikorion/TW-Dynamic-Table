@@ -1,4 +1,4 @@
-tags: $:/tags/Table/HeaderTemplate
+tags: $:/tags/nk-Table/HeaderTemplate
 tbl-column-list: tbl-checkbox
 title: $:/plugins/nikorion/table/templates/header/tbl-checkbox
 type: text/vnd.tiddlywiki

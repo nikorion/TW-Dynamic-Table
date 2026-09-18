@@ -28,6 +28,13 @@ button.tbl-sort-svg > svg { text-shadow: none; fill:#000000; height:10px; paddin
 
 .tbl-container th .tc-tiddlylink, .tbl-container th a { text-shadow: none; margin: 0 0 0 0; padding: 0 0 0 0; color:unset; font-weight: bold; }
 
+/* the vanilla theme's default table styling (table th, table td { border-top; border-left })
+  relies on border-collapse to share each row's separator with the row below, which leaves every
+  cell with a border-top but no border-bottom of its own — fine for the grid as a whole, but it
+  makes a cell's own top/bottom clearance uneven. Scoped to this table only: give every cell its
+  own border on BOTH sides, so its own box is symmetric and padding can add the same 1px on both. */
+.tbl-container tbody td { border-bottom: 1px solid #ddd; padding-top: 1px; padding-bottom: 1px; }
+
 
 /* -- pagination --*/
 .tbldyn-page-footer td{
@@ -147,5 +154,5 @@ table thead .tbldyn-header th button::first-letter {
 
 /* if TW-Utility is installed, The Code button will be hidden in Dynamic table */
 .tbl-container .kk-utility-details{
-	display: none;	
+	display: none;
 }

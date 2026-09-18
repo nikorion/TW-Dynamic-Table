@@ -8,7 +8,7 @@ type: text/vnd.tiddlywiki
 <tr>
 <$list filter=<<columnFilter>> variable=currentColumn>
 	<$set name="footerLookup"
-				filter="[all[tiddlers+shadows]tag[$:/tags/Table/FooterTemplate]!is[draft]contains:tbl-column-list<currentColumn>limit[1]get[title]]"
+				filter="[all[tiddlers+shadows]tag[$:/tags/nk-Table/FooterTemplate]!is[draft]contains:tbl-column-list<currentColumn>limit[1]get[title]]"
 				value=<<footerLookup>>
 				emptyValue="$:/plugins/nikorion/table/templates/footer/default">
 	<$transclude $tiddler=<<footerLookup>> $field="text" $mode="inline"/>

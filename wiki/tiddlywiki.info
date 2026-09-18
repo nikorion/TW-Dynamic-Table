@@ -3,7 +3,10 @@
   "plugins": [
     "tiddlywiki/filesystem",
     "tiddlywiki/tiddlyweb",
-    "nikorion/table"
+    "nikorion/table",
+    "nikorion/base-fields",
+    "nikorion/plugin-info-tree",
+    "nikorion/tiny-bootstrap"
   ],
   "themes": [
     "tiddlywiki/vanilla"
@@ -11,7 +14,7 @@
   "languages": [
     "fr-FR"
   ],
-  "pluginPath": "../src",
+  "pluginPath": ["../src", "../../TW-Base-Fields/src", "../../TW-Plugin-Info-Tree/src", "../../TW-Tiny-Bootstrap/src"],
   "config": {
     "retain-original-tiddler-path": true
   },

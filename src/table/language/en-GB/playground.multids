@@ -10,3 +10,9 @@ Footer/Heading: Numerical summary footer
 Footer/Intro: `footerRows:"2"` adds two footer rows. In edit mode each footer cell is a text box whose wikitext is rendered in view mode, within the current column: type `<<sum>>`, `<<average 1>>`, `<<count>>`, `<<median>>`, `<<product>>`, `<<minall>>` or `<<maxall>>` (optional argument = number of decimal places). The cells below are pre-filled in `$:/keepstate/nikorion/table/Playground/footer/footer`.
 Footer/Sum: Sum
 Footer/Average: Average
+
+Content/Heading: A table with nothing to do with tasks
+Content/Intro: The table isn't just for tasks: here are the `role` and `maturity` columns (TW-Base-Fields vocabulary) on ordinary knowledge tiddlers, with no `status` field at all.
+
+Grades/Heading: Maths grades
+Grades/Intro: Another non-task use: a list of student records with their grade, to show footer calculations on any numeric field (`grade-maths`), not just `priority`.

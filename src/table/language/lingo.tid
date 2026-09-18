@@ -34,17 +34,32 @@ is. Call it through the `function` operator, which does bind its operands:
 
 \procedure table-lingo(title)
 \whitespace trim
-<$let _lang={{{ [[$:/language]get[text]get[name]else[en-GB]] }}}>
-<$transclude $tiddler={{{ [[$:/plugins/nikorion/table/language/]addsuffix<_lang>addsuffix[/]addsuffix<title>] }}}>
-<$transclude $tiddler={{{ [[$:/plugins/nikorion/table/language/en-GB/]addsuffix<title>] }}}/>
-</$transclude>
+<$let _prefix="$:/plugins/nikorion/table/language/"
+      _lang={{{ [[$:/language]get[text]get[name]] }}}
+      _suffix={{{ [[/]addsuffix<title>] }}}
+      _key={{{ [<_lang>addprefix<_prefix>addsuffix<_suffix>] }}}>
+<%if [<_key>get[text]] %>
+<$transclude $tiddler=<<_key>>/>
+<%else%>
+<$transclude $tiddler={{{ [[en-GB]addprefix<_prefix>addsuffix<_suffix>] }}}/>
+<%endif%>
 </$let>
 \end
 
 \function table-lingo-text(title)
-[[$:/language]get[text]get[name]else[en-GB]addprefix[$:/plugins/nikorion/table/language/]addsuffix[/]addsuffix<title>get[text]] :else[[$:/plugins/nikorion/table/language/en-GB/]addsuffix<title>get[text]] :else[<title>]
+[[$:/language]] +[get[text]] +[get[name]] +[else[en-GB]]
++[addprefix[$:/plugins/nikorion/table/language/]]
++[addsuffix[/]] +[addsuffix<title>] +[get[text]]
+:else[[$:/plugins/nikorion/table/language/en-GB]]
++[addsuffix[/]] +[addsuffix<title>] +[get[text]]
+:else[<title>]
 \end
 
 \function table-lingo-value(prefix, value)
-[[$:/language]get[text]get[name]else[en-GB]addprefix[$:/plugins/nikorion/table/language/]addsuffix[/]addsuffix<prefix>addsuffix<value>get[text]] :else[[$:/plugins/nikorion/table/language/en-GB/]addsuffix<prefix>addsuffix<value>get[text]] :else[<value>]
+[[$:/language]] +[get[text]] +[get[name]] +[else[en-GB]]
++[addprefix[$:/plugins/nikorion/table/language/]]
++[addsuffix<prefix>] +[addsuffix<value>] +[get[text]]
+:else[[$:/plugins/nikorion/table/language/en-GB/]]
++[addsuffix<prefix>] +[addsuffix<value>] +[get[text]]
+:else[<value>]
 \end

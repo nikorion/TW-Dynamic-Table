@@ -2,3 +2,5 @@ title: $:/plugins/nikorion/table/language/fr-FR/history
 type: text/vnd.tiddlywiki
 
 * ''1.0.0'' -- 2026.09.15 -- Bonjour ! Dynamic Table extrait de [[Shiraz|https://github.com/kookma/TW-Shiraz]] sous forme de plugin indépendant, entièrement localisé (en-GB, fr-FR : en-têtes de colonne, infobulles, pagination, pied, format de date).
+* ''1.0.0'' -- 2026.09.17 -- Tags internes renommés `$:/tags/Table/*` → `$:/tags/nk-Table/*` : installable désormais en même temps que Shiraz (incompatibilité précédente levée).
+* ''1.0.0'' -- 2026.09.17 -- Ajout de `table-variants.css` (intégré, aucune dépendance) : `table-hover`, `table-striped-row/col`, `table-borderless`, `thead-*` et plus, porté depuis `styles/tables.css` de Shiraz.

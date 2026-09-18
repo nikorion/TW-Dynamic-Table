@@ -2,11 +2,12 @@ tags: $:/tags/Global
 title: $:/plugins/nikorion/table/procedures/dt-table-dynamic
 type: text/vnd.tiddlywiki
 
-\procedure table(filter, fields:"", indexes:"", sortType:"string", caption:"", class:"",
-                  footerRows:"0", stateTiddler:"", editButton:"yes", pagination:"no", emptyMessage:"<<table-lingo Tables/EmptyMessage>>")
+\procedure table( filter, fields:"", indexes:"", sortType:"string", caption:"", class:"",
+                  footerRows:"0", stateTiddler:"", editButton:"yes", pagination:"no", 
+				  emptyMessage:"<<table-lingo Tables/EmptyMessage>>")
 
 <!--above commands import utility macros-->
-\import [all[shadows+tiddlers]tag[$:/tags/Table/Procedure]!is[draft]]
+\import [all[shadows+tiddlers]tag[$:/tags/nk-Table/Procedure]!is[draft]]
 <$let inputFilter="[subfilter<filter>!has[draft.of]]" >
 <!--check input filter parameter-->
 <%if [<fields>is[blank]then[f]] [<indexes>is[blank]then[i]] :and[count[]match[2]] %><!--no column source given -->
@@ -36,7 +37,7 @@ type: text/vnd.tiddlywiki
 			<%if [<editButton>match[yes]] %>
 				<span style="padding-right:5px;padding-left:3px;"><<toggle-edit-view>></span>
 			<%endif%>
-			<$transclude $variable="caption"/>
+			<<caption>>
 		</caption>
 		<!-- create header -------------------->
 		<thead>
@@ -54,7 +55,7 @@ type: text/vnd.tiddlywiki
 </div><!-- container-->
 </$let>
 <%else%>
-	<$transclude $variable="emptyMessage" />
+	<<emptyMessage>>
 <%endif%><!--check the input filter is not empty -->
 </$let>
 \end table

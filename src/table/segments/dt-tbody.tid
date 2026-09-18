@@ -34,11 +34,11 @@ type: text/vnd.tiddlywiki
 \end display-expanded-record
 
 \procedure display-one-record()
-\function tbl-row-class() [<currentRecord>get[status]match[complete]then[tbl-record-complete]]
+\function tbl-row-class() [<currentRecord>get[status]match[done]then[tbl-record-complete]] [<currentRecord>get[status]match[dropped]then[tbl-record-dropped]] [<currentRecord>get[status]match[paused]then[tbl-record-paused]]
 <tr class=<<tbl-row-class>> >
 <$list filter=<<columnFilter>> variable=currentColumn>
 <$set name="bodyLookup" 
-  filter="[all[tiddlers+shadows]tag[$:/tags/Table/BodyTemplate]!is[draft]contains:tbl-column-list<currentColumn>]
+  filter="[all[tiddlers+shadows]tag[$:/tags/nk-Table/BodyTemplate]!is[draft]contains:tbl-column-list<currentColumn>]
           +[limit[1]get[title]]"
   value=<<bodyLookup>> 
   emptyValue="$:/plugins/nikorion/table/templates/body/default">
@@ -54,15 +54,15 @@ type: text/vnd.tiddlywiki
 
 
 <!-- setup pagination variables -->
-<$let total-entries={{{ [subfilter<inputFilter>count[]]                      }}}
-	raw-page=         {{{ [<pageStateTiddler>get[text]] ~[[1]]                 }}} 
-	entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[$:/config/nikorion/table/entries-per-page]get[text]] ~[[25]] }}}
-	page-count=       {{{ [<total-entries>divide<entries-per-page>ceil[]max[1]] }}}
-	page-number=      {{{ [<raw-page>compare:number:gt<page-count>then<page-count>else<raw-page>] }}}
-	low=              {{{ [<page-number>subtract[1]multiply<entries-per-page>] }}}  
-	high=             {{{ [<page-number>multiply<entries-per-page>]            }}}
+<$let total-entries=    {{{ [subfilter<inputFilter>count[]]                      }}}
+	  raw-page=         {{{ [<pageStateTiddler>get[text]] ~[[1]]                 }}} 
+	  entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[$:/config/nikorion/table/entries-per-page]get[text]] ~[[25]] }}}
+	  page-count=       {{{ [<total-entries>divide<entries-per-page>ceil[]max[1]] }}}
+	  page-number=      {{{ [<raw-page>compare:number:gt<page-count>then<page-count>else<raw-page>] }}}
+	  low=              {{{ [<page-number>subtract[1]multiply<entries-per-page>] }}}  
+	  high=             {{{ [<page-number>multiply<entries-per-page>]            }}}
 >	 
-<$transclude $variable="generate-table-body-rows" />
+<<generate-table-body-rows>>
 <!--on demand display the pagination row-->
 <%if [<pagination>match[yes]] %>
 <tr class="tbldyn-page-footer">

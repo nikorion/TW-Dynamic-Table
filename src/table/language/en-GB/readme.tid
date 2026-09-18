@@ -28,23 +28,54 @@ Renders an editable, sortable, paginated HTML table from a filter — one row pe
 
 ! Column templates
 
-A column's rendering is looked up by field/index name against tiddlers tagged `$:/tags/Table/HeaderTemplate`, `$:/tags/Table/BodyTemplate` and `$:/tags/Table/FooterTemplate`, matched on their `tbl-column-list` field, falling back to `templates/header|body|footer/default`. Built-in templates cover `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, and the task-manager fields `priority`, `status`, `due-date`/`due`, plus action columns `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Add your own by tagging a tiddler with the matching template tag and a `tbl-column-list` field.
+A column's rendering is looked up by field/index name against tiddlers tagged `$:/tags/nk-Table/HeaderTemplate`, `$:/tags/nk-Table/BodyTemplate` and `$:/tags/nk-Table/FooterTemplate`, matched on their `tbl-column-list` field, falling back to `templates/header|body|footer/default`. Built-in templates cover `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, and the task-manager fields `priority`, `status`, `role`, `maturity`, `due-date`/`due`, plus action columns `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. The `project` field has no dedicated template: it's free text, so it falls back to the generic `default` (editable text) and only gets a column label. Add your own by tagging a tiddler with the matching template tag and a `tbl-column-list` field.
+
+The `role`, `maturity` and `status` columns rely on [[TW-Base-Fields|https://github.com/nikorion/TW-Base-Fields]]'s controlled vocabulary (`$:/plugins/nikorion/base-fields/vocab/<field>`): icon, label and optional grouping (for `role`) come from that plugin, never stored in the field. Without TW-Base-Fields installed, these three columns stay blank rather than erroring. A record whose `status` is `done` gets the `tbl-record-complete` class on its row (highlighted row background).
 
 To hide some tags from the `tags` column, define an `sv-exclude-tags` variable holding a filter around the table, e.g. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<table ...>></$let>`.
 
 ! Localisation
 
-Every label, tooltip and message follows the wiki language (`en-GB` and `fr-FR` shipped, falling back to `en-GB`). Column headers show the label found under `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<name>` — shipped for `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `due-date`, `due` — and otherwise the raw field/index name: `tags` and your own fields display as is. To label a custom column, create a tiddler with that title, e.g. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` containing `Budget`.
+Every label, tooltip and message follows the wiki language (`en-GB` and `fr-FR` shipped, falling back to `en-GB`). Column headers show the label found under `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<name>` — shipped for `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `role`, `maturity`, `project`, `due-date`, `due` — and otherwise the raw field/index name: `tags` and your own fields display as is. To label a custom column, create a tiddler with that title, e.g. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` containing `Budget`.
 
-Status values and link types are translated the same way (`Tables/Status/<value>`, `Tables/NodeType/<type>`); the values stored in the fields stay canonical, so switching the language never alters your data. Dates in the `created`, `modified` and `due-date` columns use the [[date format|https://tiddlywiki.com/#DateFormat]] in `Tables/Format/Date`.
+Priority values and link types are translated the same way (`Tables/Priority/<value>`, `Tables/NodeType/<type>`); the values stored in the fields stay canonical, so switching the language never alters your data. `role`, `maturity` and `status` values are translated by TW-Base-Fields instead (see above). Dates in the `created`, `modified` and `due-date` columns use the [[date format|https://tiddlywiki.com/#DateFormat]] in `Tables/Format/Date`.
 
 ! Settings
 
 The record editor used in expanded/edit mode (simple text box vs. the main TiddlyWiki editor) is configurable from the ''Table'' tab in the control panel.
 
+! Styling the table (`class=`)
+
+`class=` on `<<table>>` takes any CSS class, including the Bootstrap-style utility classes shipped by [[Shiraz|https://github.com/kookma/TW-Shiraz]] (`styles/bs/`) or, without Shiraz, by [[TW-Tiny-Bootstrap|https://github.com/nikorion/TW-Tiny-Bootstrap]] alone (same classes, self-disables if Shiraz is present — so if both are installed, Shiraz's own CSS wins and Tiny Bootstrap stays inactive).
+
+|!Group |!Example classes |!What it does |
+|Sizing |`w-100`, `w-50`, `h-auto` |width/height as a % of the container, or `auto` |
+|Spacing |`m-3`, `mt-0`, `p-2`, `gap-1` |margin/padding/gap on a 0–5 scale |
+|Borders |`border`, `border-primary`, `border-2` |add a border, colour it, set its thickness |
+|Rounded corners |`rounded`, `rounded-circle`, `rounded-pill` |round the corners (or make it a circle/pill) |
+|Text / background colour |`text-danger`, `bg-success-subtle`, `text-bg-warning` |semantic colours (primary, success, danger…), full or "subtle" strength |
+|Text alignment / effects |`text-center`, `text-truncate`, `text-uppercase` |align, truncate with an ellipsis, change case |
+|Shadows / float |`shadow-sm`, `float-end`, `clearfix` |drop shadow, float a cell/element, clear floats |
+
+Full class list: TW-Tiny-Bootstrap's [[readme|https://github.com/nikorion/TW-Tiny-Bootstrap]] or the [[Bootstrap 5.3 utility docs|https://getbootstrap.com/docs/5.3/utilities/]].
+
+Table-specific variants ship built into this plugin (no dependency), ported from Shiraz's `styles/tables.css`:
+
+|!Class |!What it does |
+|`table-hover` |highlight the row under the mouse |
+|`table-hover-yellow`, `table-hover-cyan` |same, with a yellow/cyan highlight instead |
+|`table-striped-row` |alternate row background colour |
+|`table-striped-col` |alternate column background colour |
+|`table-borderless` |remove all cell borders |
+|`table-lines` |horizontal rule under each row only (combine with `table-borderless`) |
+|`table-center` |center the table in its container |
+|`table-caption-top` |move the caption above the table instead of below |
+|`table-tight` |smaller font size |
+|`thead-primary`, `thead-secondary`, `thead-success`, `thead-warning`, `thead-danger`, `thead-info`, `thead-dark`, `thead-light` |colour the header row |
+
 ! Compatibility
 
-Do not install alongside Shiraz: both packages tag their internal procedures with the same `$:/tags/Table/*` tags (imported wholesale via `[all[shadows+tiddlers]tag[...]]`), so having both active causes duplicate/conflicting definitions even though the main macro is named differently here (`<<table>>` vs. Shiraz's `<<table-dynamic>>`). Same column-template mechanism, non-conflicting internal state and config namespace (`$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`).
+Safe to install alongside Shiraz: internal procedures are tagged `$:/tags/nk-Table/*` (own namespace, imported via `[all[shadows+tiddlers]tag[...]]`), separate from Shiraz's own `$:/tags/Table/*` — no more shared tags, so no duplicate/conflicting definitions, on top of the already-separate macro name (`<<table>>` vs. Shiraz's `<<table-dynamic>>`), tiddler titles, CSS classes and state/config namespace (`$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`). Installing both lets `class=` on `<<table>>` pick up Shiraz's Bootstrap-style utility classes.
 
 Optional plugins used if present, ignored otherwise: [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (delete moves records to trash instead of deleting permanently), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (date picker on `due-date` columns).
 

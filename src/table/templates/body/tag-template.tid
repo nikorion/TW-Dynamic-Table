@@ -30,7 +30,7 @@ See https://tiddlywiki.com to learn how substituted attributes work!
 			<$transclude tiddler=<<listItem>>/> 
 		</$list>
 		<hr>
-		<$macrocall $name="list-tagged-draggable" tag=<<currentTiddler>>/>
+		<<list-tagged-draggable tag=<<currentTiddler>> >>
 	</$reveal>
 </$set>
 </span>

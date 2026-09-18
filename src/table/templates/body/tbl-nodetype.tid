@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: tbl-linktype tbl-nodetype
 title: $:/plugins/nikorion/table/templates/body/tbl-nodetype
 type: text/vnd.tiddlywiki

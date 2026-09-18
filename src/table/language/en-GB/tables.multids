@@ -17,6 +17,9 @@ Tables/Column/color: Colour
 Tables/Column/email: Email
 Tables/Column/priority: Priority
 Tables/Column/status: Status
+Tables/Column/role: Role
+Tables/Column/maturity: Maturity
+Tables/Column/project: Project
 Tables/Column/due-date: Due date
 Tables/Column/due: Due
 
@@ -28,13 +31,6 @@ Tables/Priority/normal: normal
 Tables/Priority/low: low
 Tables/Priority/very-low: very low
 Tables/Priority/no-priority: no priority
-
-Tables/Status/open: open
-Tables/Status/in-work: in work
-Tables/Status/on-hold: on hold
-Tables/Status/complete: complete
-Tables/Status/rework: rework
-Tables/Status/closed: closed
 
 Tables/NodeType/Header: Node
 Tables/NodeType/link: link

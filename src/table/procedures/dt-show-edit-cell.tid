@@ -1,4 +1,4 @@
-tags: $:/tags/Table/Procedure
+tags: $:/tags/nk-Table/Procedure
 title: $:/plugins/nikorion/table/procedures/dt-show-edit-cell
 type: text/vnd.tiddlywiki
 
@@ -9,6 +9,7 @@ type: text/vnd.tiddlywiki
 		<$transclude tiddler=<<currentRecord>> index=<<currentColumn>> mode="inline" />
 	<%endif%>
 \end show-cell
+
 \procedure edit-cell()
 	<%if [<dataType>match[field]] %>
 		<$edit-text tiddler=<<currentRecord>> field=<<currentColumn>> tag="input" class="tbldyn-textbox"/>

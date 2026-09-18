@@ -1,4 +1,4 @@
-tags: $:/tags/Table/HeaderTemplate
+tags: $:/tags/nk-Table/HeaderTemplate
 tbl-column-list: tbl-linktype tbl-nodetype
 title: $:/plugins/nikorion/table/templates/header/tbl-nodetype
 type: text/vnd.tiddlywiki

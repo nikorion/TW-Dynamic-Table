@@ -1,4 +1,4 @@
-tags: $:/tags/Table/FooterTemplate
+tags: $:/tags/nk-Table/FooterTemplate
 tbl-column-list: tbl-expand
 title: $:/plugins/nikorion/table/templates/footer/tbl-expand
 type: text/vnd.tiddlywiki

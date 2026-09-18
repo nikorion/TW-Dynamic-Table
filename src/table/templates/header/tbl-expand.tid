@@ -1,4 +1,4 @@
-tags: $:/tags/Table/HeaderTemplate
+tags: $:/tags/nk-Table/HeaderTemplate
 tbl-column-list: tbl-expand
 title: $:/plugins/nikorion/table/templates/header/tbl-expand
 type: text/vnd.tiddlywiki

@@ -1,4 +1,4 @@
-tags: $:/tags/Table/BodyTemplate
+tags: $:/tags/nk-Table/BodyTemplate
 tbl-column-list: type
 title: $:/plugins/nikorion/table/templates/body/type
 type: text/vnd.tiddlywiki

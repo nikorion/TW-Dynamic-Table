@@ -10,3 +10,9 @@ Footer/Heading: Pied de synthèse numérique
 Footer/Intro: `footerRows:"2"` ajoute deux lignes de pied. En mode édition, chaque cellule du pied est une zone de texte dont le wikitext est rendu en mode vue, dans le contexte de sa colonne : saisir `<<sum>>`, `<<average 1>>`, `<<count>>`, `<<median>>`, `<<product>>`, `<<minall>>` ou `<<maxall>>` (argument optionnel = nombre de décimales). Les cellules ci-dessous sont pré-remplies dans `$:/keepstate/nikorion/table/Playground/footer/footer`.
 Footer/Sum: Somme
 Footer/Average: Moyenne
+
+Content/Heading: Tableau sans lien avec des tâches
+Content/Intro: Le tableau ne se limite pas aux tâches : voici les colonnes `role` et `maturity` (vocabulaire [[TW-Base-Fields|https://github.com/nikorion/TW-Base-Fields]]) sur des tiddlers de connaissance ordinaires, sans aucun champ `status`.
+
+Grades/Heading: Notes de maths
+Grades/Intro: Autre usage sans tâche : une liste de fiches élèves avec leur note, pour illustrer les calculs de pied de tableau sur un champ numérique quelconque (`grade-maths`), pas seulement `priority`.
