@@ -47,19 +47,17 @@ is. Call it through the `function` operator, which does bind its operands:
 \end
 
 \function table-lingo-text(title)
-[[$:/language]] +[get[text]] +[get[name]] +[else[en-GB]]
-+[addprefix[$:/plugins/nikorion/table/language/]]
-+[addsuffix[/]] +[addsuffix<title>] +[get[text]]
-:else[[$:/plugins/nikorion/table/language/en-GB]]
-+[addsuffix[/]] +[addsuffix<title>] +[get[text]]
+[[$:/language]get[text]get[name]else[en-GB]] [[en-GB]]
++[addprefix[$:/plugins/nikorion/table/language/]] +[addsuffix[/]]
++[addsuffix<title>] 
++[get[text]] +[limit[1]]
 :else[<title>]
 \end
 
 \function table-lingo-value(prefix, value)
-[[$:/language]] +[get[text]] +[get[name]] +[else[en-GB]]
-+[addprefix[$:/plugins/nikorion/table/language/]]
-+[addsuffix<prefix>] +[addsuffix<value>] +[get[text]]
-:else[[$:/plugins/nikorion/table/language/en-GB/]]
-+[addsuffix<prefix>] +[addsuffix<value>] +[get[text]]
+[[$:/language]get[text]get[name]else[en-GB]] [[en-GB]]
++[addprefix[$:/plugins/nikorion/table/language/]] +[addsuffix[/]]
++[addsuffix<prefix>] +[addsuffix<value>] 
++[get[text]] +[limit[1]]
 :else[<value>]
 \end

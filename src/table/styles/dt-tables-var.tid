@@ -27,4 +27,14 @@ type: text/vnd.tiddlywiki
 	fill:<<colour button-foreground>>;
 }
 
- 
+/* past due dates (due-date column): greyed out */
+.tbldyn-overdue{
+	color:<<colour muted-foreground>>;
+}
+
+/* footer label tooltip colours (layout in dt-tables.css) */
+.tbl-footer-tip{
+	background:<<colour tiddler-background>>;
+	color:<<colour foreground>>;
+	border:1px solid <<colour muted-foreground>>;
+}

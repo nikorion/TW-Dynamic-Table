@@ -13,7 +13,6 @@ type: text/vnd.tiddlywiki
 \procedure show-cell-locked()  <span class=""><<show-cell>></span>
 \procedure edit-cell() <$edit-text tag=input type=color tiddler=<<currentRecord>> field=<<currentColumn>>/>
 
-
 <td class="tbldyn-cell-centered">
 <%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
 <<show-cell>>

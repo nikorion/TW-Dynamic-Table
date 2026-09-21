@@ -1,5 +1,5 @@
 tags: $:/tags/nk-Table/BodyTemplate
-tbl-column-list: due-date due
+tbl-column-list: due-date
 title: $:/plugins/nikorion/table/templates/body/due-date
 type: text/vnd.tiddlywiki
 
@@ -7,7 +7,13 @@ type: text/vnd.tiddlywiki
 <$let date-format=<<table-lingo-text "Tables/Format/Date">>
       fmt=`[UTC]$(date-format)$`
       due-date={{{ [<currentRecord>get<currentColumn>] }}} >
-	<$text text={{{[<due-date>split[-]split[.]join[]format:date<fmt>]}}} />
+	<$let day={{{ [<due-date>split[-]split[.]join[]] }}} today=<<now YYYY0MM0DD>> >
+		<%if [<day>regexp[^\d{8}$]compare:integer:lt<today>] %><!-- past date: muted -->
+			<span class="tbldyn-overdue"><$text text={{{[<due-date>split[-]split[.]join[]format:date<fmt>]}}} /></span>
+		<%else%>
+			<$text text={{{[<due-date>split[-]split[.]join[]format:date<fmt>]}}} />
+		<%endif%>
+	</$let>
 </$let>
 \end show-cell
 

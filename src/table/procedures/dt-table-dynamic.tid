@@ -3,7 +3,7 @@ title: $:/plugins/nikorion/table/procedures/dt-table-dynamic
 type: text/vnd.tiddlywiki
 
 \procedure table( filter, fields:"", indexes:"", sortType:"string", caption:"", class:"",
-                  footerRows:"0", stateTiddler:"", editButton:"yes", pagination:"no", 
+                  footer:"", footerRows:"0",stateTiddler:"", editButton:"yes", pagination:"no", 
 				  emptyMessage:"<<table-lingo Tables/EmptyMessage>>")
 
 <!--above commands import utility macros-->
@@ -16,18 +16,18 @@ type: text/vnd.tiddlywiki
 	<span class="tc-error"><<table-lingo "Tables/Error/BothColumns">></span>
 <%elseif [subfilter<inputFilter>limit[1]] %><!--check the input filter is not empty -->
 <$let 
- dataType =     {{{ [<fields>!is[blank]then[field]] [<indexes>!is[blank]then[index]] +[last[]] }}}
- columnFilter = {{{ [<dataType>match[field]then<fields>else<indexes>] }}} 
- columnsCount = {{{ [subfilter<columnFilter>count[]] }}}
- 
+ dataType =        {{{ [<fields>!is[blank]then[field]] [<indexes>!is[blank]then[index]] +[last[]] }}}
+ columnFilter =    {{{ [<dataType>match[field]then<fields>else<indexes>] }}} 
  currentTable =    {{{ [<stateTiddler>!is[blank]else<currentTiddler>]  }}}
- tempTable   =     {{{ [<baseState>][<currentTable>]    +[join[/]] }}}
+ 
+ tempTable =       {{{ [<baseState>][<currentTable>]    +[join[/]] }}}
  tempTableSort =   {{{ [<tempTable>] "sortby"           +[join[/]] }}}
  tempTableExpand = {{{ [<tempTable>] "expand"           +[join[/]] }}}
  tempTableEdit =   {{{ [<tempTable>] "edit-view-status" +[join[/]] }}}
+ columnsCount =    {{{ [function[visible-columns]count[]] }}}
  
- sortIndex =    {{{ [<tempTableSort>getindex[sortIndex]]  }}} 
- sortFlag  =    {{{ [<tempTableSort>getindex[sortFlag]]   }}}
+ sortIndex =       {{{ [<tempTableSort>getindex[sortIndex]]  }}} 
+ sortFlag =        {{{ [<tempTableSort>getindex[sortFlag]]   }}}
 >
 
 <div data-bs-theme=<<table-color-scheme>> class="tbl-container" style="max-width:100%;">

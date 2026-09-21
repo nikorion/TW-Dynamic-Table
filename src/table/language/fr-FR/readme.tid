@@ -20,25 +20,55 @@ Affiche un tableau HTML éditable, triable et paginable à partir d'un filtre �
 |`sortType` |`"string"` |type de comparaison utilisé lors du tri par clic sur l'en-tête (`string`, `number`, `date`, …) |
 |`caption` |`""` |wikitext rendu comme légende du tableau |
 |`class` |`""` |classe(s) CSS appliquée(s) à l'élément `<table>` |
-|`footerRows` |`"0"` |nombre de lignes de pied de tableau pour une synthèse numérique ; en mode édition, chaque cellule du pied est une zone de texte dont le wikitext est rendu en mode vue dans le contexte de sa colonne — saisir `<<sum>>`, `<<average>>`, `<<median>>`, `<<count>>`, `<<product>>`, `<<minall>>`, `<<maxall>>` (argument optionnel = nombre de décimales, ex. `<<average 2>>`) |
+|`footer` |`""` |lignes de pied calculées, déclarées par une liste séparée par des espaces de `calcul[:décimales][@colonnes]` — voir ''Calculs de pied de tableau'' plus bas |
+|`footerRows` |`"0"` |nombre de lignes de pied remplies à la main ; en mode édition, chaque cellule du pied est une zone de texte dont le wikitext est rendu en mode vue dans le contexte de sa colonne — saisir `<<sum>>`, `<<average>>`, `<<median>>`, `<<count>>`, `<<unique>>`, `<<product>>`, `<<range>>`, `<<minall>>`, `<<maxall>>` (argument optionnel = nombre de décimales, ex. `<<average 2>>`), ou un nom anglais simple comme `Sum` (affiché traduit). Les cellules sont stockées dans `$:/keepstate/nikorion/table/<stateTiddler>/footer` |
 |`stateTiddler` |tiddler courant |titre servant de clé à l'état de ce tableau (tri, pagination, mode édition…) — à préciser quand le même filtre est affiché plusieurs fois sur le même tiddler |
 |`editButton` |`"yes"` |affiche le bouton bascule édition/vue dans la légende |
 |`pagination` |`"no"` |pagine les lignes au lieu de toutes les afficher |
 |`emptyMessage` |« le filtre fourni est vide » (localisé) |wikitext affiché quand `filter` ne renvoie rien |
 
+! Calculs de pied de tableau
+
+`footer` ajoute une ligne calculée par entrée : rien à saisir ensuite, rien de stocké. Chaque entrée s'écrit `calcul[:décimales][@colonnes]` :
+
+* `calcul` — `sum`, `average`, `count`, `unique` (nombre de valeurs distinctes), `median`, `product`, `range` (max − min), `min` ou `max`. Le libellé de la ligne (Somme, Moyenne…) est traduit selon la langue du wiki et affiché dans la première colonne, qui n'est donc jamais calculée.
+* `:décimales` — nombre de décimales, optionnel, ex. `average:1`.
+* `@colonnes` — colonnes à calculer, séparées par des virgules, optionnel, ex. `sum@priority,grade`. Sans lui, le calcul s'applique à toutes les colonnes dont les valeurs sont toutes numériques ; les autres restent vides.
+
+|!`calcul` |!Libellé (fr-FR) |!Résultat |
+|`sum` |Somme |total des valeurs |
+|`average` |Moy. |moyenne arithmétique |
+|`count` |Nb val. |nombre de valeurs (une par ligne qui en a une) |
+|`unique` |Nb val. dist. |nombre de valeurs distinctes (marche aussi sur du texte, avec `@colonnes`) |
+|`median` |Méd. |valeur du milieu une fois triées |
+|`product` |Prod. |produit des valeurs |
+|`range` |Étendue |max − min |
+|`min` |Min. |plus petite valeur |
+|`max` |Max. |plus grande valeur |
+
+Les libellés s'affichent en serif gras suivis de deux-points (précédés d'une espace insécable en français). Survoler un libellé affiche une infobulle avec le nom complet, puis à la ligne une brève description du calcul.
+
+<<<
+`<<table filter:"[tag[Demo Task]]" fields:"title priority" footer:"sum average:1 max">>`
+<<<
+
+Quel calcul choisir ? La ''moyenne'' convient aux valeurs régulières dont le total compte (dépenses mensuelles). La ''médiane'' (valeur du milieu une fois triées) convient aux valeurs déséquilibrées, où quelques extrêmes tireraient la moyenne (temps de résolution, salaires). Pour une vue fiable, afficher les deux plus les extrêmes : `footer:"average:1 median:1 min max"`. Un grand écart entre moyenne et médiane révèle des valeurs déséquilibrées ; avec très peu de valeurs, ou deux groupes distincts, la médiane seule peut tromper.
+
+La valeur étant une simple chaîne, une définition de pied se réutilise comme n'importe quelle valeur : `footer={{Preset!!footer}}`, `footer=<<totals>>` (après `\define totals() sum average:1`) ou `footer={{{ [[Preset]get[footer]] }}}`. Les lignes calculées viennent en premier, puis celles de `footerRows` si les deux sont donnés.
+
 ! Templates de colonne
 
-Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/nk-Table/HeaderTemplate`, `$:/tags/nk-Table/BodyTemplate` et `$:/tags/nk-Table/FooterTemplate`, sélectionnés via leur champ `tbl-column-list`, avec repli sur `templates/header|body|footer/default`. Les templates fournis couvrent `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, ainsi que les champs de gestion de tâches `priority`, `status`, `role`, `maturity`, `due-date`/`due`, et les colonnes d'action `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Le champ `project` n'a pas de template dédié : c'est un champ libre, il utilise le repli générique `default` (texte éditable) et n'a qu'un libellé de colonne. Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `tbl-column-list`.
+Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/nk-Table/HeaderTemplate`, `$:/tags/nk-Table/BodyTemplate` et `$:/tags/nk-Table/FooterTemplate`, sélectionnés via leur champ `tbl-column-list`, avec repli sur `templates/header|body|footer/default`. Les templates fournis couvrent `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, ainsi que les champs de gestion de tâches `priority`, `status`, `role`, `maturity`, `due-date`, et les colonnes d'action `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype`. Le champ `project` n'a pas de template dédié : c'est un champ libre, il utilise le repli générique `default` (texte éditable) et n'a qu'un libellé de colonne. Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `tbl-column-list`.
 
-Les colonnes `role`, `maturity` et `status` s'appuient sur le vocabulaire contrôlé de [[TW-Base-Fields|https://github.com/nikorion/TW-Base-Fields]] (`$:/plugins/nikorion/base-fields/vocab/<champ>`) : icône, libellé et éventuel regroupement (pour `role`) viennent de ce plugin, jamais stockés dans le champ. Sans TW-Base-Fields installé, ces trois colonnes restent vides plutôt que d'échouer. La ligne d'un enregistrement dont le `status` vaut `done` reçoit la classe `tbl-record-complete` (fond de ligne mis en évidence).
+Les colonnes `role`, `maturity` et `status` s'appuient sur le vocabulaire contrôlé de [[TW-Base-Fields|https://github.com/nikorion/TW-Base-Fields]] (`$:/plugins/nikorion/base-fields/vocab/<champ>`) : icône, libellé et éventuel regroupement (pour `role`) viennent de ce plugin, jamais stockés dans le champ. Sans TW-Base-Fields installé, ces trois colonnes restent vides plutôt que d'échouer. La ligne d'un enregistrement dont le `status` vaut `done` reçoit la classe `tbl-record-complete` (texte en vert pâle, adapté au thème ; la colonne titre garde ses couleurs normales). `dropped` grise le texte de la ligne ; `paused` n'a aucun style mais garde la classe `tbl-record-paused`.
 
 Pour masquer certains tags de la colonne `tags`, définir autour du tableau une variable `sv-exclude-tags` contenant un filtre, ex. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<table ...>></$let>`.
 
 ! Localisation
 
-Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé trouvé sous `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `role`, `maturity`, `project`, `due-date`, `due` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` contenant `Budget`.
+Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé trouvé sous `$:/plugins/nikorion/table/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `status`, `role`, `maturity`, `project`, `due-date` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/table/language/fr-FR/Tables/Column/budget` contenant `Budget`.
 
-Les valeurs de priorité et les types de relation sont traduits de la même façon (`Tables/Priority/<valeur>`, `Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Les valeurs de `role`, `maturity` et `status`, elles, sont traduites par TW-Base-Fields (voir plus haut). Les dates des colonnes `created`, `modified` et `due-date` utilisent le [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`.
+Les valeurs de priorité et les types de relation sont traduits de la même façon (`Tables/Priority/<valeur>`, `Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Les valeurs de `role`, `maturity` et `status`, elles, sont traduites par TW-Base-Fields (voir plus haut). Toute cellule contenant une date TiddlyWiki (17 chiffres, ex. `created`, `modified` ou un champ perso) ou une date ISO (`2026-09-20`, telle que saisie dans un champ date) s'affiche au [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`, quel que soit le nom de la colonne ; l'édition montre toujours la valeur stockée.
 
 ! Réglages
 
@@ -52,7 +82,7 @@ L'éditeur utilisé en mode édition/déplié (simple zone de texte ou éditeur 
 |Dimensions |`w-100`, `w-50`, `h-auto` |largeur/hauteur en % du conteneur, ou `auto` |
 |Marges / espacement |`m-3`, `mt-0`, `p-2`, `gap-1` |marge/padding/espacement sur une échelle 0–5 |
 |Bordures |`border`, `border-primary`, `border-2` |ajoute une bordure, la colore, règle son épaisseur |
-|Coins arrondis |`rounded`, `rounded-circle`, `rounded-pill` |arrondit les coins (ou fait un cercle/une pilule) |
+|Coins arrondis |`rounded`, `rounded-circle`, `rounded-pill` |arrondit les coins d'éléments dans une cellule (images, badges…) ; sans effet sur le `<table>` lui-même (`border-collapse`) |
 |Couleurs texte / fond |`text-danger`, `bg-success-subtle`, `text-bg-warning` |couleurs sémantiques (primary, success, danger…), pleines ou « subtle » |
 |Alignement / effets de texte |`text-center`, `text-truncate`, `text-uppercase` |aligne, tronque avec une ellipse, change la casse |
 |Ombres / flottement |`shadow-sm`, `float-end`, `clearfix` |ombre portée, fait flotter une cellule/un élément, annule le flottement |
@@ -67,17 +97,20 @@ Des variantes spécifiques aux tableaux sont livrées directement dans ce plugin
 |`table-striped-row` |alterne la couleur de fond des lignes |
 |`table-striped-col` |alterne la couleur de fond des colonnes |
 |`table-borderless` |retire toutes les bordures de cellule |
-|`table-lines` |filet horizontal sous chaque ligne uniquement (à combiner avec `table-borderless`) |
+|`table-lines` |filet horizontal sous chaque ligne uniquement, lignes de pied comprises (à combiner avec `table-borderless`) |
+|`table-sides` |filets verticaux à l'extrême gauche et à l'extrême droite des lignes du corps uniquement (à combiner avec `table-borderless`) |
 |`table-center` |centre le tableau dans son conteneur |
 |`table-caption-top` |place la légende au-dessus du tableau au lieu d'en dessous |
 |`table-tight` |taille de police réduite |
+|`table-rounded`, `table-rounded-0` … `table-rounded-5` |arrondit les coins du tableau — en-tête, et dernière ligne du pied (ou dernière ligne sans pied) ; l'arrondi n'est visible que si les cellules ont un fond, donc colorer l'en-tête et le pied avec `thead-*` et `tfoot-*` ; les bordures restent droites, à combiner avec `table-borderless`, par ex. `class="table-borderless thead-dark tfoot-dark table-rounded-3"`. Tailles des `rounded-1` … `rounded-5` de Bootstrap ; les classes `rounded` de Bootstrap sont sans effet sur un tableau |
 |`thead-primary`, `thead-secondary`, `thead-success`, `thead-warning`, `thead-danger`, `thead-info`, `thead-dark`, `thead-light` |colore la ligne d'en-tête |
+|`tfoot-primary`, `tfoot-secondary`, `tfoot-success`, `tfoot-warning`, `tfoot-danger`, `tfoot-info`, `tfoot-dark`, `tfoot-light` |colore les lignes de pied (même palette que `thead-*` ; visibles avec `footer` ou `footerRows`) |
 
 ! Compatibilité
 
 Installable en même temps que Shiraz : les procédures internes sont taggées `$:/tags/nk-Table/*` (espace de noms propre, importé via `[all[shadows+tiddlers]tag[...]]`), distinct des tags `$:/tags/Table/*` de Shiraz — plus de tags partagés, donc plus de définitions dupliquées/conflictuelles, en plus du nom de macro (`<<table>>` contre `<<table-dynamic>>` chez Shiraz), des titres de tiddlers, classes CSS et espace de noms d'état/config déjà séparés : `$:/config/nikorion/table/…`, `$:/state/nikorion/table`, `$:/keepstate/nikorion/table`. Installer les deux permet à `class=` de `<<table>>` de profiter des classes utilitaires de Shiraz (style Bootstrap).
 
-Plugins optionnels utilisés s'ils sont présents, ignorés sinon : [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (la suppression déplace les enregistrements à la corbeille au lieu de les supprimer définitivement), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (sélecteur de date sur les colonnes `due-date`).
+Plugins optionnels utilisés s'ils sont présents, ignorés sinon : [[TW-Math|https://github.com/nikorion/TW-Math]] (les cellules numériques et les valeurs calculées du `footer` passent par `<$math>` et suivent donc ses réglages : KaTeX, séparateur décimal, notation, précision — 6 décimales max par défaut), [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (la suppression déplace les enregistrements à la corbeille au lieu de les supprimer définitivement), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (sélecteur de date sur les colonnes `due-date`).
 
 ! Prérequis
 

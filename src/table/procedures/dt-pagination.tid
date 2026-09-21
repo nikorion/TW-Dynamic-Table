@@ -34,3 +34,29 @@ type: text/vnd.tiddlywiki
 
 <!-- prev/next step from the CLAMPED page-number (segments/dt-tbody), not from the
   stored state: after the record count shrinks, the stored page may exceed page-count -->
+
+<!-- pagination row, rendered last in the <tfoot> (below the calculation rows). It recomputes the same
+     pagination variables as segments/dt-tbody, which are not in scope there -->
+\procedure pagination-footer()
+<$let total-entries=    {{{ [subfilter<inputFilter>count[]]                      }}}
+	  raw-page=         {{{ [<pageStateTiddler>get[text]] ~[[1]]                 }}} 
+	  entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[$:/config/nikorion/table/entries-per-page]get[text]] ~[[25]] }}}
+	  page-count=       {{{ [<total-entries>divide<entries-per-page>ceil[]max[1]] }}}
+	  page-number=      {{{ [<raw-page>compare:number:gt<page-count>then<page-count>else<raw-page>] }}}
+	  low=              {{{ [<page-number>subtract[1]multiply<entries-per-page>] }}}  
+	  high=             {{{ [<page-number>multiply<entries-per-page>]            }}}
+>	 
+<%if [<pagination>match[yes]] %>
+<tr class="tbldyn-page-footer">
+<td colspan=<<columnsCount>> >
+<<prev-button>>
+<$let range-from={{{ [<low>add[1]] }}}
+      range-to={{{ [<high>compare:number:lt<total-entries>then<high>else<total-entries>] }}}>
+<<table-lingo "Tables/Pagination/Summary">> | <<limit-entries>>
+</$let>
+<<next-button>>
+</td>
+</tr>
+<%endif%>
+</$let>
+\end pagination-footer

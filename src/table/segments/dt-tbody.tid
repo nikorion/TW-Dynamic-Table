@@ -63,17 +63,4 @@ type: text/vnd.tiddlywiki
 	  high=             {{{ [<page-number>multiply<entries-per-page>]            }}}
 >	 
 <<generate-table-body-rows>>
-<!--on demand display the pagination row-->
-<%if [<pagination>match[yes]] %>
-<tr class="tbldyn-page-footer">
-<td colspan=<<columnsCount>> >
-<<prev-button>>
-<$let range-from={{{ [<low>add[1]] }}}
-      range-to={{{ [<high>compare:number:lt<total-entries>then<high>else<total-entries>] }}}>
-<<table-lingo "Tables/Pagination/Summary">> | <<limit-entries>>
-</$let>
-<<next-button>>
-</td>
-</tr>
-<%endif%>
 </$let>

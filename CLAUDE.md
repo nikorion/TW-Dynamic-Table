@@ -23,7 +23,7 @@ Installable dans le même wiki que Shiraz (2026-09-17, demande explicite — mot
 | variables internes `coulmnFilter` / `persistantState` | corrigées en `columnFilter` / `persistentState` (casse les templates de colonne perso qui utiliseraient l'ancien nom) |
 | `$:/tags/Table/Procedure\|HeaderTemplate\|BodyTemplate\|FooterTemplate` | `$:/tags/nk-Table/...` (2026-09-17, seul point de collision restant avec Shiraz — voir § Cohabitation) |
 
-Dépendances optionnelles conservées telles quelles (dégradation gracieuse déjà en place dans le code source, testée via `is[missing]`) : [[TW-Trashbin]] (`dt-confirm-delete.tid`, `templates/body/tbl-delete.tid`), [[TW-Pikaday]] (`templates/body/due-date.tid`). Aucune dépendance à Bootstrap : l'attribut `data-bs-theme` posé sur le conteneur est cosmétique (n'a d'effet que si un CSS Bootstrap est chargé par ailleurs), la classe `class=<<class>>` du `<table>` est fournie par l'appelant — avec Shiraz installé (§ Cohabitation), ce peut être une de ses classes utilitaires façon Bootstrap (`w-100`, etc.).
+Dépendances optionnelles conservées telles quelles (dégradation gracieuse déjà en place dans le code source, testée via `is[missing]`) : [[TW-Trashbin]] (`dt-confirm-delete.tid`, `templates/body/tbl-delete.tid`), [[TW-Pikaday]] (`templates/body/due-date.tid`), [[TW-Math]] (procédure `show-number` dans `dt-show-edit-cell.tid` : cellules numériques et valeurs de `footer` via `<$math>`, réglages = ceux de TW-Math). Aucune dépendance à Bootstrap : l'attribut `data-bs-theme` posé sur le conteneur est cosmétique (n'a d'effet que si un CSS Bootstrap est chargé par ailleurs), la classe `class=<<class>>` du `<table>` est fournie par l'appelant — avec Shiraz installé (§ Cohabitation), ce peut être une de ses classes utilitaires façon Bootstrap (`w-100`, etc.).
 
 ## Structure
 ```
@@ -51,14 +51,13 @@ src/table/
   language/
     lingo.tid                     ← table-lingo / table-lingo-text / table-lingo-value
     en-GB|fr-FR/tables.multids     ← chaînes Tables/* (en-têtes Column/*, Format/Date, pagination, suppression, priorité, statut, NodeType, infobulles…)
-    en-GB|fr-FR/playground.multids ← prose du Playground du wiki de dev (Playground/*)
     en-GB|fr-FR/{readme,history,license}.tid, settings.multids
   default-config.multids   ← $:/config/nikorion/table/editor-type: simple
   settings.tid             ← onglet ControlPanel : choix éditeur d'enregistrement (simple / main-editor)
   readme.tid / history.tid / licence.tid  ← sélecteurs de langue
   plugin.info
 
-wiki/                      ← wiki TW de dev : Playground.tid (i18n) + 3 tiddlers "Demo Task" + pied pré-rempli $:/keepstate/nikorion/table/Playground/footer/footer
+wiki/                      ← wiki TW de dev : Playground.tid (anglais en dur, pas d'i18n) + tiddlers de démo ("Demo Task", "Demo Content", "Demo Student")
 dist/                      ← généré par pnpm build, gitignored
 docs/                      ← TW-Table-Wiki.html standalone (distribution)
 ```
@@ -71,6 +70,7 @@ docs/                      ← TW-Table-Wiki.html standalone (distribution)
 ## Points d'attention portage
 - **`tbl-column-list` pilote la sélection de template**, pas le nom de fichier : ajouter une colonne = ajouter un tiddler taggé `$:/tags/nk-Table/{Header,Body,Footer}Template` avec ce champ, pas modifier `dt-thead`/`dt-tbody`/`dt-tfoot`.
 - **Valeurs de données traduites via `table-lingo-value`** (en-têtes `Tables/Column/<champ>`, `Tables/Status/<valeur>`, `Tables/NodeType/<type>`) et non `table-lingo-text` : repli final = valeur brute (champ ou statut perso de l'utilisateur), jamais la clé. Appel obligatoire via `[function[table-lingo-value],[préfixe],<valeur>]` (piège `\function` en opérateur direct, voir `../CLAUDE.md`). Valeurs stockées toujours canoniques (jamais traduites en base).
+- **Pied de tableau : `footer` (lignes calculées, `calc[:décimales][@colonnes]`, rendues par `segments/dt-tfoot.tid`, rien de stocké) + `footerRows` (cellules manuelles, keepstate).** Libellés via `Tables/Footer/<Calc>` (`min`/`max` → `Minimum`/`Maximum`) ; 1re colonne = libellé, jamais calculée ; sans `@`, colonnes entièrement numériques (`column-values` dans `dt-maths.tid`). Fonctions appelées par `[function<fname>,<pn>]`.
 - **Pas de clé `Tables/Column/tags`** (demande explicite) : l'en-tête `tags` reste le nom brut. Casse des en-têtes via `::first-letter` (pas `text-transform: capitalize`, faux en français).
 - **Tout texte visible passe par le lingo** (y compris infobulles/`aria-label`, format de date `Tables/Format/Date`) : ajouter une chaîne = clé en-GB **et** fr-FR.
 - **`body/priority.tid` et `body/status.tid` sont "Task Manager"** : fonctionnels indépendamment de `table` (colonnes optionnelles), mais font partie de la parité fonctionnelle avec Shiraz — ne pas les retirer sans le signaler dans le history.

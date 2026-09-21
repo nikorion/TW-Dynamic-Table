@@ -9,7 +9,16 @@ type: text/vnd.tiddlywiki
 		</td>
 	<%else%>
 		<td>
-			<$transclude tiddler=<<stateTableFooter>> index=<<idx>> mode="inline" />
+			<$let val={{{ [<stateTableFooter>getindex<idx>trim[]] }}}
+				label={{{ [function[table-lingo-value],[Tables/Footer/],<val>] }}}
+					tipName={{{ [function[table-lingo-value],[Tables/FooterName/],<val>] }}}
+      tipDesc={{{ [function[table-lingo-value],[Tables/FooterDesc/],<val>] }}} >
+				<%if [<label>!match<val>] %>
+					<span class="tbl-footer-label"><$text text=<<label>>/><<table-lingo "Tables/Footer/LabelSuffix">><span class="tbl-footer-tip"><strong><$text text=<<tipName>>/></strong><br><$text text=<<tipDesc>>/></span></span>
+				<%else%>
+					<$transclude tiddler=<<stateTableFooter>> index=<<idx>> mode="inline" />
+				<%endif%>
+			</$let>
 		</td>
 	<%endif%>
 </$let>

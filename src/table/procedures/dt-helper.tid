@@ -24,3 +24,7 @@ type: text/vnd.tiddlywiki
  These state and temporary tiddlers are independent of currentTiddler (host tiddler) and on changing
  the title of host tiddler will not disconnected to table
 -->
+
+<!-- Columns actually rendered: the clone/delete action columns only exist in edit mode, so colspans and footer
+     rows must not count them in view mode -->
+\function visible-columns() [<tempTableEdit>getindex[mode]match[edit]] :then[subfilter<columnFilter>] :else[subfilter<columnFilter>!match[tbl-clone]!match[tbl-delete]]

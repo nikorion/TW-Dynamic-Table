@@ -45,9 +45,10 @@
 }
 
 /* Table hover (background on mouse over) */
+/* Neutral translucent grey: no forced text colour, so the status colours of task rows
+   (done green, dropped grey) survive the hover, and it reads on light and dark themes alike. */
 .table-hover tbody tr:hover {
-  color: #212529;
-  background-color: #e6e6e6;
+  background-color: rgba(128, 128, 128, 0.18);
 }
 .table-hover-yellow tbody tr:hover {
   background-color: #ffc;
@@ -111,3 +112,79 @@
 .thead-dark th .tc-tiddlylink, .thead-dark th a {
   color: #ffffff;
 }
+
+/* Rounded outer corners: `class="table-rounded"` (or table-rounded-0 … -5) on the table.
+   The bootstrap `rounded` classes do nothing on a border-collapse <table>, so the
+   corner cells (first row of thead, last row of tfoot — or of tbody when there is no footer row)
+   are rounded instead, which follows their background, so it only shows where the cells have one;
+   collapsed borders stay square: combine with table-borderless for a clean result.
+   Sizes match bootstrap's rounded-1 … rounded-5.
+   No CSS custom property here: TiddlyWiki turns a double hyphen into an en dash in stylesheets. */
+table.table-rounded-0 thead tr:first-child > :first-child { border-top-left-radius: 0; }
+table.table-rounded-0 thead tr:first-child > :last-child { border-top-right-radius: 0; }
+table.table-rounded-0:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded-0:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 0; }
+table.table-rounded-0:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded-0:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 0; }
+table.table-rounded-1 thead tr:first-child > :first-child { border-top-left-radius: 0.25rem; }
+table.table-rounded-1 thead tr:first-child > :last-child { border-top-right-radius: 0.25rem; }
+table.table-rounded-1:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded-1:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 0.25rem; }
+table.table-rounded-1:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded-1:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 0.25rem; }
+table.table-rounded thead tr:first-child > :first-child { border-top-left-radius: 0.375rem; }
+table.table-rounded thead tr:first-child > :last-child { border-top-right-radius: 0.375rem; }
+table.table-rounded:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 0.375rem; }
+table.table-rounded:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 0.375rem; }
+table.table-rounded-2 thead tr:first-child > :first-child { border-top-left-radius: 0.375rem; }
+table.table-rounded-2 thead tr:first-child > :last-child { border-top-right-radius: 0.375rem; }
+table.table-rounded-2:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded-2:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 0.375rem; }
+table.table-rounded-2:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded-2:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 0.375rem; }
+table.table-rounded-3 thead tr:first-child > :first-child { border-top-left-radius: 0.5rem; }
+table.table-rounded-3 thead tr:first-child > :last-child { border-top-right-radius: 0.5rem; }
+table.table-rounded-3:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded-3:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 0.5rem; }
+table.table-rounded-3:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded-3:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 0.5rem; }
+table.table-rounded-4 thead tr:first-child > :first-child { border-top-left-radius: 1rem; }
+table.table-rounded-4 thead tr:first-child > :last-child { border-top-right-radius: 1rem; }
+table.table-rounded-4:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded-4:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 1rem; }
+table.table-rounded-4:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded-4:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 1rem; }
+table.table-rounded-5 thead tr:first-child > :first-child { border-top-left-radius: 2rem; }
+table.table-rounded-5 thead tr:first-child > :last-child { border-top-right-radius: 2rem; }
+table.table-rounded-5:has(tfoot tr) tfoot tr:last-child > :first-child,
+table.table-rounded-5:not(:has(tfoot tr)) tbody tr:last-child > :first-child { border-bottom-left-radius: 2rem; }
+table.table-rounded-5:has(tfoot tr) tfoot tr:last-child > :last-child,
+table.table-rounded-5:not(:has(tfoot tr)) tbody tr:last-child > :last-child { border-bottom-right-radius: 2rem; }
+
+/* Coloured footer, same palette as thead-*: class="tfoot-dark" etc. */
+table.tfoot-primary tfoot tr td { background-color: #007bff; color: #fff; }
+table.tfoot-secondary tfoot tr td { background-color: #6c757d; color: #fff; }
+table.tfoot-success tfoot tr td { background-color: #28a745; color: #fff; }
+table.tfoot-warning tfoot tr td { background-color: #ffc107; color: #fff; }
+table.tfoot-danger tfoot tr td { background-color: #dc3545; color: #fff; }
+table.tfoot-info tfoot tr td { background-color: #17a2b8; color: #fff; }
+table.tfoot-dark tfoot tr td { background-color: #343a40; color: #fff; }
+table.tfoot-light tfoot tr td { background-color: #f8f9fa; color: #212529; }
+
+/* Side borders — vertical rules on the far left and far right of the body rows only
+   (use with table-borderless, like table-lines) */
+table.table-sides tbody tr > :first-child { border-left: 1px solid #dddddd; }
+table.table-sides tbody tr > :last-child { border-right: 1px solid #dddddd; }
+
+/* table-lines also separates the footer rows (calculations, pagination) from one another;
+   the selector is specific enough to beat .tbldyn-footer tr td { border: none } */
+table.table-lines tfoot tr:not(:last-child) > td { border-bottom: 1px solid #dddddd; }
+
+/* pagination row inside a coloured footer: inherit the tfoot-* colours instead of the palette's
+   header background / foreground (light select on a dark footer) */
+table[class*="tfoot-"] .tbldyn-page-footer select { background-color: transparent; color: inherit; }
+table[class*="tfoot-"] .tbldyn-page-footer select option { color: initial; }
+table[class*="tfoot-"] .tbldyn-page-footer button { color: inherit; }
+table[class*="tfoot-"] .tbldyn-page-footer button svg { fill: currentColor; }

@@ -6,15 +6,15 @@ type: text/vnd.tiddlywiki
 <!-- the emoji is a purely visual marker, like TW-Base-Fields' vocab icons: never stored, the field keeps its plain 1-5 value -->
 \procedure show-cell()
 	<%if [<currentRecord>get<currentColumn>match[5]] %>
-		🔴&nbsp;<<table-lingo "Tables/Priority/very-high">>
+		🔴&nbsp;<span class="tbl-prio-5"><<table-lingo "Tables/Priority/very-high">></span>
 	<%elseif [<currentRecord>get<currentColumn>match[4]] %>
-		🟠&nbsp;<<table-lingo "Tables/Priority/high">>
+		🟠&nbsp;<span class="tbl-prio-4"><<table-lingo "Tables/Priority/high">></span>
 	<%elseif [<currentRecord>get<currentColumn>match[3]] %>
-		🟡&nbsp;<<table-lingo "Tables/Priority/normal">>
+		🟡&nbsp;<span class="tbl-prio-3"><<table-lingo "Tables/Priority/normal">></span>
 	<%elseif [<currentRecord>get<currentColumn>match[2]] %>
-		🔵&nbsp;<<table-lingo "Tables/Priority/low">>
+		🔵&nbsp;<span class="tbl-prio-2"><<table-lingo "Tables/Priority/low">></span>
 	<%elseif [<currentRecord>get<currentColumn>match[1]] %>
-		⚪&nbsp;<<table-lingo "Tables/Priority/very-low">>
+		⚪&nbsp;<span class="tbl-prio-1"><<table-lingo "Tables/Priority/very-low">></span>
 	<%endif%>
 \end show-cell
 

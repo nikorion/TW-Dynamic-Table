@@ -138,12 +138,6 @@ button.tbl-sort-svg > svg { text-shadow: none; fill:#000000; height:10px; paddin
 	vertical-align: middle;
 }
 
-/* Numerical summary label */
-.tbldyn-numerical-summary-lbl{
-	font-weight:bold;
-	background-color:transparent;
-}
-
 /* button caption style on dynamic table header
 this style can be overriden locally by user.
 Only the first letter is uppercased: labels are localised (Tables/Column/<name>),
@@ -155,4 +149,38 @@ table thead .tbldyn-header th button::first-letter {
 /* if TW-Utility is installed, The Code button will be hidden in Dynamic table */
 .tbl-container .kk-utility-details{
 	display: none;
+}
+
+/* column headings: web-safe serif */
+.tbl-container table thead th,
+.tbl-container table .tbl-footer-label {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.tbl-footer-label {
+	font-weight: bold;
+	position: relative;
+	cursor: help;
+}
+
+/* tooltip: real markup so the name can be bold (a title attribute is plain text) */
+.tbl-footer-tip {
+	display: none;
+	position: absolute;
+	left: 0;
+	bottom: 100%;
+	z-index: 10;
+	min-width: 12em;
+	max-width: 20em;
+	padding: 0.4em 0.6em;
+	font-family: inherit;
+	font-weight: normal;
+	text-align: left;
+	white-space: normal;
+	border-radius: 3px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.tbl-footer-label:hover .tbl-footer-tip {
+	display: block;
 }

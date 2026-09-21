@@ -1,0 +1,9 @@
+created: 20260919000133757
+modified: 20260919001212712
+tags: 
+title: Todo
+type: text/vnd.tiddlywiki
+
+*Voir pour ajouter des classes pour des ombres pour les tableaux s'il n'y en a pas encore.
+*une classe pour l'alignement à gauche pour les titres.
+*revoir le system qui rejette certains tags de la colonne tags (actuellement une variable qui doit entourer le tableau, en fait ça pourrait le faire en laissant ça, à voir).

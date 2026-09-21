@@ -21,7 +21,6 @@ Tables/Column/role: Rôle
 Tables/Column/maturity: Maturité
 Tables/Column/project: Projet
 Tables/Column/due-date: Échéance
-Tables/Column/due: Échéance
 
 Tables/Format/Date: 0DD/0MM/YYYY
 
@@ -71,4 +70,31 @@ Tables/Pagination/Limit: <$text text=<<num>>/> par page
 Tables/Pagination/ShowAll: Tout afficher
 Tables/Pagination/Summary: Enregistrements <$text text=<<range-from>>/> à <$text text=<<range-to>>/> sur <$text text=<<total-entries>>/>
 
-Tables/Footer/Summary: Synthèse numérique :
+Tables/Footer/Sum: Somme
+Tables/Footer/Average: Moy.
+Tables/Footer/Count: Nb val.
+Tables/Footer/Unique: Nb val. dist.
+Tables/Footer/Median: Méd.
+Tables/Footer/Product: Prod.
+Tables/Footer/Range: Étendue
+Tables/Footer/Minimum: Min.
+Tables/Footer/Maximum: Max.
+Tables/Footer/LabelSuffix: &nbsp;:
+Tables/FooterName/Sum: Somme
+Tables/FooterName/Average: Moyenne arithmétique
+Tables/FooterName/Count: Nombre de valeurs
+Tables/FooterName/Unique: Nombre de valeurs distinctes
+Tables/FooterName/Median: Médiane
+Tables/FooterName/Product: Produit
+Tables/FooterName/Range: Étendue
+Tables/FooterName/Minimum: Minimum
+Tables/FooterName/Maximum: Maximum
+Tables/FooterDesc/Sum: Additionne les valeurs.
+Tables/FooterDesc/Average: Total des valeurs divisé par leur nombre.
+Tables/FooterDesc/Count: Nombre de valeurs de la colonne.
+Tables/FooterDesc/Unique: Nombre de valeurs différentes, chaque doublon compté une fois.
+Tables/FooterDesc/Median: Valeur du milieu une fois les valeurs triées.
+Tables/FooterDesc/Product: Multiplie les valeurs entre elles.
+Tables/FooterDesc/Range: Écart entre la plus grande et la plus petite valeur.
+Tables/FooterDesc/Minimum: Plus petite valeur.
+Tables/FooterDesc/Maximum: Plus grande valeur.
