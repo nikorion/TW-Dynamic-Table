@@ -50,7 +50,7 @@ src/dyntable/
                                  delete/expand/nodetype = colonnes d'action)
   styles/
     dt-tables.css, dt-tables-var.tid (variables palette), dt-edit-tags.css, task-complete.tid
-    table-variants.css     ← variantes `table-hover`/`thead-*`/`table-striped-*`/etc., portées depuis Shiraz `styles/tables.css` (bug copié-collé corrigé au passage : les sélecteurs `a`/`.tc-tiddlylink` de chaque `thead-*` référençaient tous `thead-primary`), aucune dépendance à Shiraz ni Tiny Bootstrap
+    table-variants.css     ← variantes `table-hover`/`thead-*`/`table-striped-*`/etc., portées depuis Shiraz `styles/tables.css` (bug copié-collé corrigé au passage : les sélecteurs `a`/`.tc-tiddlylink` de chaque `thead-*` référençaient tous `thead-primary`), aucune dépendance à Shiraz ni Tiny Bootstrap ; **copie partielle dans TW-Table** (`table-variants.css`, sans `tfoot-*`/`tbldyn-*`) : toute correction de variante à répercuter dans les deux
   language/
     lingo.tid                     ← table-lingo / table-lingo-text / table-lingo-value
     en-GB|fr-FR/tables.multids     ← chaînes Tables/* (en-têtes Column/*, Format/Date, pagination, suppression, priorité, statut, NodeType, infobulles…)
