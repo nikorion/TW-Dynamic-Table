@@ -2,10 +2,9 @@
 "use strict";
 
 // Orchestrates `pnpm dev`. Resolves both dev ports once — the TiddlyWiki HTTP
-// port (prefers 8080) and the content-HMR SSE port (prefers 35730) — falling
-// back to a random free port whenever the preferred one is already taken (e.g. a
-// parallel `pnpm dev` for another nikorion plugin): move aside rather than kill
-// the occupant. The chosen ports are shared with the two long-lived children via
+// port and the content-HMR SSE port — as random free ports (or the ones asked for
+// through TW_PORT / HMR_SSE_PORT, falling back to a random one if taken), so any
+// number of nikorion dev servers can run in parallel. The chosen ports are shared with the two long-lived children via
 // env vars (TW_PORT, HMR_SSE_PORT):
 //   • nodemon      → reboots TW on module / plugin.info changes (nodemon.json
 //                    supplies watch/ext; the port is injected here via --exec)
@@ -22,8 +21,11 @@ const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
 
-const PREFERRED_TW_PORT = Number(process.env.TW_PORT) || 8080;
-const PREFERRED_SSE_PORT = Number(process.env.HMR_SSE_PORT) || 35730;
+// No fixed default: both ports are random free ones (so every plugin's dev
+// server can run at once, and none squats 8080, which another service uses).
+// Set TW_PORT / HMR_SSE_PORT to ask for a specific port instead.
+const PREFERRED_TW_PORT = Number(process.env.TW_PORT) || 0;
+const PREFERRED_SSE_PORT = Number(process.env.HMR_SSE_PORT) || 0;
 const PORT_TIDDLER = path.resolve("wiki/tiddlers/$__dev-hmr-port.tid");
 
 // TiddlyWiki's `--listen` defaults to host 127.0.0.1, so probe that same
@@ -47,11 +49,11 @@ function isFree(port, host) {
 }
 
 // Ask the OS for any free ephemeral port (listen on 0 → it assigns one).
-function randomFreePort() {
+function randomFreePort(host) {
   return new Promise((resolve, reject) => {
     const srv = net.createServer();
     srv.once("error", reject);
-    srv.listen(0, HOST, () => {
+    srv.listen(0, host, () => {
       const { port } = srv.address();
       srv.close(() => resolve(port));
     });
@@ -59,9 +61,9 @@ function randomFreePort() {
 }
 
 async function resolvePort(preferred, label, host) {
-  if (await isFree(preferred, host)) return preferred;
-  const port = await randomFreePort();
-  process.stdout.write(`[dev] ${label} port ${preferred} busy → using free port ${port}\n`);
+  if (preferred && (await isFree(preferred, host))) return preferred;
+  const port = await randomFreePort(host);
+  if (preferred) process.stdout.write(`[dev] ${label} port ${preferred} busy → using free port ${port}\n`);
   return port;
 }
 
