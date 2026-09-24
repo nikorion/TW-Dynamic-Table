@@ -1,0 +1,23 @@
+tags: $:/tags/nk-Table/BodyTemplate
+tbl-column-list: tbl-linktype tbl-nodetype
+title: $:/plugins/nikorion/dyntable/templates/body/tbl-nodetype
+type: text/vnd.tiddlywiki
+
+<td class="tbldyn-col-fixedsize">
+<$let subtiddler-pattern=`(^${[<currentTiddler>escaperegexp[]]}$\s*/|^${[<currentTiddler>escaperegexp[]]}$\s*:)`
+      nodeType={{{
+[all[current]links[]match<currentRecord>then[link]]
+[all[current]backlinks[]match<currentRecord>then[backlink]]
+[all[current]tagging[]match<currentRecord>then[tagging]]
+[<currentRecord>regexp<subtiddler-pattern>then[subtiddler]]
+[all[current]transcludes[]match<currentRecord>then[transclude]]
+[all[current]backtranscludes[]match<currentRecord>then[backtransclude]]
+:else[[unknown]] }}} >
+<$text text={{{ [function[table-lingo-value],[Tables/NodeType/],<nodeType>] }}} />
+</$let>
+</td>
+<!--
+tb-linktype is not sortable not editable. The priority is as below:
+link, backlink, tagging, subtiddler, transclusion, and backtransclusion
+The raw type is resolved to its localised label (Tables/NodeType/<type>).
+-->

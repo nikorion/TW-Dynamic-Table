@@ -1,0 +1,8 @@
+tags: $:/tags/nk-Table/FooterTemplate
+tbl-column-list: tbl-clone
+title: $:/plugins/nikorion/dyntable/templates/footer/tbl-clone
+type: text/vnd.tiddlywiki
+
+<%if [<tempTableEdit>getindex[mode]match[edit]] %>
+<td></td>
+<%endif%>

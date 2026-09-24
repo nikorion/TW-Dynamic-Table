@@ -1,0 +1,25 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/nikorion/dyntable/styles/priority
+type: text/vnd.tiddlywiki
+
+\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline conditional
+
+/* priority label colour, matching the emoji that precedes it (templates/body/priority) */
+
+<%if [<table-color-scheme>match[dark]] %>
+.tbl-prio-5 { color: #ff8a80; }
+.tbl-prio-4 { color: #ffb74d; }
+.tbl-prio-3 { color: #ffe082; }
+.tbl-prio-2 { color: #90caf9; }
+.tbl-prio-1 { color: #bdbdbd; }
+<%else%>
+.tbl-prio-5 { color: #c62828; }
+.tbl-prio-4 { color: #d9730d; }
+.tbl-prio-3 { color: #a67c00; }
+.tbl-prio-2 { color: #1565c0; }
+.tbl-prio-1 { color: #757575; }
+<%endif%>
+
+/* finished task (row class from segments/dt-tbody): muted like .tbldyn-overdue */
+.tbl-record-complete [class^="tbl-prio-"],
+.tbl-record-complete .tbldyn-date { color: <<colour muted-foreground>>; }

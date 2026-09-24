@@ -1,5 +1,5 @@
 {
-  "name": "tw-table",
+  "name": "tw-dynamic-table",
   "version": "1.0.0",
   "description": "TiddlyWiki plugin providing an editable, sortable, paginated Dynamic Table macro",
   "private": true,

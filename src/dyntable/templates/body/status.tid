@@ -1,0 +1,50 @@
+tags: $:/tags/nk-Table/BodyTemplate
+tbl-column-list: status
+title: $:/plugins/nikorion/dyntable/templates/body/status
+type: text/vnd.tiddlywiki
+
+<!-- Vocabulary (values, icons, labels) is TW-Base-Fields': $:/plugins/nikorion/base-fields/vocab/status.
+  Installing this column without that plugin leaves the cell blank rather than erroring.
+  The `done`/`dropped` values also drive the whole-row highlight: see tbl-row-class() in segments/dt-tbody. -->
+
+<!-- keeps the tbl-checkbox column's `Done` tag in sync when status is changed from here instead of
+  the checkbox: otherwise a record set back to e.g. `todo` from this dropdown stays ticked -->
+\procedure sync-done-tag-actions()
+<%if [<currentRecord>get[status]match[done]] %>
+<$action-listops $tiddler=<<currentRecord>> $field="tags" $filter="[<currentRecord>get[tags]enlist-input[]] [[Done]]"/>
+<%else%>
+<$action-listops $tiddler=<<currentRecord>> $field="tags" $filter="[<currentRecord>get[tags]enlist-input[]] -[[Done]]"/>
+<%endif%>
+\end sync-done-tag-actions
+
+\procedure show-cell()
+<%if [<currentRecord>get<currentColumn>!is[blank]] %>
+<$transclude $variable="bf-vocab-item" field="status" value={{{ [<currentRecord>get<currentColumn>] }}}/>
+<%endif%>
+\end show-cell
+
+\procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
+
+\procedure select_status()
+<$select tiddler=<<currentRecord>> field=<<currentColumn>> default="" actions=<<sync-done-tag-actions>>>
+<option value=''><<table-lingo "Tables/Select">></option>
+<!-- guard: skip the option list rather than call function[bf-vocab-values] when TW-Base-Fields (or its
+  status vocabulary) isn't installed — an unresolved `function[]` operator silently returns every
+  tiddler in the wiki instead of erroring, which corrupts the record's status field on next save -->
+<%if [[$:/plugins/nikorion/base-fields/vocab/]addsuffix<currentColumn>get[list]!is[blank]] %>
+<$list filter="[function[bf-vocab-values],<currentColumn>]" variable="slug">
+<option value=<<slug>>><$transclude $variable="bf-vocab-item" field="status" value=<<slug>>/></option>
+</$list>
+<%endif%>
+</$select>
+\end select_status
+
+<td class="tbldyn-col-fixedsize">
+<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+	<<show-cell>>
+<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+	<<show-cell-locked>>
+<%else%>
+	<<select_status>>
+<%endif%>
+</td>

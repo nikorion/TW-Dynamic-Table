@@ -1,9 +1,9 @@
 {
-  "description": "TW-Table development wiki",
+  "description": "TW-Dynamic-Table development wiki",
   "plugins": [
     "tiddlywiki/filesystem",
     "tiddlywiki/tiddlyweb",
-    "nikorion/table",
+    "nikorion/dyntable",
     "nikorion/base-fields",
     "nikorion/plugin-info-tree",
     "nikorion/tiny-bootstrap",
@@ -23,11 +23,11 @@
   "build": {
     "plugin-json": [
       "--output", "dist",
-      "--render", "$:/core/templates/exporters/JsonFile", "TW-Table-Plugin.json", "text/plain", "", "exportFilter", "[[$:/plugins/nikorion/table]]"
+      "--render", "$:/core/templates/exporters/JsonFile", "TW-Dynamic-Table-Plugin.json", "text/plain", "", "exportFilter", "[[$:/plugins/nikorion/dyntable]]"
     ],
     "html": [
       "--output", "docs",
-      "--rendertiddler", "$:/core/save/all", "TW-Table-Wiki.html", "text/plain", "",
+      "--rendertiddler", "$:/core/save/all", "TW-Dynamic-Table-Wiki.html", "text/plain", "",
       "publishFilter", "-[[$:/dev/hmr]] -[[$:/config/dev/hmr-port]] -[[$:/config/SyncFilter]] -[[$:/config/FileSystemPaths]] -[[$:/config/OriginalTiddlerPaths]]"
     ]
   }

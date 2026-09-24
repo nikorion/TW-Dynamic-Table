@@ -1,0 +1,9 @@
+tags: $:/tags/nk-Table/BodyTemplate
+tbl-column-list: created modified
+title: $:/plugins/nikorion/dyntable/templates/body/date
+type: text/vnd.tiddlywiki
+
+<td class="tbldyn-date">
+<$view tiddler=<<currentRecord>> field=<<currentColumn>> format="date" template=<<table-lingo-text "Tables/Format/Date">>/>
+</td>
+<!-- date format localised through the Tables/Format/Date lingo key -->

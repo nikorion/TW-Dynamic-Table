@@ -1,0 +1,8 @@
+tags: $:/tags/nk-Table/HeaderTemplate
+tbl-column-list: tbl-clone
+title: $:/plugins/nikorion/dyntable/templates/header/tbl-clone
+type: text/vnd.tiddlywiki
+
+<%if [<tempTableEdit>getindex[mode]match[edit]] %>
+	<th class="tbldyn-svg"></th>
+<%endif%>

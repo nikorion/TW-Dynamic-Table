@@ -1,0 +1,11 @@
+title: $:/plugins/nikorion/dyntable/language/en-GB/Settings/
+
+Caption: Table
+Heading: Dynamic Table
+Intro: Settings for the `<<dyntable>>` macro.
+Label/EditorType: Record editor (expanded/edit mode)
+Label/EntriesPerPage: Default entries per page (pagination)
+Option/Simple: Simple text box
+Option/MainEditor: Main TiddlyWiki editor
+DefaultLabel: default:
+ResetTooltip: Reset to default

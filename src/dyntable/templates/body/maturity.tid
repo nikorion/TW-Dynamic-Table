@@ -1,0 +1,39 @@
+tags: $:/tags/nk-Table/BodyTemplate
+tbl-column-list: maturity
+title: $:/plugins/nikorion/dyntable/templates/body/maturity
+type: text/vnd.tiddlywiki
+
+<!-- Vocabulary (values, icons, labels) is TW-Base-Fields': $:/plugins/nikorion/base-fields/vocab/maturity.
+  Installing this column without that plugin leaves the cell blank rather than erroring. -->
+
+\procedure show-cell()
+<%if [<currentRecord>get<currentColumn>!is[blank]] %>
+<$transclude $variable="bf-vocab-item" field="maturity" value={{{ [<currentRecord>get<currentColumn>] }}}/>
+<%endif%>
+\end show-cell
+
+\procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
+
+\procedure select_maturity()
+<$select tiddler=<<currentRecord>> field=<<currentColumn>> default="">
+<option value=''><<table-lingo "Tables/Select">></option>
+<!-- guard: skip the option list rather than call function[bf-vocab-values] when TW-Base-Fields (or its
+  maturity vocabulary) isn't installed — an unresolved `function[]` operator silently returns every
+  tiddler in the wiki instead of erroring, which corrupts the record's maturity field on next save -->
+<%if [[$:/plugins/nikorion/base-fields/vocab/]addsuffix<currentColumn>get[list]!is[blank]] %>
+<$list filter="[function[bf-vocab-values],<currentColumn>]" variable="slug">
+<option value=<<slug>>><$transclude $variable="bf-vocab-item" field="maturity" value=<<slug>>/></option>
+</$list>
+<%endif%>
+</$select>
+\end select_maturity
+
+<td class="tbldyn-col-fixedsize">
+<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+	<<show-cell>>
+<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+	<<show-cell-locked>>
+<%else%>
+	<<select_maturity>>
+<%endif%>
+</td>
