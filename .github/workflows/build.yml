@@ -19,13 +19,13 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # TiddlyWiki resolves the plugin name "nikorion/table" through
+      # TiddlyWiki resolves the plugin name "nikorion/dyntable" through
       # TIDDLYWIKI_PLUGIN_PATH (a dir of symlinks, one per plugin) — same mechanism as
       # locally. Recreate just this plugin's symlink so the build resolves it off-machine.
       - name: Set up plugin symlink
         run: |
           mkdir -p "$RUNNER_TEMP/tw-plugins/nikorion"
-          ln -s "$GITHUB_WORKSPACE/src/table" "$RUNNER_TEMP/tw-plugins/nikorion/table"
+          ln -s "$GITHUB_WORKSPACE/src/dyntable" "$RUNNER_TEMP/tw-plugins/nikorion/dyntable"
           echo "TIDDLYWIKI_PLUGIN_PATH=$RUNNER_TEMP/tw-plugins" >> "$GITHUB_ENV"
 
       - run: pnpm build
