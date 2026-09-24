@@ -32,14 +32,17 @@ const PORT_TIDDLER = path.resolve("wiki/tiddlers/$__dev-hmr-port.tid");
 // server was reported "free" and TW then crashed with EADDRINUSE instead of
 // moving aside.
 const HOST = "127.0.0.1";
+// The HMR SSE server (dev-hmr.cjs) listens with no host, i.e. dual-stack `::` — probe it
+// the same way (host undefined), otherwise a 127.0.0.1 probe reports a port held on
+// `::` as free and a parallel `pnpm dev` loses its HMR.
 
 // Can we bind this port right now? (briefly opens then closes a listener)
-function isFree(port) {
+function isFree(port, host) {
   return new Promise((resolve) => {
     const srv = net.createServer();
     srv.once("error", () => resolve(false));
     srv.once("listening", () => srv.close(() => resolve(true)));
-    srv.listen(port, HOST);
+    srv.listen(port, host);
   });
 }
 
@@ -55,15 +58,15 @@ function randomFreePort() {
   });
 }
 
-async function resolvePort(preferred, label) {
-  if (await isFree(preferred)) return preferred;
+async function resolvePort(preferred, label, host) {
+  if (await isFree(preferred, host)) return preferred;
   const port = await randomFreePort();
   process.stdout.write(`[dev] ${label} port ${preferred} busy → using free port ${port}\n`);
   return port;
 }
 
 (async () => {
-  const twPort = await resolvePort(PREFERRED_TW_PORT, "TiddlyWiki");
+  const twPort = await resolvePort(PREFERRED_TW_PORT, "TiddlyWiki", HOST);
   const ssePort = await resolvePort(PREFERRED_SSE_PORT, "HMR SSE");
 
   // Publish the SSE port to the browser client through a git-ignored tiddler,
