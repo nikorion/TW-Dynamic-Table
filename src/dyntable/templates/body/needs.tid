@@ -1,0 +1,45 @@
+tags: $:/tags/nk-Table/BodyTemplate
+tbl-column-list: needs
+title: $:/plugins/nikorion/dyntable/templates/body/needs
+type: text/vnd.tiddlywiki
+
+<!-- TW-Base-Fields' `needs`: a //list// field whose values come from a controlled vocabulary
+  ($:/plugins/nikorion/base-fields/vocab/needs). Shown as its values' icon + label; edited, as in
+  the TW-Base-Fields editor, with one checkbox per value (`listField` mode: ticking adds the slug,
+  unticking removes it, the others are left alone). Without that plugin the column shows the raw
+  stored list and edits it as free text (see tbl-bf-vocab() in procedures/dt-helper). -->
+
+\procedure show-cell()
+\whitespace trim
+<%if [function[tbl-bf-vocab]] %>
+<$list filter="[<currentRecord>get<currentColumn>enlist-input[]]" variable="slug" join=", ">
+<$transclude $variable="bf-vocab-item" field="needs" value=<<slug>>/>
+</$list>
+<%else%>
+<<tbl-raw-cell>>
+<%endif%>
+\end show-cell
+
+\procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
+
+\procedure edit-needs()
+<$list filter="[function[bf-vocab-values],[needs]]" variable="slug">
+<span class="tbldyn-need" title={{{ [function[bf-vocab-hint],[needs],<slug>] }}}>
+<$checkbox tiddler=<<currentRecord>> listField=<<currentColumn>> checked=<<slug>>>
+<$transclude $variable="bf-vocab-item" field="needs" value=<<slug>>/>
+</$checkbox>
+</span>
+</$list>
+\end edit-needs
+
+<td class="tbldyn-cell-left">
+<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+	<<show-cell>>
+<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+	<<show-cell-locked>>
+<%elseif [function[tbl-bf-vocab]] %>
+	<<edit-needs>>
+<%else%>
+	<<tbl-raw-edit>>
+<%endif%>
+</td>

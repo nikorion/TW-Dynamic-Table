@@ -8,7 +8,8 @@
     "nikorion/plugin-info-tree",
     "nikorion/tiny-bootstrap",
     "nikorion/math",
-    "nikorion/scroll-layout"
+    "nikorion/scroll-layout",
+    "nikorion/detect-language"
   ],
   "themes": [
     "tiddlywiki/vanilla"

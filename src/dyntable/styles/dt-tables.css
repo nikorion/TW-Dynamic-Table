@@ -137,6 +137,11 @@ button.tbl-sort-svg > svg { text-shadow: none; fill:#000000; height:10px; paddin
 	text-align: center;
 	vertical-align: middle;
 }
+/* left-aligned cell (title/status/priority): set on the cell itself, so it wins over a
+  text-center (or similar) class the caller puts on the whole table, which cells only inherit */
+.tbldyn-cell-left {
+	text-align: left;
+}
 
 /* button caption style on dynamic table header
 this style can be overriden locally by user.
@@ -183,4 +188,10 @@ table thead .tbldyn-header th button::first-letter {
 
 .tbl-footer-label:hover .tbl-footer-tip {
 	display: block;
+}
+
+/* `needs` cell in edit mode (TW-Base-Fields vocabulary): one checkbox per value, kept whole */
+.tbldyn-need {
+	white-space: nowrap;
+	margin-right: 0.5em;
 }

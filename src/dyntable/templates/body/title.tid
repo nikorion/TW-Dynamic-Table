@@ -17,7 +17,7 @@ type: text/vnd.tiddlywiki
 <%endif%>
 \end rename-record-as
 
-<td class="tbldyn-title">
+<td class="tbldyn-title tbldyn-cell-left">
 <$link to=<<currentRecord>>><$text text=<<currentRecord>> /></$link>
 <%if [<tempTableEdit>getindex[mode]match[edit]] %><!-- only works in edit mode-->
   <$button popup=<<rename-popup-state>> popupAbsCoords="yes" class="tc-btn-invisible" tooltip=<<table-lingo-text "Tables/Rename/Tooltip">> aria-label=<<table-lingo-text "Tables/Rename/Tooltip">>>

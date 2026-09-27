@@ -1,0 +1,46 @@
+tags: $:/tags/nk-Table/BodyTemplate
+tbl-column-list: disciplines technology equipment
+title: $:/plugins/nikorion/dyntable/templates/body/list-field
+type: text/vnd.tiddlywiki
+
+<!-- TW-Base-Fields' free list fields (`disciplines`, `technology`, `equipment`): shown as the pills
+  of the TW-Base-Fields editor (`bf-list-pill`, per-value colour cascade and per-field fallback
+  colour included), edited with that plugin's own picker (`bf-list-value-field`: pills + input
+  completing on the values already used in that field). Without TW-Base-Fields, the column falls
+  back to the generic text cell (raw list, edited as text). -->
+
+\function tbl-has-base-fields() [[$:/plugins/nikorion/base-fields/macros/edit-fields]get[text]]
+
+\procedure show-list-cell()
+<%if [function[tbl-has-base-fields]] %>
+<$list filter="[<currentRecord>get<currentColumn>enlist-input[]]" variable="value">
+<$transclude $variable="bf-list-pill" field=<<currentColumn>> value=<<value>> readonly="yes"/>
+</$list>
+<%else%>
+<<show-cell>>
+<%endif%>
+\end show-list-cell
+
+\procedure edit-list-cell()
+<%if [function[tbl-has-base-fields]] %>
+<!-- the picker qualifies its state tiddlers (input, selection, popup) with `transclusion`:
+  one per record and column, or every row of the column would share a single input -->
+<$let currentTiddler=<<currentRecord>>
+	transclusion={{{ [[dyntable/]addsuffix<currentRecord>addsuffix[/]addsuffix<currentColumn>] }}}
+>
+<$transclude $variable="bf-list-value-field" field=<<currentColumn>>/>
+</$let>
+<%else%>
+<<edit-cell>>
+<%endif%>
+\end edit-list-cell
+
+<td class="tbldyn-cell-left">
+<%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
+	<<show-list-cell>>
+<%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
+	<span class="tbldyn-locked-cell"><<show-list-cell>></span>
+<%else%>
+	<<edit-list-cell>>
+<%endif%>
+</td>

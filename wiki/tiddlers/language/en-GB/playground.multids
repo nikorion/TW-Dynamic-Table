@@ -1,0 +1,20 @@
+title: $:/nikorion/language/en-GB/Playground/
+
+Intro: Live examples of the `<<dyntable>>` macro on the three `Demo Task` tiddlers. Each table gets its own `stateTiddler`, so their edit mode, sorting and pagination stay independent.
+BasicHeading: ! Basic table
+BasicBody: Read-only view: click a column header to sort, click it again to reverse the order. `tags` is shown as is, other built-in columns get a localised header.
+EditableHeading: ! Editable, with actions and pagination
+EditableBody: Click the pencil in the caption to toggle edit mode: inline editing, checkbox (marks a task ''Done''), clone and delete columns. The arrow column expands a record to show its text. The column currently used for sorting stays locked in edit mode.
+FooterHeading: ! Numerical summary footer
+FooterBody: `footer` adds one computed row per entry, written `calc[:decimals][@columns]`: `sum`, `average`, `count`, `median`, `product`, `min` or `max`. Without `@columns`, every numeric column is calculated. The label is translated and shown in the first column. `footerRows` still gives hand-filled cells if you need them.
+ContentHeading: ! A table with nothing to do with tasks
+ContentBody: The table isn't just for tasks: here are the TW-Base-Fields columns — `role`, `maturity`, `lifecycle`, `needs` (controlled vocabularies) and the `disciplines` and `technology` lists (pills) — on ordinary knowledge tiddlers, with no `status` field at all. In edit mode each is edited as in the TW-Base-Fields editor: an empty `maturity` or `lifecycle` shows its blank value (//Stub//, //Active//), `needs` gets one checkbox per value, and the lists get the same picker as in the tiddler editor.
+AverageMedianHeading: ! Average or median?
+AverageMedianBody: The two answer different questions. The ''average'' spreads the total evenly, so use it when every value counts and they are similar. The ''median'' is the middle value once sorted, so use it when a few extreme values would distort the picture.
+AverageBetter: ''Average is better'' — monthly expenses are steady and the total matters, so the average is the monthly budget to plan for:
+MedianBetter: ''Median is better'' — ticket resolution times in hours: one ticket stuck for 120 hours drags the average to 22.8 h, while the median (3.5 h) describes the usual ticket:
+ReliableHeading: !!! Getting a reliable picture
+ReliableBody: No single figure tells the whole story, so show several: the average and the median together, plus the minimum and the maximum. A large gap between average and median reveals skewed values, and min/max show the extremes the median hides. With few values, or two distinct groups (for example 1, 1, 1, 100, 100), the median alone can mislead.
+ReliableFooterNote: The footer of that table is simply `footer:"average:1 median:1 min max"`.
+GradesHeading: ! Maths grades
+GradesBody: Another non-task use: a list of student records with their grade, to show footer calculations on any numeric field (`grade-maths`), not just `priority`. `@grade-maths` restricts the calculation to that column.

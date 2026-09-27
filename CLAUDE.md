@@ -47,7 +47,8 @@ src/dyntable/
     header|body|footer/*.tid  ← un template par colonne, sélectionné via son champ tbl-column-list
                                  (default.tid = repli universel ; title/type/tags/color/email/date (created, modified)
                                  génériques ; priority/status/due-date = "Task Manager" ; tbl-checkbox/clone/
-                                 delete/expand/nodetype = colonnes d'action)
+                                 delete/expand/nodetype = colonnes d'action ; role/status/vocab (maturity,
+                                 lifecycle)/needs/list-field (disciplines, technology, equipment) = champs TW-Base-Fields)
   styles/
     dt-tables.css, dt-tables-var.tid (variables palette), dt-edit-tags.css, task-complete.tid
     table-variants.css     ← variantes `table-hover`/`thead-*`/`table-striped-*`/etc., portées depuis Shiraz `styles/tables.css` (bug copié-collé corrigé au passage : les sélecteurs `a`/`.tc-tiddlylink` de chaque `thead-*` référençaient tous `thead-primary`), aucune dépendance à Shiraz ni Tiny Bootstrap ; **copie partielle dans TW-Table** (`table-variants.css`, sans `tfoot-*`/`tbldyn-*`) : toute correction de variante à répercuter dans les deux
@@ -60,7 +61,7 @@ src/dyntable/
   readme.tid / history.tid / licence.tid  ← sélecteurs de langue
   plugin.info
 
-wiki/                      ← wiki TW de dev : Playground.tid (anglais en dur, pas d'i18n) + tiddlers de démo ("Demo Task", "Demo Content", "Demo Student")
+wiki/                      ← wiki TW de dev : Playground.tid (i18n via `detect-language-lingo`, chaînes sous `wiki/tiddlers/language/`) + tiddlers de démo (tags "Demo Task", "Demo Content" — porte les champs TW-Base-Fields —, "Demo Expense", "Demo Ticket", "Demo Student")
 dist/                      ← généré par pnpm build, gitignored
 docs/                      ← TW-Dynamic-Table-Wiki.html standalone (distribution)
 ```
@@ -76,5 +77,6 @@ docs/                      ← TW-Dynamic-Table-Wiki.html standalone (distributi
 - **Pied de tableau : `footer` (lignes calculées, `calc[:décimales][@colonnes]`, rendues par `segments/dt-tfoot.tid`, rien de stocké) + `footerRows` (cellules manuelles, keepstate).** Libellés via `Tables/Footer/<Calc>` (`min`/`max` → `Minimum`/`Maximum`) ; 1re colonne = libellé, jamais calculée ; sans `@`, colonnes entièrement numériques (`column-values` dans `dt-maths.tid`). Fonctions appelées par `[function<fname>,<pn>]`.
 - **Pas de clé `Tables/Column/tags`** (demande explicite) : l'en-tête `tags` reste le nom brut. Casse des en-têtes via `::first-letter` (pas `text-transform: capitalize`, faux en français).
 - **Tout texte visible passe par le lingo** (y compris infobulles/`aria-label`, format de date `Tables/Format/Date`) : ajouter une chaîne = clé en-GB **et** fr-FR.
+- **Colonnes TW-Base-Fields = miroir de son éditeur** : un vocabulaire à `blank-value` (maturity/lifecycle/status) remplace l'option « Select… » par sa valeur vide (option `value=""`, champ supprimé si vide) ; `needs` = cases à cocher `listField` ; listes = `bf-list-pill readonly="yes"` en vue, `bf-list-value-field` en édition avec `transclusion` unique par enregistrement+colonne (sinon toutes les lignes partagent la même saisie). Sans TW-Base-Fields : valeur brute en vue, texte libre en édition — garde `tbl-bf-vocab()` (`procedures/dt-helper.tid`) obligatoire avant tout appel `bf-vocab-*` (`function[]` non résolu renvoie tout le wiki). **Quand TW-Base-Fields ajoute/modifie un champ → aligner ces templates** (voir son CLAUDE.md).
 - **`body/priority.tid` et `body/status.tid` sont "Task Manager"** : fonctionnels indépendamment de `dyntable` (colonnes optionnelles), mais font partie de la parité fonctionnelle avec Shiraz — ne pas les retirer sans le signaler dans le history.
 - **Macro renommée `table-dynamic` → `table`** (2026-09-15) **→ `dyntable`** (2026-09-24, renommage du plugin en `TW-Dynamic-Table`, nom court `table` → `dyntable`) : seul le nom de la `\procedure` dans `dt-table-dynamic.tid` a changé à chaque fois, le nom de fichier/titre du tiddler est resté `dt-table-dynamic` par continuité avec la source Shiraz — ne pas renommer le fichier sans raison, ça casserait le suivi de provenance documenté ci-dessus.

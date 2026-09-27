@@ -4,7 +4,7 @@ title: $:/plugins/nikorion/dyntable/templates/body/status
 type: text/vnd.tiddlywiki
 
 <!-- Vocabulary (values, icons, labels) is TW-Base-Fields': $:/plugins/nikorion/base-fields/vocab/status.
-  Installing this column without that plugin leaves the cell blank rather than erroring.
+  Without that plugin the column shows the raw stored value and edits it as free text (see tbl-bf-vocab() in procedures/dt-helper).
   The `done`/`dropped` values also drive the whole-row highlight: see tbl-row-class() in segments/dt-tbody. -->
 
 <!-- keeps the tbl-checkbox column's `Done` tag in sync when status is changed from here instead of
@@ -15,36 +15,47 @@ type: text/vnd.tiddlywiki
 <%else%>
 <$action-listops $tiddler=<<currentRecord>> $field="tags" $filter="[<currentRecord>get[tags]enlist-input[]] -[[Done]]"/>
 <%endif%>
+<!-- choosing the blank value leaves an empty string: delete the field instead, as TW-Base-Fields does -->
+<$list filter="[<currentRecord>!has<currentColumn>]" variable="ignore">
+<$action-deletefield $tiddler=<<currentRecord>> $field=<<currentColumn>>/>
+</$list>
 \end sync-done-tag-actions
 
 \procedure show-cell()
+<%if [function[tbl-bf-vocab]] %>
 <%if [<currentRecord>get<currentColumn>!is[blank]] %>
 <$transclude $variable="bf-vocab-item" field="status" value={{{ [<currentRecord>get<currentColumn>] }}}/>
+<%endif%>
+<%else%>
+<<tbl-raw-cell>>
 <%endif%>
 \end show-cell
 
 \procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
 
 \procedure select_status()
+<!-- `status` has a blank value (`none`): that value //is// the empty field, as in the TW-Base-Fields
+  editor, so it replaces the placeholder option and choosing it clears the field -->
+<$let blank={{{ [[$:/plugins/nikorion/base-fields/vocab/]addsuffix<currentColumn>get[blank-value]] }}}>
 <$select tiddler=<<currentRecord>> field=<<currentColumn>> default="" actions=<<sync-done-tag-actions>>>
+<%if [<blank>match[]] %>
 <option value=''><<table-lingo "Tables/Select">></option>
-<!-- guard: skip the option list rather than call function[bf-vocab-values] when TW-Base-Fields (or its
-  status vocabulary) isn't installed — an unresolved `function[]` operator silently returns every
-  tiddler in the wiki instead of erroring, which corrupts the record's status field on next save -->
-<%if [[$:/plugins/nikorion/base-fields/vocab/]addsuffix<currentColumn>get[list]!is[blank]] %>
-<$list filter="[function[bf-vocab-values],<currentColumn>]" variable="slug">
-<option value=<<slug>>><$transclude $variable="bf-vocab-item" field="status" value=<<slug>>/></option>
-</$list>
 <%endif%>
+<$list filter="[function[bf-vocab-values],<currentColumn>]" variable="slug">
+<option value={{{ [<slug>!match<blank>] }}}><$transclude $variable="bf-vocab-item" field="status" value=<<slug>>/></option>
+</$list>
 </$select>
+</$let>
 \end select_status
 
-<td class="tbldyn-col-fixedsize">
+<td class="tbldyn-col-fixedsize tbldyn-cell-left">
 <%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
 	<<show-cell>>
 <%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
 	<<show-cell-locked>>
-<%else%>
+<%elseif [function[tbl-bf-vocab]] %>
 	<<select_status>>
+<%else%>
+	<<tbl-raw-edit actions=<<sync-done-tag-actions>> >>
 <%endif%>
 </td>
