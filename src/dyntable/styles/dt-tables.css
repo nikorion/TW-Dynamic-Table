@@ -190,8 +190,8 @@ table thead .tbldyn-header th button::first-letter {
 	display: block;
 }
 
-/* `needs` cell in edit mode (TW-Base-Fields vocabulary): one checkbox per value, kept whole */
-.tbldyn-need {
+/* vocabulary-list cell in edit mode (kms ontology, e.g. `needs`): one checkbox per value, kept whole */
+.tbldyn-check {
 	white-space: nowrap;
 	margin-right: 0.5em;
 }

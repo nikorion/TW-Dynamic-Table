@@ -13,4 +13,4 @@ type: text/vnd.tiddlywiki
 <td class="tbldyn-svg" title=<<table-lingo-text "Tables/Checkbox/RecordTooltip">>>
 	<$checkbox tiddler=<<currentRecord>> tag="Done" checkactions=<<check-actions>> uncheckactions=<<uncheck-actions>> />
 </td>
-<!-- the `Done` tag and the `done`/`todo` statuses (TW-Base-Fields vocabulary) are stored data, never translated -->
+<!-- the `Done` tag and the `done`/`todo` statuses (kms ontology vocabulary) are stored data, never translated -->

@@ -3,7 +3,7 @@ tbl-column-list: priority
 title: $:/plugins/nikorion/dyntable/templates/body/priority
 type: text/vnd.tiddlywiki
 
-<!-- the emoji is a purely visual marker, like TW-Base-Fields' vocab icons: never stored, the field keeps its plain 1-5 value -->
+<!-- the emoji is a purely visual marker, like the kms ontology's vocabulary icons: never stored, the field keeps its plain 1-5 value -->
 \procedure show-cell()
 	<%if [<currentRecord>get<currentColumn>match[5]] %>
 		🔴&nbsp;<span class="tbl-prio-5"><<table-lingo "Tables/Priority/very-high">></span>

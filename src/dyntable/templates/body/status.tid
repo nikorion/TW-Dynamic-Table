@@ -3,9 +3,11 @@ tbl-column-list: status
 title: $:/plugins/nikorion/dyntable/templates/body/status
 type: text/vnd.tiddlywiki
 
-<!-- Vocabulary (values, icons, labels) is TW-Base-Fields': $:/plugins/nikorion/base-fields/vocab/status.
-  Without that plugin the column shows the raw stored value and edits it as free text (see tbl-bf-vocab() in procedures/dt-helper).
-  The `done`/`dropped` values also drive the whole-row highlight: see tbl-row-class() in segments/dt-tbody. -->
+<!-- `status` is a vocabulary field of the kms ontology, drawn like the others (procedures/dt-kms), with
+  a template of its own for two extras: changing it keeps the `Done` tag of the tbl-checkbox column in
+  step, and its `done`/`dropped` values drive the whole-row highlight (tbl-row-class() in
+  segments/dt-tbody). Without the ontology, the column shows the raw stored value and edits it as
+  free text. -->
 
 <!-- keeps the tbl-checkbox column's `Done` tag in sync when status is changed from here instead of
   the checkbox: otherwise a record set back to e.g. `todo` from this dropdown stays ticked -->
@@ -15,17 +17,12 @@ type: text/vnd.tiddlywiki
 <%else%>
 <$action-listops $tiddler=<<currentRecord>> $field="tags" $filter="[<currentRecord>get[tags]enlist-input[]] -[[Done]]"/>
 <%endif%>
-<!-- choosing the blank value leaves an empty string: delete the field instead, as TW-Base-Fields does -->
-<$list filter="[<currentRecord>!has<currentColumn>]" variable="ignore">
-<$action-deletefield $tiddler=<<currentRecord>> $field=<<currentColumn>>/>
-</$list>
+<<tbl-kms-clear-empty>>
 \end sync-done-tag-actions
 
 \procedure show-cell()
-<%if [function[tbl-bf-vocab]] %>
-<%if [<currentRecord>get<currentColumn>!is[blank]] %>
-<$transclude $variable="bf-vocab-item" field="status" value={{{ [<currentRecord>get<currentColumn>] }}}/>
-<%endif%>
+<%if [function[tbl-kms-kind]] %>
+<<tbl-kms-vocab-cell>>
 <%else%>
 <<tbl-raw-cell>>
 <%endif%>
@@ -33,28 +30,13 @@ type: text/vnd.tiddlywiki
 
 \procedure show-cell-locked() <span class="tbldyn-locked-cell"><<show-cell>></span>
 
-\procedure select_status()
-<!-- `status` has a blank value (`none`): that value //is// the empty field, as in the TW-Base-Fields
-  editor, so it replaces the placeholder option and choosing it clears the field -->
-<$let blank={{{ [[$:/plugins/nikorion/base-fields/vocab/]addsuffix<currentColumn>get[blank-value]] }}}>
-<$select tiddler=<<currentRecord>> field=<<currentColumn>> default="" actions=<<sync-done-tag-actions>>>
-<%if [<blank>match[]] %>
-<option value=''><<table-lingo "Tables/Select">></option>
-<%endif%>
-<$list filter="[function[bf-vocab-values],<currentColumn>]" variable="slug">
-<option value={{{ [<slug>!match<blank>] }}}><$transclude $variable="bf-vocab-item" field="status" value=<<slug>>/></option>
-</$list>
-</$select>
-</$let>
-\end select_status
-
 <td class="tbldyn-col-fixedsize tbldyn-cell-left">
 <%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
 	<<show-cell>>
 <%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->
 	<<show-cell-locked>>
-<%elseif [function[tbl-bf-vocab]] %>
-	<<select_status>>
+<%elseif [function[tbl-kms-kind]] %>
+	<<tbl-kms-select actions=<<sync-done-tag-actions>> >>
 <%else%>
 	<<tbl-raw-edit actions=<<sync-done-tag-actions>> >>
 <%endif%>

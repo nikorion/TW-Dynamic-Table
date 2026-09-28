@@ -1,0 +1,110 @@
+tags: $:/tags/nk-Table/Procedure
+title: $:/plugins/nikorion/dyntable/procedures/dt-kms
+type: text/vnd.tiddlywiki
+
+<!--
+Columns for the fields of the kms ontology (KMS Ontology plugin: role, maturity, needs,
+technology…). A body template is picked by the field's `kind`, read from the ontology
+(`tbl-column-filter` of templates/body/kms-*), not by a list of field names: a field
+added to the ontology gets its column with nothing to change here.
+
+  kind         view                          edit
+  vocab        icon + label                  dropdown (blank value in place of "Select...")
+  vocab-list   icons + labels                one checkbox per value
+  list         pills, like tags              TW-Base-Fields' picker if installed, else text
+  value        default template: raw text    default template: text input
+
+`tbl-kms-kind()` must be tested before calling any `kms-*` function: without the
+ontology (or for a field it does not define) an unresolved `function[]` operator
+silently returns every tiddler of the wiki instead of failing — which would fill a
+dropdown with random titles and write one into the record on the next pick. The
+templates are only picked for fields the ontology defines; `status`, which has a
+template of its own, falls back on the raw procedures below.
+-->
+
+\function tbl-kms-kind() [[$:/plugins/nikorion/kms-ontology/fields/]addsuffix<currentColumn>get[kind]]
+
+<!-- Raw value, for a vocabulary column without the ontology. -->
+\procedure tbl-raw-cell() <$text text={{{ [<currentRecord>get<currentColumn>] }}}/>
+\procedure tbl-raw-edit(actions) <$edit-text tiddler=<<currentRecord>> field=<<currentColumn>> tag="input" class="tbldyn-textbox" inputActions=<<actions>>/>
+
+<!-- Choosing the blank value leaves an empty string: delete the field instead, as TW-Base-Fields does. -->
+\procedure tbl-kms-clear-empty()
+<$list filter="[<currentRecord>!has<currentColumn>]" variable="ignore">
+<$action-deletefield $tiddler=<<currentRecord>> $field=<<currentColumn>>/>
+</$list>
+\end tbl-kms-clear-empty
+
+<!-- vocab / vocab-list: icon + label of each stored value. -->
+\procedure tbl-kms-vocab-cell()
+\whitespace trim
+<$list filter="[<currentRecord>get<currentColumn>enlist-input[]]" variable="slug" join=", ">
+<$transclude $variable="kms-vocab-item" field=<<currentColumn>> value=<<slug>>/>
+</$list>
+\end tbl-kms-vocab-cell
+
+\procedure tbl-kms-option(slug)
+<option value={{{ [<slug>!match<blank>] }}} title={{{ [function[kms-vocab-hint],<currentColumn>,<slug>] }}}><$transclude $variable="kms-vocab-item" field=<<currentColumn>> value=<<slug>>/></option>
+\end tbl-kms-option
+
+<!--
+vocab: a dropdown, grouped like the TW-Base-Fields editor. A vocabulary with a blank value
+(`maturity`: stub, `lifecycle`: active, `status`: none) has no "Select..." option: its
+blank value //is// the empty field — its option carries "" and choosing it clears the field.
+`actions` runs on every change (pass `<<tbl-kms-clear-empty>>` at least).
+-->
+\procedure tbl-kms-select(actions)
+<$let blank={{{ [function[kms-vocab-blank],<currentColumn>] }}}>
+<$select tiddler=<<currentRecord>> field=<<currentColumn>> default="" actions=<<actions>>>
+<%if [<blank>match[]] %>
+<option value=''><<table-lingo "Tables/Select">></option>
+<%endif%>
+<$list filter="[function[kms-vocab-ungrouped-values],<currentColumn>]" variable="slug">
+<<tbl-kms-option slug=<<slug>> >>
+</$list>
+<$list filter="[function[kms-vocab-groups],<currentColumn>]" variable="group">
+<optgroup label={{{ [function[kms-vocab-group-label],<currentColumn>,<group>] }}}>
+<$list filter="[function[kms-vocab-group-values],<currentColumn>,<group>]" variable="slug">
+<<tbl-kms-option slug=<<slug>> >>
+</$list>
+</optgroup>
+</$list>
+</$select>
+</$let>
+\end tbl-kms-select
+
+<!-- vocab-list: one checkbox per value (`listField` mode: ticking adds the slug, unticking removes it). -->
+\procedure tbl-kms-checkboxes()
+<$list filter="[function[kms-vocab-values],<currentColumn>]" variable="slug">
+<span class="tbldyn-check" title={{{ [function[kms-vocab-hint],<currentColumn>,<slug>] }}}>
+<$checkbox tiddler=<<currentRecord>> listField=<<currentColumn>> checked=<<slug>>>
+<$transclude $variable="kms-vocab-item" field=<<currentColumn>> value=<<slug>>/>
+</$checkbox>
+</span>
+</$list>
+\end tbl-kms-checkboxes
+
+<!-- list: the values as pills, each field with its own fallback colour. -->
+\procedure tbl-kms-pills()
+<$list filter="[<currentRecord>get<currentColumn>enlist-input[]]" variable="value">
+<$transclude $variable="kms-pill" field=<<currentColumn>> value=<<value>>/>
+</$list>
+\end tbl-kms-pills
+
+<!--
+list, edit mode: TW-Base-Fields' own picker (pills + input completing on the values already
+used) when that plugin is installed, else the list as text. The picker qualifies its state
+tiddlers (input, selection, popup) with `transclusion`: one per record and column, or every
+row of the column would share a single input.
+-->
+\procedure tbl-kms-list-edit()
+<%if [[$:/plugins/nikorion/base-fields/macros/edit-fields]get[text]] %>
+<$let currentTiddler=<<currentRecord>>
+	transclusion={{{ [[dyntable/]addsuffix<currentRecord>addsuffix[/]addsuffix<currentColumn>] }}}
+>
+<$transclude $variable="bf-list-value-field" field=<<currentColumn>>/>
+</$let>
+<%else%>
+<<tbl-raw-edit>>
+<%endif%>
+\end tbl-kms-list-edit

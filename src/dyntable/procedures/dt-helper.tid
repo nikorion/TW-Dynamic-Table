@@ -13,17 +13,10 @@ type: text/vnd.tiddlywiki
 \function pageStateTiddler()          [[$(keepstate)$/page-number]substitute[]]
 \function entryPerPageStateTiddler()  [[$(keepstate)$/entry-per-page]substitute[]]
 
-<!-- localised label of the current column: Tables/Column/<name> key, else the raw field/index name -->
-\function column-label()  [function[table-lingo-value],[Tables/Column/],<currentColumn>]
-
-<!-- TW-Base-Fields vocabulary columns (role, maturity, lifecycle, needs, status): the vocabulary of the
-  current column, when that plugin is installed. Without it the column shows the raw stored value and
-  edits it as free text — never call the bf-vocab-* functions then: an unresolved `function[]` operator
-  silently returns every tiddler in the wiki, which would fill the dropdown with random titles and
-  corrupt the record's field on the next pick -->
-\function tbl-bf-vocab() [[$:/plugins/nikorion/base-fields/vocab/]addsuffix<currentColumn>get[list]!is[blank]]
-\procedure tbl-raw-cell() <$text text={{{ [<currentRecord>get<currentColumn>] }}}/>
-\procedure tbl-raw-edit(actions) <$edit-text tiddler=<<currentRecord>> field=<<currentColumn>> tag="input" class="tbldyn-textbox" inputActions=<<actions>>/>
+<!-- localised label of the current column: the kms ontology's label for a field it defines (tested
+  first: kms-field-label is only called when KMS Ontology is there), else the Tables/Column/<name> key,
+  else the raw field/index name -->
+\function column-label()  [[$:/plugins/nikorion/kms-ontology/fields/]addsuffix<currentColumn>get[kind]] :then[function[kms-field-label],<currentColumn>] :else[function[table-lingo-value],[Tables/Column/],<currentColumn>]
 
 
 

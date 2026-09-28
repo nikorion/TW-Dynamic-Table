@@ -16,16 +16,6 @@ Tables/Column/modifier: Modificateur
 Tables/Column/color: Couleur
 Tables/Column/email: E-mail
 Tables/Column/priority: Priorité
-Tables/Column/status: Statut
-Tables/Column/role: Rôle
-Tables/Column/maturity: Maturité
-Tables/Column/project: Projet
-Tables/Column/epistemology: Épistémologie
-Tables/Column/disciplines: Disciplines
-Tables/Column/technology: Techno
-Tables/Column/equipment: Matériel
-Tables/Column/lifecycle: Cycle de vie
-Tables/Column/needs: Besoins
 Tables/Column/due-date: Échéance
 
 Tables/Format/Date: 0DD/0MM/YYYY

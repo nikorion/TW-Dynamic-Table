@@ -33,15 +33,18 @@ type: text/vnd.tiddlywiki
 </td>
 \end display-expanded-record
 
+<!-- A body template is picked by name (its `tbl-column-list` names the column), else by filter (its
+  `tbl-column-filter`, evaluated with currentColumn, returns something: the kms-* templates, picked by
+  the kind of the field in the kms ontology), else the default one. -->
 \procedure display-one-record()
 \function tbl-row-class() [<currentRecord>get[status]match[done]then[tbl-record-complete]] [<currentRecord>get[status]match[dropped]then[tbl-record-dropped]] [<currentRecord>get[status]match[paused]then[tbl-record-paused]]
 <tr class=<<tbl-row-class>> >
 <$list filter=<<columnFilter>> variable=currentColumn>
-<$set name="bodyLookup" 
+<$set name="bodyLookup"
   filter="[all[tiddlers+shadows]tag[$:/tags/nk-Table/BodyTemplate]!is[draft]contains:tbl-column-list<currentColumn>]
           +[limit[1]get[title]]"
-  value=<<bodyLookup>> 
-  emptyValue="$:/plugins/nikorion/dyntable/templates/body/default">
+  value=<<bodyLookup>>
+  emptyValue={{{ [all[tiddlers+shadows]tag[$:/tags/nk-Table/BodyTemplate]!is[draft]has[tbl-column-filter]] :filter[subfilter{!!tbl-column-filter}] +[limit[1]] :else[[$:/plugins/nikorion/dyntable/templates/body/default]] }}}>
 <$transclude tiddler=<<bodyLookup>> field="text" mode="inline"/>
 </$set>
 </$list>

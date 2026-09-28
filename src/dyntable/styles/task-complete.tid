@@ -4,7 +4,7 @@ type: text/vnd.tiddlywiki
 
 \rules only filteredtranscludeinline transcludeinline macrodef macrocallinline conditional
 
-/* whole-row text colour for status: TW-Base-Fields' `done` (pale green, theme-aware) / `dropped` (grey) values (see tbl-row-class()
+/* whole-row text colour for status: the kms ontology's `done` (pale green, theme-aware) / `dropped` (grey) values (see tbl-row-class()
    in segments/dt-tbody). `paused` (class tbl-record-paused) is deliberately left unstyled. */
 
 .tbl-record-complete,
