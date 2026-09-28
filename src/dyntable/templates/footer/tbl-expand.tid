@@ -1,6 +1,0 @@
-tags: $:/tags/nk-Table/FooterTemplate
-tbl-column-list: tbl-expand
-title: $:/plugins/nikorion/dyntable/templates/footer/tbl-expand
-type: text/vnd.tiddlywiki
-
-<td class="tbldyn-svg"></td>

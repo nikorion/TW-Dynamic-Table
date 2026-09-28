@@ -7,8 +7,6 @@ EditableHeading: ! Editable, with actions and pagination
 EditableBody: Click the pencil in the caption to toggle edit mode: inline editing, checkbox (marks a task ''Done''), clone and delete columns. The arrow column expands a record to show its text. The column currently used for sorting stays locked in edit mode.
 FooterHeading: ! Numerical summary footer
 FooterBody: `footer` adds one computed row per entry, written `calc[:decimals][@columns]`: `sum`, `average`, `count`, `median`, `product`, `min` or `max`. Without `@columns`, every numeric column is calculated. The label is translated and shown in the first column. `footerRows` still gives hand-filled cells if you need them.
-ContentHeading: ! A table with nothing to do with tasks
-ContentBody: The table isn't just for tasks: here are columns for fields of the kms ontology (KMS Ontology plugin) — `role`, `maturity`, `lifecycle`, `needs` (controlled vocabularies) and the `disciplines` and `technology` lists (pills) — on ordinary knowledge tiddlers, with no `status` field at all. In edit mode each is edited as in the Base Fields editor: an empty `maturity` or `lifecycle` shows its blank value (//Stub//, //Active//), `needs` gets one checkbox per value, and the lists get the same picker as in the tiddler editor.
 AverageMedianHeading: ! Average or median?
 AverageMedianBody: The two answer different questions. The ''average'' spreads the total evenly, so use it when every value counts and they are similar. The ''median'' is the middle value once sorted, so use it when a few extreme values would distort the picture.
 AverageBetter: ''Average is better'' — monthly expenses are steady and the total matters, so the average is the monthly budget to plan for:

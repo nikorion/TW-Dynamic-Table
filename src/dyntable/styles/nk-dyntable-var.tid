@@ -1,0 +1,40 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/nikorion/dyntable/styles/nk-dyntable-var
+type: text/vnd.tiddlywiki
+
+/* these are dynamic or variable properties based on the tiddlywiki palette */
+
+.nk-dyntable-page-footer select{
+	background-color: <<color table-header-background>>;
+	color:<<color foreground>>;
+}
+
+.nk-dyntable-page-footer > td{
+	background-color: <<color table-header-background>>;
+}
+
+/* customize the table footer used for numerical summary*/
+.nk-dyntable-footer tr td{
+	background-color: <<color table-footer-background>>40;
+	border:none;
+}
+
+/* correct button color to support dark theme */
+.nk-dyntable-container table thead th button{
+	color:<<colour button-foreground>>
+}
+.nk-dyntable-container table thead th button svg {
+	fill:<<colour button-foreground>>;
+}
+
+/* past dates (a date column that flags them, e.g. a due date): greyed out */
+.nk-dyntable-overdue{
+	color:<<colour muted-foreground>>;
+}
+
+/* footer label tooltip colours (layout in nk-dyntable.css) */
+.nk-dyntable-footer-tip{
+	background:<<colour tiddler-background>>;
+	color:<<colour foreground>>;
+	border:1px solid <<colour muted-foreground>>;
+}

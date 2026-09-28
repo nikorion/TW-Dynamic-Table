@@ -1,0 +1,9 @@
+tags: $:/tags/nk-dyntable/HeaderTemplate
+nk-dyntable-column-list: nk-linktype nk-nodetype
+title: $:/plugins/nikorion/dyntable/templates/header/nk-nodetype
+type: text/vnd.tiddlywiki
+
+<th class="nk-dyntable-default-cursore"><<dyntable-lingo "Tables/NodeType/Header">></th>
+<!--
+tb-nodetype is not sortable not editable
+-->

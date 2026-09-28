@@ -15,17 +15,8 @@ Tables/Column/creator: Créateur
 Tables/Column/modifier: Modificateur
 Tables/Column/color: Couleur
 Tables/Column/email: E-mail
-Tables/Column/priority: Priorité
-Tables/Column/due-date: Échéance
 
 Tables/Format/Date: 0DD/0MM/YYYY
-
-Tables/Priority/very-high: très haute
-Tables/Priority/high: haute
-Tables/Priority/normal: normale
-Tables/Priority/low: basse
-Tables/Priority/very-low: très basse
-Tables/Priority/no-priority: sans priorité
 
 Tables/NodeType/Header: Relation
 Tables/NodeType/link: lien
@@ -51,6 +42,7 @@ Tables/Rename/NameLabel: nouveau titre
 Tables/Rename/Confirm: renommer
 Tables/Rename/Cancel: annuler
 Tables/Rename/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
+Tables/Title/CaptionTooltip: titre réel :
 Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
 
 Tables/Delete/RecordTooltip: supprimer cet enregistrement ou le mettre à la corbeille

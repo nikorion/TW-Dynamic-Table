@@ -1,0 +1,13 @@
+tags: $:/tags/nk-dyntable/HeaderTemplate
+nk-dyntable-column-list: nk-expand
+title: $:/plugins/nikorion/dyntable/templates/header/nk-expand
+type: text/vnd.tiddlywiki
+
+\procedure collapse-all-expanded() <$action-setfield $tiddler=<<tempTableExpand>> text=""/>
+<th class="nk-dyntable-svg">
+	<%if [<tempTableExpand>indexes[]limit[1]] %>
+		<$button class="tc-btn-invisible" tooltip=<<dyntable-lingo-text "Tables/Expand/CollapseAllTooltip">> aria-label=<<dyntable-lingo-text "Tables/Expand/CollapseAllTooltip">> actions=<<collapse-all-expanded>> >
+			{{$:/core/images/fold-button}}
+		</$button>
+	<%endif%>
+</th>

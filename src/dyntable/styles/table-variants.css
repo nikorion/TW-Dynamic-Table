@@ -45,8 +45,8 @@
 }
 
 /* Table hover (background on mouse over) */
-/* Neutral translucent grey: no forced text colour, so the status colours of task rows
-   (done green, dropped grey) survive the hover, and it reads on light and dark themes alike. */
+/* Neutral translucent grey: no forced text colour, so the row tones (nk-dyntable-row-success green,
+   nk-dyntable-row-muted grey: styles/row-tones) survive the hover, and it reads on light and dark themes alike. */
 .table-hover tbody tr:hover {
   background-color: rgba(128, 128, 128, 0.18);
 }
@@ -179,12 +179,12 @@ table.table-sides tbody tr > :first-child { border-left: 1px solid #dddddd; }
 table.table-sides tbody tr > :last-child { border-right: 1px solid #dddddd; }
 
 /* table-lines also separates the footer rows (calculations, pagination) from one another;
-   the selector is specific enough to beat .tbldyn-footer tr td { border: none } */
+   the selector is specific enough to beat .nk-dyntable-footer tr td { border: none } */
 table.table-lines tfoot tr:not(:last-child) > td { border-bottom: 1px solid #dddddd; }
 
 /* pagination row inside a coloured footer: inherit the tfoot-* colours instead of the palette's
    header background / foreground (light select on a dark footer) */
-table[class*="tfoot-"] .tbldyn-page-footer select { background-color: transparent; color: inherit; }
-table[class*="tfoot-"] .tbldyn-page-footer select option { color: initial; }
-table[class*="tfoot-"] .tbldyn-page-footer button { color: inherit; }
-table[class*="tfoot-"] .tbldyn-page-footer button svg { fill: currentColor; }
+table[class*="tfoot-"] .nk-dyntable-page-footer select { background-color: transparent; color: inherit; }
+table[class*="tfoot-"] .nk-dyntable-page-footer select option { color: initial; }
+table[class*="tfoot-"] .nk-dyntable-page-footer button { color: inherit; }
+table[class*="tfoot-"] .nk-dyntable-page-footer button svg { fill: currentColor; }

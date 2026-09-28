@@ -1,5 +1,5 @@
-tags: $:/tags/nk-Table/BodyTemplate
-tbl-column-list: color
+tags: $:/tags/nk-dyntable/BodyTemplate
+nk-dyntable-column-list: color
 title: $:/plugins/nikorion/dyntable/templates/body/color
 type: text/vnd.tiddlywiki
 
@@ -13,7 +13,7 @@ type: text/vnd.tiddlywiki
 \procedure show-cell-locked()  <span class=""><<show-cell>></span>
 \procedure edit-cell() <$edit-text tag=input type=color tiddler=<<currentRecord>> field=<<currentColumn>>/>
 
-<td class="tbldyn-cell-centered">
+<td class="nk-dyntable-cell-centered">
 <%if [<tempTableEdit>is[missing]] :or[<tempTableEdit>getindex[mode]!match[edit]] %>
 <<show-cell>>
 <%elseif [<tempTableSort>getindex[sortIndex]match<currentColumn>] %><!--check if the current column is not selected for sorting-->

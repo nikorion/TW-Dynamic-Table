@@ -1,0 +1,8 @@
+tags: $:/tags/nk-dyntable/HeaderTemplate
+nk-dyntable-column-list: nk-delete
+title: $:/plugins/nikorion/dyntable/templates/header/nk-delete
+type: text/vnd.tiddlywiki
+
+<%if [<tempTableEdit>getindex[mode]match[edit]] %>
+	<th class="nk-dyntable-svg"></th>
+<%endif%>

@@ -1,8 +1,0 @@
-tags: $:/tags/nk-Table/FooterTemplate
-tbl-column-list: tbl-delete
-title: $:/plugins/nikorion/dyntable/templates/footer/tbl-delete
-type: text/vnd.tiddlywiki
-
-<%if [<tempTableEdit>getindex[mode]match[edit]] %>
-<td></td>
-<%endif%>

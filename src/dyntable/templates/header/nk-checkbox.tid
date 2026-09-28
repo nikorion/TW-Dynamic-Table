@@ -1,0 +1,6 @@
+tags: $:/tags/nk-dyntable/HeaderTemplate
+nk-dyntable-column-list: nk-checkbox
+title: $:/plugins/nikorion/dyntable/templates/header/nk-checkbox
+type: text/vnd.tiddlywiki
+
+<th class="nk-dyntable-svg"></th>

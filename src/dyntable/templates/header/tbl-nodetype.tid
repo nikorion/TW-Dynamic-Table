@@ -1,9 +1,0 @@
-tags: $:/tags/nk-Table/HeaderTemplate
-tbl-column-list: tbl-linktype tbl-nodetype
-title: $:/plugins/nikorion/dyntable/templates/header/tbl-nodetype
-type: text/vnd.tiddlywiki
-
-<th class="tbldyn-default-cursore"><<table-lingo "Tables/NodeType/Header">></th>
-<!--
-tb-nodetype is not sortable not editable
--->

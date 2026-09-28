@@ -1,0 +1,76 @@
+title: $:/plugins/nikorion/dyntable/segments/nk-dyntable-tbody
+type: text/vnd.tiddlywiki
+
+<!-- A record with no value sorts below every value: an empty key is the lowest string and date; for a numeric sort, the lowest safe integer. -->
+\function nk-dyntable-empty-sort-key() [<sortType>match[number]] [<sortType>match[integer]] +[then[-9007199254740991]]
+\function tableFilter()   "[subfilter<inputFilter>]:sort:$(sortType)$:$(sortFlag)$[$(getType)$<sortIndex>else<nk-dyntable-empty-sort-key>]" :map[substitute[]]
+\function tableFilter_with_pagination(thisTableFilter)    [subfilter<thisTableFilter>first<high>] -[subfilter<thisTableFilter>first<low>]
+
+\procedure generate-table-body-rows()
+<$let getType={{{ [<dataType>match[field]then[get]else[getindex]] }}}><!-- get a field or get an index -->
+<$list filter="[<pagination>match[yes]] :then[function[tableFilter_with_pagination],<tableFilter>] :else[subfilter<tableFilter>]" variable="currentRecord">
+<<display-one-record>>
+</$list>
+</$let>
+\end generate-table-body-rows
+
+\procedure display-expanded-record()
+<td colspan=<<columnsCount>> class="nk-dyntable-expanded-record">
+<$tiddler tiddler=<<currentRecord>> >
+	<!-- in edit mode select between two editors: simple textbox or TW main editor e.g. codemirror -->
+	<%if [<tempTableEdit>getindex[mode]match[edit]] %>
+		<%if [[$:/config/nikorion/dyntable/editor-type]get[text]match[main-editor]] %><!-- use main editor -->
+			<div class="nk-dyntable-maineditor">
+				{{||$:/core/ui/EditTemplate/body}}
+			</div>
+		<%else%><!-- use simple text-edit area -->
+			<div>
+			<$edit-text class="nk-dyntable-inpt-edit" tiddler=<<currentRecord>> field="text" tag=textarea/>
+			</div>
+		<%endif%>
+	<%else%>
+		{{||$:/core/ui/ViewTemplate/body}}
+	<%endif%>
+</$tiddler>
+</td>
+\end display-expanded-record
+
+<!-- A body template is picked by name (its `nk-dyntable-column-list` names the column), else by filter (its
+  `nk-dyntable-column-filter`, evaluated with currentColumn, returns something: how another plugin claims the
+  columns it knows, by their data rather than their name), else the default one.
+
+  Row classes: each tiddler tagged $:/tags/nk-dyntable/RowClassFilter holds a filter, evaluated with
+  currentRecord, whose results are added to the row's classes — all of them, not the first one, unlike
+  the core's TiddlerColourFilter. The plugin ships one (rows/done: a record tagged `Done` reads as done);
+  styles/row-tones styles the classes meant for them, `nk-dyntable-row-success` and `nk-dyntable-row-muted`. -->
+\procedure display-one-record()
+\function nk-dyntable-row-class() [all[shadows+tiddlers]tag[$:/tags/nk-dyntable/RowClassFilter]!is[draft]get[text]] :map:flat[subfilter<currentTiddler>] +[!is[blank]each:value[]join[ ]]
+<tr class=<<nk-dyntable-row-class>> >
+<$list filter=<<columnFilter>> variable=currentColumn>
+<$set name="bodyLookup"
+  filter="[all[tiddlers+shadows]tag[$:/tags/nk-dyntable/BodyTemplate]!is[draft]contains:nk-dyntable-column-list<currentColumn>]
+          +[limit[1]get[title]]"
+  value=<<bodyLookup>>
+  emptyValue={{{ [all[tiddlers+shadows]tag[$:/tags/nk-dyntable/BodyTemplate]!is[draft]has[nk-dyntable-column-filter]] :filter[subfilter{!!nk-dyntable-column-filter}] +[limit[1]] :else[[$:/plugins/nikorion/dyntable/templates/body/default]] }}}>
+<$transclude tiddler=<<bodyLookup>> field="text" mode="inline"/>
+</$set>
+</$list>
+</tr>
+<!-- reveal expanded record-->
+<%if [<tempTableExpand>getindex<currentRecord>match[show]] %>
+<tr><<display-expanded-record>></tr>
+<%endif%>
+\end display-one-record
+
+
+<!-- setup pagination variables -->
+<$let total-entries=    {{{ [subfilter<inputFilter>count[]]                      }}}
+	  raw-page=         {{{ [<pageStateTiddler>get[text]] ~[[1]]                 }}} 
+	  entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[$:/config/nikorion/dyntable/entries-per-page]get[text]] ~[[25]] }}}
+	  page-count=       {{{ [<total-entries>divide<entries-per-page>ceil[]max[1]] }}}
+	  page-number=      {{{ [<raw-page>compare:number:gt<page-count>then<page-count>else<raw-page>] }}}
+	  low=              {{{ [<page-number>subtract[1]multiply<entries-per-page>] }}}  
+	  high=             {{{ [<page-number>multiply<entries-per-page>]            }}}
+>	 
+<<generate-table-body-rows>>
+</$let>

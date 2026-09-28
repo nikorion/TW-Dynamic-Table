@@ -15,17 +15,8 @@ Tables/Column/creator: Creator
 Tables/Column/modifier: Modifier
 Tables/Column/color: Colour
 Tables/Column/email: Email
-Tables/Column/priority: Priority
-Tables/Column/due-date: Due date
 
 Tables/Format/Date: YYYY.0MM.0DD
-
-Tables/Priority/very-high: very high
-Tables/Priority/high: high
-Tables/Priority/normal: normal
-Tables/Priority/low: low
-Tables/Priority/very-low: very low
-Tables/Priority/no-priority: no priority
 
 Tables/NodeType/Header: Node
 Tables/NodeType/link: link
@@ -51,6 +42,7 @@ Tables/Rename/NameLabel: new title
 Tables/Rename/Confirm: rename
 Tables/Rename/Cancel: cancel
 Tables/Rename/ExistsWarning: a tiddler with this title already exists, choose another one
+Tables/Title/CaptionTooltip: actual title:
 Tables/Checkbox/RecordTooltip: mark this record as done
 
 Tables/Delete/RecordTooltip: delete this record or move it to trash

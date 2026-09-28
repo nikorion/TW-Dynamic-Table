@@ -1,0 +1,37 @@
+tags: $:/tags/nk-dyntable/Procedure
+title: $:/plugins/nikorion/dyntable/procedures/nk-dyntable-warning-message
+type: text/vnd.tiddlywiki
+
+\function mixedtype.criteria() [subfilter<inputFilter>!type[application/x-tiddler-dictionary]!type[application/json]]
+
+\procedure show_tiddler_types()
+<div style="text-align:left">
+<br><<dyntable-lingo "Tables/Warning/WrongTypes">>
+<ul>
+<$list filter="[mixedtype.criteria[]]" >
+<li><$link/>&nbsp;(<<dyntable-lingo "Tables/Warning/TypeLabel">>: <$view field=type/>)</li>
+</$list>
+</ul>
+</div>
+\end show_tiddler_types
+
+\procedure dismissButton()
+<$button class="tc-btn-invisible tc-tiddlylink" style="fill:white;" tooltip=<<dyntable-lingo-text "Tables/Warning/DismissTooltip">>>
+{{$:/core/images/close-button}}
+<$action-setfield $tiddler=<<stateWarningMsg>> text={{{ [mixedtype.criteria[]format:titlelist[]join[ ]] }}}/>
+</$button>
+\end dismissButton
+
+\procedure check_tiddlers_type_for_table_from_indexes()
+<%if [<dataType>match[index]] [<editButton>match[yes]] :and[count[]match[2]] %><!-- only table from data tiddlers and editable-->
+	<!-- dismissing stores the offending titles; the alert re-arms as soon as a NEW one appears -->
+	<%if [mixedtype.criteria[]] -[<stateWarningMsg>get[text]enlist-input[]] +[limit[1]] %>
+		<tr class="nk-dyntable-delete-confirm">
+			<th colspan=<<columnsCount>> >
+				<<dyntable-lingo "Tables/Warning/MixedTypes">>&nbsp;<<dismissButton>>
+				<<show_tiddler_types>>
+			</th>
+		</tr>
+	<%endif%>
+<%endif%>
+\end check_tiddlers_type_for_table_from_indexes

@@ -8,8 +8,14 @@ Affiche un tableau HTML éditable, triable et paginable à partir d'un filtre �
 ! Utilisation
 
 ```
-<<dyntable filter:"[tag[task]]" fields:"title status priority due-date"/>>
+<<dyntable filter:"[tag[task]]" fields:"title status tags modified"/>>
 ```
+
+! La colonne titre
+
+Un enregistrement qui a un champ `caption` — le champ du core que les onglets et les tables des matières affichent déjà à la place du titre — apparaît dans la colonne `title` sous ce caption, rendu en wikitext comme celui d'un onglet. Un caption peut donc être traduit (un appel de macro qui donne le texte dans la langue du wiki), alors que le titre reste le même dans toutes les langues. Son survol donne le titre réel (« titre réel : … »). Un enregistrement sans caption affiche son titre.
+
+Le caption ne change que l'affichage : le lien ouvre toujours l'enregistrement, la colonne trie toujours sur le titre, et le crayon (mode édition) renomme le tiddler lui-même — son titre, jamais son caption. Le caption s'édite comme tout autre champ, dans une colonne `caption` ou dans l'éditeur du tiddler.
 
 ! Paramètres
 
@@ -17,7 +23,7 @@ Affiche un tableau HTML éditable, triable et paginable à partir d'un filtre �
 |`filter` | |le filtre source — une ligne par tiddler correspondant (obligatoire) |
 |`fields` |`""` |noms de champs séparés par des espaces, une colonne chacun |
 |`indexes` |`""` |noms d'index de data-tiddler séparés par des espaces, une colonne chacun (à la place de `fields` quand la source est un data-tiddler — donner les deux, ou aucun, affiche une erreur) |
-|`sortType` |`"string"` |type de comparaison utilisé lors du tri par clic sur l'en-tête (`string`, `number`, `date`, …) |
+|`sortType` |`"string"` |type de comparaison utilisé lors du tri par clic sur l'en-tête (`string`, `number`, `date`, …) ; les enregistrements sans valeur se placent sous toutes les valeurs : en tête, en fin une fois le tri inversé |
 |`caption` |`""` |wikitext rendu comme légende du tableau |
 |`class` |`""` |classe(s) CSS appliquée(s) à l'élément `<table>` |
 |`footer` |`""` |lignes de pied calculées, déclarées par une liste séparée par des espaces de `calcul[:décimales][@colonnes]` — voir ''Calculs de pied de tableau'' plus bas |
@@ -58,17 +64,19 @@ La valeur étant une simple chaîne, une définition de pied se réutilise comme
 
 ! Templates de colonne
 
-Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/nk-Table/HeaderTemplate`, `$:/tags/nk-Table/BodyTemplate` et `$:/tags/nk-Table/FooterTemplate`, sélectionnés via leur champ `tbl-column-list` ; un template de corps peut porter à la place un `tbl-column-filter`, filtre évalué avec `currentColumn` qui retient le template dès qu'il renvoie quelque chose. Sinon, `templates/header|body|footer/default` s'applique. Les templates fournis couvrent `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, les champs de gestion de tâches `priority`, `status`, `due-date`, les colonnes d'action `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype` — et chaque champ de l'ontologie kms (plus bas). Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `tbl-column-list`.
+Le rendu d'une colonne est résolu par nom de champ/index parmi les tiddlers taggés `$:/tags/nk-dyntable/HeaderTemplate`, `$:/tags/nk-dyntable/BodyTemplate` et `$:/tags/nk-dyntable/FooterTemplate`, sélectionnés via leur champ `nk-dyntable-column-list` ; un template de corps peut porter à la place un `nk-dyntable-column-filter`, filtre évalué avec `currentColumn` qui retient le template dès qu'il renvoie quelque chose. Sinon, `templates/header|body|footer/default` s'applique. Les templates fournis couvrent `title` (voir //La colonne titre//), `type`, `tags`, `color`, `email`, `created`/`modified`, et les colonnes d'action `nk-checkbox`, `nk-clone`, `nk-delete`, `nk-expand`, `nk-nodetype`/`nk-linktype`. Pour en ajouter un, tagger un tiddler avec le tag de template correspondant et un champ `nk-dyntable-column-list`.
 
-Chaque champ du plugin [[KMS Ontology|https://github.com/nikorion/TW-KMS-Ontology]] (`role`, `maturity`, `lifecycle`, `needs`, `status`, `project`, `epistemology`, `disciplines`, `technology`, `equipment`, et tout champ qu'il gagnerait plus tard) reçoit une colonne tirée de sa définition — son en-tête est le libellé du champ, ses valeurs s'affichent avec leurs icônes et libellés, et la valeur stockée reste le slug brut. Un champ à vocabulaire montre l'icône et le libellé de sa valeur et s'édite par une liste déroulante ; s'il a une //valeur vide// (`maturity` : ébauche, `lifecycle` : actif, `status` : aucun), celle-ci remplace l'option //Sélectionner…//, et la choisir vide le champ. Un champ liste à vocabulaire (`needs`) reçoit une case à cocher par valeur. Un champ liste (`disciplines`, `technology`, `equipment`) montre ses valeurs en pastilles et, avec [[Base Fields|https://github.com/nikorion/TW-Base-Fields]] installé, s'édite avec son sélecteur (pastilles et saisie complétée par les valeurs déjà utilisées dans ce champ) — en texte sinon. Un champ à valeur libre (`project`, `epistemology`) est un simple texte éditable. Sans KMS Ontology, ces colonnes affichent la valeur telle qu'elle est stockée (ex. `rough`, `verify split`) et l'éditent en texte libre. La ligne d'un enregistrement dont le `status` vaut `done` reçoit la classe `tbl-record-complete` (texte en vert pâle, adapté au thème ; la colonne titre garde ses couleurs normales). `dropped` grise le texte de la ligne ; `paused` n'a aucun style mais garde la classe `tbl-record-paused`.
+Un enregistrement tagué `Done` — ce que pose la colonne `nk-checkbox` — se lit comme terminé : sa ligne reçoit la classe `nk-dyntable-row-success` (texte en vert pâle, adapté au thème ; la colonne titre garde ses couleurs normales). Les classes d'une ligne viennent des tiddlers taggés `$:/tags/nk-dyntable/RowClassFilter`, qui portent chacun un filtre évalué avec `currentRecord`, dont tous les résultats s'ajoutent ; `nk-dyntable-row-muted` grise le texte d'une ligne.
 
-Pour masquer certains tags de la colonne `tags`, définir autour du tableau une variable `sv-exclude-tags` contenant un filtre, ex. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<dyntable ...>></$let>`.
+Un autre plugin peut apprendre au tableau des champs qui lui sont propres, sans que Dynamic Table les connaisse : par un template de corps à `nk-dyntable-column-filter`, un filtre de classes de ligne, et `$:/tags/nk-dyntable/ColumnLabelFilter` pour l'en-tête de colonne — un filtre évalué avec `currentColumn`, le premier qui renvoie quelque chose donnant le libellé. `$:/tags/nk-dyntable/ColumnHintFilter` fonctionne de même pour l'info-bulle de l'en-tête. [[PKM Fields|https://github.com/nikorion/TW-PKM-Fields]] se sert des trois pour dessiner les champs du schéma pkm : icônes, libellés, listes déroulantes, pastilles, couleur de ligne.
+
+Pour masquer certains tags de la colonne `tags`, définir autour du tableau une variable `nk-exclude-tags` contenant un filtre, ex. `<$let nk-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<dyntable ...>></$let>`.
 
 ! Localisation
 
-Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé de l'ontologie kms pour l'un de ses champs, sinon le libellé trouvé sous `$:/plugins/nikorion/dyntable/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `due-date` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/dyntable/language/fr-FR/Tables/Column/budget` contenant `Budget`.
+Libellés, infobulles et messages suivent la langue du wiki (`en-GB` et `fr-FR` fournis, repli sur `en-GB`). Les en-têtes de colonne affichent le libellé que donne un filtre de libellé de colonne (voir plus haut), sinon le libellé trouvé sous `$:/plugins/nikorion/dyntable/language/<lang>/Tables/Column/<nom>` — fourni pour `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email` — et sinon le nom brut du champ/index : `tags` et vos propres champs s'affichent tels quels. Pour nommer une colonne personnalisée, créer un tiddler portant ce titre, ex. `$:/plugins/nikorion/dyntable/language/fr-FR/Tables/Column/budget` contenant `Budget`.
 
-Les valeurs de priorité et les types de relation sont traduits de la même façon (`Tables/Priority/<valeur>`, `Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Les valeurs des champs de l'ontologie kms, elles, sont traduites par ce plugin (voir plus haut). Toute cellule contenant une date TiddlyWiki (17 chiffres, ex. `created`, `modified` ou un champ perso) ou une date ISO (`2026-09-20`, telle que saisie dans un champ date) s'affiche au [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`, quel que soit le nom de la colonne ; l'édition montre toujours la valeur stockée.
+Les types de relation sont traduits de la même façon (`Tables/NodeType/<type>`) ; les valeurs stockées dans les champs restent canoniques, changer de langue ne modifie donc jamais vos données. Toute cellule contenant une date TiddlyWiki (17 chiffres, ex. `created`, `modified` ou un champ perso) ou une date ISO (`2026-09-20`, telle que saisie dans un champ date) s'affiche au [[format de date|https://tiddlywiki.com/#DateFormat]] de `Tables/Format/Date`, quel que soit le nom de la colonne ; l'édition montre toujours la valeur stockée.
 
 ! Réglages
 
@@ -108,9 +116,9 @@ Des variantes spécifiques aux tableaux sont livrées directement dans ce plugin
 
 ! Compatibilité
 
-Installable en même temps que Shiraz : les procédures internes sont taggées `$:/tags/nk-Table/*` (espace de noms propre, importé via `[all[shadows+tiddlers]tag[...]]`), distinct des tags `$:/tags/Table/*` de Shiraz — plus de tags partagés, donc plus de définitions dupliquées/conflictuelles, en plus du nom de macro (`<<dyntable>>` contre `<<table-dynamic>>` chez Shiraz), des titres de tiddlers, classes CSS et espace de noms d'état/config déjà séparés : `$:/config/nikorion/dyntable/…`, `$:/state/nikorion/dyntable`, `$:/keepstate/nikorion/dyntable`. Installer les deux permet à `class=` de `<<dyntable>>` de profiter des classes utilitaires de Shiraz (style Bootstrap).
+Installable en même temps que Shiraz : les procédures internes sont taggées `$:/tags/nk-dyntable/*` (espace de noms propre, importé via `[all[shadows+tiddlers]tag[...]]`), distinct des tags `$:/tags/Table/*` de Shiraz — plus de tags partagés, donc plus de définitions dupliquées/conflictuelles, en plus du nom de macro (`<<dyntable>>` contre `<<table-dynamic>>` chez Shiraz), des titres de tiddlers, classes CSS et espace de noms d'état/config déjà séparés : `$:/config/nikorion/dyntable/…`, `$:/state/nikorion/dyntable`, `$:/keepstate/nikorion/dyntable`. Installer les deux permet à `class=` de `<<dyntable>>` de profiter des classes utilitaires de Shiraz (style Bootstrap).
 
-Plugins optionnels utilisés s'ils sont présents, ignorés sinon : [[TW-Math|https://github.com/nikorion/TW-Math]] (les cellules numériques et les valeurs calculées du `footer` passent par `<$math>` et suivent donc ses réglages : KaTeX, séparateur décimal, notation, précision — 6 décimales max par défaut), [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (la suppression déplace les enregistrements à la corbeille au lieu de les supprimer définitivement), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (sélecteur de date sur les colonnes `due-date`).
+Plugins optionnels utilisés s'ils sont présents, ignorés sinon : [[TW-Math|https://github.com/nikorion/TW-Math]] (les cellules numériques et les valeurs calculées du `footer` passent par `<$math>` et suivent donc ses réglages : KaTeX, séparateur décimal, notation, précision — 6 décimales max par défaut), [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (la suppression déplace les enregistrements à la corbeille au lieu de les supprimer définitivement).
 
 ! Prérequis
 

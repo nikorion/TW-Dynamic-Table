@@ -8,8 +8,14 @@ Renders an editable, sortable, paginated HTML table from a filter — one row pe
 ! Usage
 
 ```
-<<dyntable filter:"[tag[task]]" fields:"title status priority due-date"/>>
+<<dyntable filter:"[tag[task]]" fields:"title status tags modified"/>>
 ```
+
+! The title column
+
+A record with a `caption` field — the core field that tabs and tables of contents already show instead of the title — is shown in the `title` column by that caption, rendered as wikitext like a tab's. A caption can therefore be translated (a macro call that gives the text in the wiki's language), while the title stays the same in every language. Hovering it gives the actual title ("actual title: …"). A record without a caption shows its title.
+
+The caption only changes what is shown: the link still opens the record, the column still sorts on the title, and the pencil (edit mode) renames the tiddler itself — its title, never its caption. Edit the caption as any other field, in a `caption` column or in the tiddler editor.
 
 ! Parameters
 
@@ -17,7 +23,7 @@ Renders an editable, sortable, paginated HTML table from a filter — one row pe
 |`filter` | |the source filter — one row per matching tiddler (required) |
 |`fields` |`""` |space-separated field names, one column each |
 |`indexes` |`""` |space-separated data-tiddler index names, one column each (use instead of `fields` when the source is a data tiddler — giving both, or neither, shows an error) |
-|`sortType` |`"string"` |sort comparison used when a column header is clicked (`string`, `number`, `date`, …) |
+|`sortType` |`"string"` |sort comparison used when a column header is clicked (`string`, `number`, `date`, …); records with no value sort below every value: first, last once reversed |
 |`caption` |`""` |wikitext rendered as the table caption |
 |`class` |`""` |CSS class(es) applied to the `<table>` element |
 |`footer` |`""` |computed footer rows, declared as a space-separated list of `calc[:decimals][@columns]` — see ''Footer calculations'' below |
@@ -58,17 +64,19 @@ As the value is a plain string, a footer definition can be reused like any other
 
 ! Column templates
 
-A column's rendering is looked up by field/index name against tiddlers tagged `$:/tags/nk-Table/HeaderTemplate`, `$:/tags/nk-Table/BodyTemplate` and `$:/tags/nk-Table/FooterTemplate`, matched on their `tbl-column-list` field; a body template can instead carry a `tbl-column-filter`, a filter evaluated with `currentColumn` that picks the template when it returns something. Otherwise `templates/header|body|footer/default` applies. Built-in templates cover `title`, `type`, `tags`, `color`, `email`, `created`/`modified`, and the task-manager fields `priority`, `status`, `due-date`, plus action columns `tbl-checkbox`, `tbl-clone`, `tbl-delete`, `tbl-expand`, `tbl-nodetype`/`tbl-linktype` — and every field of the kms ontology (below). Add your own by tagging a tiddler with the matching template tag and a `tbl-column-list` field.
+A column's rendering is looked up by field/index name against tiddlers tagged `$:/tags/nk-dyntable/HeaderTemplate`, `$:/tags/nk-dyntable/BodyTemplate` and `$:/tags/nk-dyntable/FooterTemplate`, matched on their `nk-dyntable-column-list` field; a body template can instead carry a `nk-dyntable-column-filter`, a filter evaluated with `currentColumn` that picks the template when it returns something. Otherwise `templates/header|body|footer/default` applies. Built-in templates cover `title` (see //The title column//), `type`, `tags`, `color`, `email`, `created`/`modified`, plus action columns `nk-checkbox`, `nk-clone`, `nk-delete`, `nk-expand`, `nk-nodetype`/`nk-linktype`. Add your own by tagging a tiddler with the matching template tag and a `nk-dyntable-column-list` field.
 
-Every field of the [[KMS Ontology|https://github.com/nikorion/TW-KMS-Ontology]] plugin (`role`, `maturity`, `lifecycle`, `needs`, `status`, `project`, `epistemology`, `disciplines`, `technology`, `equipment`, and any field it gains later) gets a column drawn from its definition — its header is the field's label, its values show with their icons and labels, and the stored value stays the bare slug. A vocabulary field shows its value's icon and label and is edited with a dropdown; one with a //blank value// (`maturity`: stub, `lifecycle`: active, `status`: none) offers that value in place of the //Select…// placeholder, and choosing it clears the field. A vocabulary list field (`needs`) gets one checkbox per value. A list field (`disciplines`, `technology`, `equipment`) shows its values as pills and, with [[Base Fields|https://github.com/nikorion/TW-Base-Fields]] installed, is edited with its picker (pills plus an input completing on the values already used in that field) — as text otherwise. A free-value field (`project`, `epistemology`) is plain editable text. Without KMS Ontology, these columns show the value as stored (e.g. `rough`, `verify split`) and edit it as free text. A record whose `status` is `done` gets the `tbl-record-complete` class on its row (text coloured pale green, theme-aware; the title column keeps its normal colours). `dropped` greys the row's text; `paused` gets no styling but keeps the `tbl-record-paused` class.
+A record tagged `Done` — what the `nk-checkbox` column sets — reads as done: its row gets the `nk-dyntable-row-success` class (text coloured pale green, theme-aware; the title column keeps its normal colours). A row's classes come from the tiddlers tagged `$:/tags/nk-dyntable/RowClassFilter`, each holding a filter evaluated with `currentRecord`, whose results are all added; `nk-dyntable-row-muted` greys a row's text.
 
-To hide some tags from the `tags` column, define an `sv-exclude-tags` variable holding a filter around the table, e.g. `<$let sv-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<dyntable ...>></$let>`.
+Another plugin can teach the table about fields of its own, without Dynamic Table knowing them, through a body template with a `nk-dyntable-column-filter`, a row-class filter, and `$:/tags/nk-dyntable/ColumnLabelFilter` for the column header: a filter evaluated with `currentColumn`, the first one that returns something giving the label. `$:/tags/nk-dyntable/ColumnHintFilter` works the same way for the header's tooltip. [[PKM Fields|https://github.com/nikorion/TW-PKM-Fields]] uses all three to draw the fields of the pkm schema — icons, labels, dropdowns, pills, row colour.
+
+To hide some tags from the `tags` column, define an `nk-exclude-tags` variable holding a filter around the table, e.g. `<$let nk-exclude-tags="[[Demo Task]] [prefix[$:/]]"><<dyntable ...>></$let>`.
 
 ! Localisation
 
-Every label, tooltip and message follows the wiki language (`en-GB` and `fr-FR` shipped, falling back to `en-GB`). Column headers show the kms ontology's label for one of its fields, else the label found under `$:/plugins/nikorion/dyntable/language/<lang>/Tables/Column/<name>` — shipped for `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email`, `priority`, `due-date` — and otherwise the raw field/index name: `tags` and your own fields display as is. To label a custom column, create a tiddler with that title, e.g. `$:/plugins/nikorion/dyntable/language/fr-FR/Tables/Column/budget` containing `Budget`.
+Every label, tooltip and message follows the wiki language (`en-GB` and `fr-FR` shipped, falling back to `en-GB`). Column headers show the label a column-label filter gives (see above), else the label found under `$:/plugins/nikorion/dyntable/language/<lang>/Tables/Column/<name>` — shipped for `title`, `text`, `caption`, `type`, `created`, `modified`, `creator`, `modifier`, `color`, `email` — and otherwise the raw field/index name: `tags` and your own fields display as is. To label a custom column, create a tiddler with that title, e.g. `$:/plugins/nikorion/dyntable/language/fr-FR/Tables/Column/budget` containing `Budget`.
 
-Priority values and link types are translated the same way (`Tables/Priority/<value>`, `Tables/NodeType/<type>`); the values stored in the fields stay canonical, so switching the language never alters your data. The values of the kms ontology's fields are translated by that plugin instead (see above). Any cell holding a TiddlyWiki date (17 digits, e.g. `created`, `modified` or a custom field) or an ISO date (`2026-09-20`, as typed in a date input) is shown with the [[date format|https://tiddlywiki.com/#DateFormat]] in `Tables/Format/Date`, whatever the column name; editing still shows the stored value.
+Link types are translated the same way (`Tables/NodeType/<type>`); the values stored in the fields stay canonical, so switching the language never alters your data. Any cell holding a TiddlyWiki date (17 digits, e.g. `created`, `modified` or a custom field) or an ISO date (`2026-09-20`, as typed in a date input) is shown with the [[date format|https://tiddlywiki.com/#DateFormat]] in `Tables/Format/Date`, whatever the column name; editing still shows the stored value.
 
 ! Settings
 
@@ -108,9 +116,9 @@ Table-specific variants ship built into this plugin (no dependency), ported from
 
 ! Compatibility
 
-Safe to install alongside Shiraz: internal procedures are tagged `$:/tags/nk-Table/*` (own namespace, imported via `[all[shadows+tiddlers]tag[...]]`), separate from Shiraz's own `$:/tags/Table/*` — no more shared tags, so no duplicate/conflicting definitions, on top of the already-separate macro name (`<<dyntable>>` vs. Shiraz's `<<table-dynamic>>`), tiddler titles, CSS classes and state/config namespace (`$:/config/nikorion/dyntable/…`, `$:/state/nikorion/dyntable`, `$:/keepstate/nikorion/dyntable`). Installing both lets `class=` on `<<dyntable>>` pick up Shiraz's Bootstrap-style utility classes.
+Safe to install alongside Shiraz: internal procedures are tagged `$:/tags/nk-dyntable/*` (own namespace, imported via `[all[shadows+tiddlers]tag[...]]`), separate from Shiraz's own `$:/tags/Table/*` — no more shared tags, so no duplicate/conflicting definitions, on top of the already-separate macro name (`<<dyntable>>` vs. Shiraz's `<<table-dynamic>>`), tiddler titles, CSS classes and state/config namespace (`$:/config/nikorion/dyntable/…`, `$:/state/nikorion/dyntable`, `$:/keepstate/nikorion/dyntable`). Installing both lets `class=` on `<<dyntable>>` pick up Shiraz's Bootstrap-style utility classes.
 
-Optional plugins used if present, ignored otherwise: [[TW-Math|https://github.com/nikorion/TW-Math]] (numeric cells and computed `footer` values are rendered through `<$math>`, so they follow its settings: KaTeX, decimal separator, notation, precision — max 6 decimals by default), [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (delete moves records to trash instead of deleting permanently), [[TW-Pikaday|https://github.com/kookma/TW-Pikaday]] (date picker on `due-date` columns).
+Optional plugins used if present, ignored otherwise: [[TW-Math|https://github.com/nikorion/TW-Math]] (numeric cells and computed `footer` values are rendered through `<$math>`, so they follow its settings: KaTeX, decimal separator, notation, precision — max 6 decimals by default), [[TW-Trashbin|https://github.com/kookma/TW-Trashbin]] (delete moves records to trash instead of deleting permanently).
 
 ! Requirements
 

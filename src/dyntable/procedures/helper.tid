@@ -2,4 +2,4 @@ tags: $:/tags/Global
 title: $:/plugins/nikorion/dyntable/procedures/helper
 type: text/vnd.tiddlywiki
 
-\function table-color-scheme() [{$:/palette}get[color-scheme]]
+\function nk-dyntable-color-scheme() [{$:/palette}get[color-scheme]]

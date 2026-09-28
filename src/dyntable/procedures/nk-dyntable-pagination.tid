@@ -1,0 +1,62 @@
+tags: $:/tags/nk-dyntable/Procedure
+title: $:/plugins/nikorion/dyntable/procedures/nk-dyntable-pagination
+type: text/vnd.tiddlywiki
+
+\procedure prev-button()
+<!-- create previous page button --->
+<$list filter="[<page-number>compare:number:lt[2]then[yes]else[no]]" variable=state>
+<$button disabled=<<state>> class="nk-dyntable-page-prev tc-btn-invisible">
+{{$:/core/images/chevron-left}}&nbsp;<strong><<dyntable-lingo "Tables/Pagination/Prev">></strong>
+<$action-setfield $tiddler=<<pageStateTiddler>> text={{{ [<page-number>subtract[1]max[1]] }}}/>
+</$button>
+</$list>
+\end prev-button
+
+\procedure next-button()
+<!-- create next page button --->
+<$list filter="[<high>compare:number:gteq<total-entries>then[yes]else[no]]" variable=state>
+<$button disabled=<<state>> class="nk-dyntable-page-next tc-btn-invisible">
+<strong><<dyntable-lingo "Tables/Pagination/Next">></strong>&nbsp;{{$:/core/images/chevron-right}}
+<$action-setfield $tiddler=<<pageStateTiddler>> text={{{ [<page-number>add[1]min<page-count>] }}}/>
+</$button>
+</$list>
+\end next-button
+
+\procedure limit-entries()
+<!-- set number of entries per page -->
+<$select tiddler=<<entryPerPageStateTiddler>> default={{$:/config/nikorion/dyntable/entries-per-page}} actions="""<$action-setfield $tiddler=<<pageStateTiddler>> text=1/>""">
+<$list filter='5 10 15 20 25 30 40 50' variable=num>
+<option value=<<num>>><<dyntable-lingo "Tables/Pagination/Limit">></option>
+</$list>
+<option value=<<total-entries>> ><<dyntable-lingo "Tables/Pagination/ShowAll">></option>
+</$select>
+\end limit-entries
+
+<!-- prev/next step from the CLAMPED page-number (segments/nk-dyntable-tbody), not from the
+  stored state: after the record count shrinks, the stored page may exceed page-count -->
+
+<!-- pagination row, rendered last in the <tfoot> (below the calculation rows). It recomputes the same
+     pagination variables as segments/nk-dyntable-tbody, which are not in scope there -->
+\procedure pagination-footer()
+<$let total-entries=    {{{ [subfilter<inputFilter>count[]]                      }}}
+	  raw-page=         {{{ [<pageStateTiddler>get[text]] ~[[1]]                 }}} 
+	  entries-per-page= {{{ [<entryPerPageStateTiddler>get[text]] ~[[$:/config/nikorion/dyntable/entries-per-page]get[text]] ~[[25]] }}}
+	  page-count=       {{{ [<total-entries>divide<entries-per-page>ceil[]max[1]] }}}
+	  page-number=      {{{ [<raw-page>compare:number:gt<page-count>then<page-count>else<raw-page>] }}}
+	  low=              {{{ [<page-number>subtract[1]multiply<entries-per-page>] }}}  
+	  high=             {{{ [<page-number>multiply<entries-per-page>]            }}}
+>	 
+<%if [<pagination>match[yes]] %>
+<tr class="nk-dyntable-page-footer">
+<td colspan=<<columnsCount>> >
+<<prev-button>>
+<$let range-from={{{ [<low>add[1]] }}}
+      range-to={{{ [<high>compare:number:lt<total-entries>then<high>else<total-entries>] }}}>
+<<dyntable-lingo "Tables/Pagination/Summary">> | <<limit-entries>>
+</$let>
+<<next-button>>
+</td>
+</tr>
+<%endif%>
+</$let>
+\end pagination-footer

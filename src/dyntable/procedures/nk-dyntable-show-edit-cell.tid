@@ -1,0 +1,45 @@
+tags: $:/tags/nk-dyntable/Procedure
+title: $:/plugins/nikorion/dyntable/procedures/nk-dyntable-show-edit-cell
+type: text/vnd.tiddlywiki
+
+\procedure show-number(value)
+	<%if [[$:/plugins/nikorion/math]!is[missing]] :filter[lookup:no[$:/config/Plugins/Disabled/]match[no]] %>
+		<$math silence="yes"><<value>></$math>
+	<%else%>
+		<$text text=<<value>>/>
+	<%endif%>
+\end show-number
+
+\procedure show-cell()
+	<$let val={{{ [<dataType>match[field]] :then[<currentRecord>get<currentColumn>] :else[<currentRecord>getindex<currentColumn>] }}}
+	      fmt=<<dyntable-lingo-text "Tables/Format/Date">>
+	      fmtUTC=`[UTC]$(fmt)$`>
+		<%if [<val>regexp[^\d{17}$]] %><!-- TW date (created, modified, custom date fields) -->
+			<$text text={{{ [<val>format:date<fmt>] }}}/>
+		<%elseif [<val>regexp[^\d{4}-\d{2}-\d{2}$]] %><!-- ISO date, as stored by <input type=date> -->
+			<$text text={{{ [<val>split[-]join[]format:date<fmtUTC>] }}}/>
+		<%elseif [<val>regexp[^-?\d+(\.\d+)?$]] %><!-- plain number: rendered by TW-Math when available -->
+			<$transclude $variable="show-number" value=<<val>>/>
+		<%elseif [<dataType>match[field]] %>
+			<$transclude tiddler=<<currentRecord>> field=<<currentColumn>> mode="inline" />
+		<%else%>
+			<$transclude tiddler=<<currentRecord>> index=<<currentColumn>> mode="inline" />
+		<%endif%>
+	</$let>
+\end show-cell
+
+\procedure edit-cell()
+	<%if [<dataType>match[field]] %>
+		<$edit-text tiddler=<<currentRecord>> field=<<currentColumn>> tag="input" class="nk-dyntable-textbox"/>
+	<%else%>
+		<$edit-text tiddler=<<currentRecord>> index=<<currentColumn>> tag="input" class="nk-dyntable-textbox"/>
+	<%endif%>
+\end edit-cell
+
+\procedure show-cell-locked()
+	<span class="nk-dyntable-locked-cell"><<show-cell>></span>
+\end show-cell-locked
+
+<!--TODO
+The show-cell-locked can be customized.
+-->

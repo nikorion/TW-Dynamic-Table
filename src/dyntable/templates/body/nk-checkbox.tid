@@ -1,0 +1,9 @@
+tags: $:/tags/nk-dyntable/BodyTemplate
+nk-dyntable-column-list: nk-checkbox
+title: $:/plugins/nikorion/dyntable/templates/body/nk-checkbox
+type: text/vnd.tiddlywiki
+
+<td class="nk-dyntable-svg" title=<<dyntable-lingo-text "Tables/Checkbox/RecordTooltip">>>
+	<$checkbox tiddler=<<currentRecord>> tag="Done"/>
+</td>
+<!-- the `Done` tag is stored data, never translated; a record carrying it reads as done (rows/done) -->

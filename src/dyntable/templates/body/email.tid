@@ -1,5 +1,5 @@
-tags: $:/tags/nk-Table/BodyTemplate
-tbl-column-list: email
+tags: $:/tags/nk-dyntable/BodyTemplate
+nk-dyntable-column-list: email
 title: $:/plugins/nikorion/dyntable/templates/body/email
 type: text/vnd.tiddlywiki
 

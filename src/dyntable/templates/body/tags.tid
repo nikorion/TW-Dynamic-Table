@@ -1,12 +1,12 @@
-tags: $:/tags/nk-Table/BodyTemplate
-tbl-column-list: tags
+tags: $:/tags/nk-dyntable/BodyTemplate
+nk-dyntable-column-list: tags
 title: $:/plugins/nikorion/dyntable/templates/body/tags
 type: text/vnd.tiddlywiki
 
-<!-- sv-exclude-tags (inherited from Shiraz, kept on purpose): optional filter variable set
+<!-- nk-exclude-tags (Shiraz's sv-exclude-tags, kept on purpose): optional filter variable set
   by the caller around the table to hide tags from this column; documented in the readme -->
 \procedure show-cell()
-<$list filter="[<currentRecord>tags[]sort[title]]  :except[subfilter<sv-exclude-tags>]">
+<$list filter="[<currentRecord>tags[]sort[title]]  :except[subfilter<nk-exclude-tags>]">
 <$transclude tiddler="$:/plugins/nikorion/dyntable/templates/body/tag-template"/>
 </$list>
 \end show-cell
@@ -16,7 +16,7 @@ type: text/vnd.tiddlywiki
 \procedure edit-cell()
 \import $:/core/ui/EditTemplate/tags
 \whitespace trim
-<div class="tbldyn-tc-edit-tags">
+<div class="nk-dyntable-tc-edit-tags">
 <$let currentTiddler=<<currentRecord>> transclusion=<<currentTiddler>> saveTiddler=<<currentRecord>> >
 <$list filter="[list[!!tags]sort[title]]" storyview="pop">
 <$macrocall $name="tag-body" colour={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerColourFilter]!is[draft]get[text]] }}} palette={{$:/palette}} icon={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerIconFilter]!is[draft]get[text]] }}} tagField="tags"/>

@@ -1,0 +1,39 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/nikorion/dyntable/styles/row-tones
+type: text/vnd.tiddlywiki
+
+\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline conditional
+
+/* Whole-row text colour, for the classes a row-class filter gives a record (see nk-dyntable-row-class() in
+   segments/nk-dyntable-tbody): nk-dyntable-row-success (done: pale green, theme-aware), nk-dyntable-row-muted (set aside: grey). */
+
+.nk-dyntable-row-success,
+.nk-dyntable-row-success svg,
+.nk-dyntable-row-success a.tc-tiddlylink {
+<%if [<nk-dyntable-color-scheme>match[dark]] %>
+color: #a5d6a7; /* pale green on dark */
+<%else%>
+color: #6fae73; /* pale green, still readable on light */
+<%endif%>
+fill: currentColor;
+}
+
+.nk-dyntable-row-muted,
+.nk-dyntable-row-muted svg,
+.nk-dyntable-row-muted a.tc-tiddlylink {
+color: #8a8a8a;
+fill: currentColor;
+}
+
+/* the title column stays normal on a done record */
+.nk-dyntable-row-success .nk-dyntable-title {
+color: <<colour foreground>>;
+}
+
+.nk-dyntable-row-success .nk-dyntable-title a.tc-tiddlylink {
+color: <<colour tiddler-link-foreground>>;
+}
+
+.nk-dyntable-row-success .nk-dyntable-title svg {
+fill: <<colour foreground>>;
+}

@@ -4,8 +4,6 @@
     "tiddlywiki/filesystem",
     "tiddlywiki/tiddlyweb",
     "nikorion/dyntable",
-    "nikorion/kms-ontology",
-    "nikorion/base-fields",
     "nikorion/plugin-info-tree",
     "nikorion/tiny-bootstrap",
     "nikorion/math",
@@ -18,7 +16,7 @@
   "languages": [
     "fr-FR"
   ],
-  "pluginPath": ["../src", "../../TW-Base-Fields/src", "../../TW-Plugin-Info-Tree/src", "../../TW-Tiny-Bootstrap/src", "../../TW-Math/src", "../../TW-Scroll-Layout/src"],
+  "pluginPath": ["../src", "../../TW-Plugin-Info-Tree/src", "../../TW-Tiny-Bootstrap/src", "../../TW-Math/src", "../../TW-Scroll-Layout/src"],
   "config": {
     "retain-original-tiddler-path": true
   },

@@ -1,0 +1,234 @@
+/* main editor toolbar settings for dynamic table */
+.nk-dyntable-maineditor .tc-editor-toolbar button svg{
+	height:0.9em;  /* make toolbar buttons smaller */
+	width:0.9em
+}
+/* make third party plugins like KaTeX button smaller */
+.nk-dyntable-maineditor .tc-editor-toolbar button .katex{
+	font-size: 0.9em;
+	line-height:1em;
+}
+
+/* edit-text box for dynamic table */
+.nk-dyntable-textbox {
+	width:100%;
+	padding-left: 5px;
+	border: none;
+}
+
+.nk-dyntable-textbox:focus {
+	outline: none;
+	border: 1px solid #5778d8;
+	background: transparent;
+}
+
+.nk-dyntable-inpt-edit { width: 100%; background-color: transparent; border: none; color: inherit;}
+
+button.nk-dyntable-sort-svg > svg { text-shadow: none; fill:#000000; height:10px; padding:0 0 2px 0; }
+
+/* a table wider than its container scrolls sideways instead of overflowing on the right */
+.nk-dyntable-container { overflow-x: auto; }
+
+/* a pill (tags, or any other plugin's `tc-tag-label`) stays one line tall, its remove button
+  included: the column widens instead */
+.nk-dyntable-container .tc-tag-label { white-space: nowrap; }
+
+/* a column heading stays on one line: the column widens instead */
+.nk-dyntable-container thead th { white-space: nowrap; }
+/* a heading with a tooltip (a column hint) says so, as a label with an explanation does */
+.nk-dyntable-container thead th button[title]:not([title=""]) { text-decoration: underline dotted; }
+
+/* a column holding pills (or a picker) is only as wide as it must be: its heading, its widest pill,
+  its picker. The pills wrap between each other rather than widen it further. A cell width sets its
+  column's preferred width in an auto table, and the column never goes below its content's
+  narrowest width; the spare room of the table goes to the other columns. Its pills are centred,
+  over any alignment set on the cell. */
+.nk-dyntable-container tbody td:has(.tc-tag-label, .tc-edit-add-tag) { width: 1px; text-align: center; }
+/* the gap between pills split on both sides of each (not all on its right), so a centred pill sits in the middle */
+.nk-dyntable-container tbody td .tc-tag-label { margin-left: 3px; margin-right: 3px; }
+
+/* a picker in a cell (the core's tag picker, or any other plugin's built on its classes): the input
+  fills the column, its arrow (and clear) buttons on its right, the add button on the line below.
+  The input never gets narrower than its own width — the core's for the tags, the one another
+  plugin gives it (e.g. sized to its placeholder, which changes with the language) — so a percentage
+  width (the core's 50%) or max-width, which a table counts as zero when sizing its columns, is dropped. */
+.nk-dyntable-container .tc-edit-add-tag { display: block; }
+.nk-dyntable-container .tc-edit-add-tag-ui {
+	display: grid;
+	grid-template-columns: minmax(max-content, 1fr);
+	grid-auto-columns: max-content;
+	align-items: center;
+	white-space: nowrap;
+}
+.nk-dyntable-container .tc-edit-add-tag-ui > * { grid-row: 1; }
+.nk-dyntable-container .tc-edit-add-tag-ui > .tc-add-tag-name { grid-column: 1; }
+.nk-dyntable-container .tc-edit-add-tag-ui > .tc-add-tag-button { grid-row: 2; grid-column: 1; justify-self: start; margin: 3px 0 0 0; }
+.nk-dyntable-container .tc-add-tag-name,
+.nk-dyntable-container .tc-add-tag-name .tc-keyboard { display: flex; }
+.nk-dyntable-container .tc-add-tag-name .tc-keyboard,
+.nk-dyntable-container td .tc-edit-add-tag .tc-add-tag-name input { flex: 1 0 auto; max-width: none; }
+.nk-dyntable-tc-edit-tags .tc-edit-add-tag .tc-add-tag-name input { width: auto; }
+
+/* a picker borrowing the core tags box (`tc-edit-tags`, as the editor's) drops its frame in a cell:
+  the cell already frames it */
+.nk-dyntable-container .tc-edit-tags { border: none; padding: 0; }
+
+.nk-dyntable-container th .tc-tiddlylink, .nk-dyntable-container th a { text-shadow: none; margin: 0 0 0 0; padding: 0 0 0 0; color:unset; font-weight: bold; }
+
+/* the vanilla theme's default table styling (table th, table td { border-top; border-left })
+  relies on border-collapse to share each row's separator with the row below, which leaves every
+  cell with a border-top but no border-bottom of its own — fine for the grid as a whole, but it
+  makes a cell's own top/bottom clearance uneven. Scoped to this table only: give every cell its
+  own border on BOTH sides, so its own box is symmetric and padding can add the same 1px on both. */
+.nk-dyntable-container tbody td { border-bottom: 1px solid #ddd; padding-top: 1px; padding-bottom: 1px; }
+
+
+/* -- pagination --*/
+.nk-dyntable-page-footer td{
+	margin: 0 0 0 0;
+	padding: 4px 7px 4px 7px;
+}
+
+.nk-dyntable-page-footer select{
+	padding:0;
+	margin:0;
+	border:none;	
+}
+
+.nk-dyntable-page-footer {
+	text-align:center;
+}
+
+.nk-dyntable-page-prev{
+	float:left;
+	margin-right:8px;
+}
+
+.nk-dyntable-page-next{
+	float:right;
+	margin-left:8px;
+}
+
+.nk-dyntable-page-footer button svg {height:0.7em;}
+.nk-dyntable-page-footer button {outline: none; line-height:normal;}
+.nk-dyntable-page-footer button:disabled {display:none;}
+
+/* format the expanded record (tiddler body) - for local customization like KaTeX numbering */
+.nk-dyntable-expanded-record{ }
+
+/* adjust the column width for date/linktype fields*/
+.nk-dyntable-col-fixedsize{
+	width:5.5rem;
+	white-space: nowrap;
+}
+/* adjust the size of column with svg icons like: nk-expand, nk-clone, nk-delete, nk-checkbox */
+.nk-dyntable-svg{
+	text-align: center;
+	width:28px;
+	min-width:28px;
+	max-width:28px;
+}
+
+/* CLONE popup (rename-on-clone) */
+.nk-dyntable-clone-popup {
+	display: flex;
+	align-items: center;
+	gap: 0.3em;
+	padding: 6px 8px;
+}
+.nk-dyntable-clone-label {
+	font-size: 0.85em;
+	opacity: 0.7;
+	white-space: nowrap;
+}
+.nk-dyntable-clone-popup input {
+	width: 10rem;
+	box-sizing: border-box;
+}
+.nk-dyntable-clone-warning {
+	color: #ff0033;
+	font-size: 0.85em;
+	white-space: normal;
+}
+.nk-dyntable-clone-warning svg {
+	fill: #ff0033;
+	height: 0.85em;
+}
+
+/* this ensure short title in small width table */
+.nk-dyntable-title{
+	max-width: 15rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/*NEW 2024.06.01 ---------------*/
+.nk-dyntable-date{
+	width:6.5rem;
+	white-space: nowrap;
+}
+
+.nk-dyntable-default-cursore{ /* for nk-linktype */
+	cursor:default;
+}
+.nk-dyntable-locked-cell{
+	/* for styling the locked cell */
+	font-style:oblique;
+}
+.nk-dyntable-cell-centered { /* centered table cell */
+	text-align: center;
+	vertical-align: middle;
+}
+/* left-aligned cell (title, or a column another plugin adds): set on the cell itself, so it wins over a
+  text-center (or similar) class the caller puts on the whole table, which cells only inherit */
+.nk-dyntable-cell-left {
+	text-align: left;
+}
+
+/* button caption style on dynamic table header
+this style can be overriden locally by user.
+Only the first letter is uppercased: labels are localised (Tables/Column/<name>),
+and capitalising every word would be wrong in most languages ("Date De Création") */
+table thead .nk-dyntable-header th button::first-letter {
+	text-transform: uppercase;
+}
+
+/* if TW-Utility is installed, The Code button will be hidden in Dynamic table */
+.nk-dyntable-container .kk-utility-details{
+	display: none;
+}
+
+/* column headings: web-safe serif */
+.nk-dyntable-container table thead th,
+.nk-dyntable-container table .nk-dyntable-footer-label {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.nk-dyntable-footer-label {
+	font-weight: bold;
+	position: relative;
+	cursor: help;
+}
+
+/* tooltip: real markup so the name can be bold (a title attribute is plain text) */
+.nk-dyntable-footer-tip {
+	display: none;
+	position: absolute;
+	left: 0;
+	bottom: 100%;
+	z-index: 10;
+	min-width: 12em;
+	max-width: 20em;
+	padding: 0.4em 0.6em;
+	font-family: inherit;
+	font-weight: normal;
+	text-align: left;
+	white-space: normal;
+	border-radius: 3px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.nk-dyntable-footer-label:hover .nk-dyntable-footer-tip {
+	display: block;
+}

@@ -16,19 +16,13 @@ class="table-borderless table-lines thead-dark table-tight table-rounded-3 table
 
 <<detect-language-lingo "Playground/EditableBody">>
 
-<<dyntable filter:"[tag[Demo Task]]" fields:"tbl-checkbox tbl-expand title status priority due-date tbl-clone tbl-delete" pagination:"yes" caption:"Demo tasks" stateTiddler:"Playground/editable">>
+<<dyntable filter:"[tag[Demo Task]]" fields:"nk-checkbox nk-expand title status priority due-date nk-clone nk-delete" pagination:"yes" caption:"Demo tasks" stateTiddler:"Playground/editable">>
 
 <<detect-language-lingo "Playground/FooterHeading" mode="block">>
 
 <<detect-language-lingo "Playground/FooterBody">>
 
 <<dyntable filter:"[tag[Demo Task]]" fields:"title priority" sortType:"number" footer:"sum average:1 min max" stateTiddler:"Playground/footer">>
-
-<<detect-language-lingo "Playground/ContentHeading" mode="block">>
-
-<<detect-language-lingo "Playground/ContentBody">>
-
-<<dyntable filter:"[tag[Demo Content]]" fields:"title role maturity lifecycle needs disciplines technology" stateTiddler:"Playground/content">>
 
 <<detect-language-lingo "Playground/AverageMedianHeading" mode="block">>
 

@@ -1,4 +1,4 @@
-tags: $:/tags/nk-Table/BodyTemplate
+tags: $:/tags/nk-dyntable/BodyTemplate
 title: $:/plugins/nikorion/dyntable/templates/body/default
 type: text/vnd.tiddlywiki
 

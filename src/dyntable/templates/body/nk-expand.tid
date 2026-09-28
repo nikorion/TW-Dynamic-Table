@@ -1,0 +1,16 @@
+tags: $:/tags/nk-dyntable/BodyTemplate
+nk-dyntable-column-list: nk-expand
+title: $:/plugins/nikorion/dyntable/templates/body/nk-expand
+type: text/vnd.tiddlywiki
+
+\procedure doExpand()   <$action-setfield $tiddler=<<tempTableExpand>> $index=<<currentRecord>> $value="show" />
+\procedure doCollapse() <$action-setfield $tiddler=<<tempTableExpand>> $index=<<currentRecord>> />
+<%if [<tempTableExpand>getindex<currentRecord>match[show]] %>
+	<td><$button class="tc-btn-invisible tc-tiddlylink" tooltip=<<dyntable-lingo-text "Tables/Expand/CollapseTooltip">> aria-label=<<dyntable-lingo-text "Tables/Expand/CollapseTooltip">> actions=<<doCollapse>> >
+		{{$:/core/images/down-arrow}}
+	</$button></td>
+<%else%>
+	<td><$button class="tc-btn-invisible tc-tiddlylink" tooltip=<<dyntable-lingo-text "Tables/Expand/ExpandTooltip">> aria-label=<<dyntable-lingo-text "Tables/Expand/ExpandTooltip">> actions=<<doExpand>> >
+		{{$:/core/images/right-arrow}}
+	</$button></td>
+<%endif%>
