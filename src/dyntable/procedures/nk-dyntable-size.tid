@@ -1,0 +1,16 @@
+tags: $:/tags/nk-dyntable/Procedure
+title: $:/plugins/nikorion/dyntable/procedures/nk-dyntable-size
+type: text/vnd.tiddlywiki
+
+<!-- A byte count made readable: scaled by 1024, one decimal (none when it is ,0), localised unit
+  (Tables/Size/Units) and decimal separator. Used by the nk-size cells and, through the template's
+  nk-dyntable-value-format, by its footer totals. -->
+\procedure nk-dyntable-size(value)
+<$let exponent={{{ [<value>compare:number:lt[1024]then[0]] ~[<value>compare:number:lt[1048576]then[1]] ~[<value>compare:number:lt[1073741824]then[2]] ~[[3]] }}}
+      units=<<dyntable-lingo-text "Tables/Size/Units">>
+      separator=<<dyntable-lingo-text "Tables/Size/DecimalSeparator">>
+      number={{{ [[1024]power<exponent>] :map[<value>divide<currentTiddler>fixed[1]search-replace::regexp[\.0$],[]search-replace[.],<separator>] }}}
+      unit={{{ [<units>split[ ]zth<exponent>] }}}>
+<$text text=<<number>>/>&nbsp;<$text text=<<unit>>/>
+</$let>
+\end nk-dyntable-size

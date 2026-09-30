@@ -15,6 +15,10 @@ Tables/Column/creator: Créateur
 Tables/Column/modifier: Modificateur
 Tables/Column/color: Couleur
 Tables/Column/email: E-mail
+Tables/Column/nk-size: Taille
+Tables/Size/Hint: Taille du texte, en octets (UTF-8)
+Tables/Size/Units: o Ko Mo Go
+Tables/Size/DecimalSeparator: ,
 
 Tables/Format/Date: 0DD/0MM/YYYY
 
@@ -42,6 +46,7 @@ Tables/Rename/NameLabel: nouveau titre
 Tables/Rename/Confirm: renommer
 Tables/Rename/Cancel: annuler
 Tables/Rename/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
+Tables/Title/CaptionShown: Valeur du champ 'caption' affichée
 Tables/Title/CaptionTooltip: titre réel :
 Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
 

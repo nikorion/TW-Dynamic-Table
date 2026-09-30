@@ -28,10 +28,13 @@ type: text/vnd.tiddlywiki
 	<$let vals={{{ [function[column-values]count[]] }}}
 	      bad={{{ [function[column-values]!regexp[^-?\d+(\.\d+)?$]count[]] }}}
 	      numeric={{{ [<vals>compare:integer:gt[0]] :filter[<bad>match[0]] }}}
-	      show={{{ [<cols>is[blank]then[y]] :filter[<numeric>!is[blank]] :else[<cols>split[,]trim[]match<currentColumn>] }}}>
+	      show={{{ [<cols>is[blank]then[y]] :filter[<numeric>!is[blank]] :filter[function[nk-dyntable-no-calc]count[]match[0]] :else[<cols>split[,]trim[]match<currentColumn>] }}}>
 		<%if [<show>!is[blank]] %>
-			<$let result={{{ [function<fname>,<pn>] }}}>
-				<%if [<result>!is[blank]] %><$transclude $variable="show-number" value=<<result>>/><%endif%>
+			<!-- a column whose template names a nk-dyntable-value-format procedure (e.g. nk-size) shows its values
+			  through it; counts and products are not values of the column, so they stay plain numbers -->
+			<$let result={{{ [function<fname>,<pn>] }}}
+			      format={{{ [function[nk-dyntable-column-template]get[nk-dyntable-value-format]] :filter[[sum average median minall maxall range]enlist-input[]match<fname>] :else[[show-number]] }}}>
+				<%if [<result>!is[blank]] %><$transclude $variable=<<format>> value=<<result>>/><%endif%>
 			</$let>
 		<%endif%>
 	</$let>

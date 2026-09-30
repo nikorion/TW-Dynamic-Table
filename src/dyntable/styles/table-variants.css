@@ -45,8 +45,8 @@
 }
 
 /* Table hover (background on mouse over) */
-/* Neutral translucent grey: no forced text colour, so the row tones (nk-dyntable-row-success green,
-   nk-dyntable-row-muted grey: styles/row-tones) survive the hover, and it reads on light and dark themes alike. */
+/* Neutral translucent grey: no forced text colour, so the row tones (nk-dyntable-row-success green tint,
+   nk-dyntable-row-danger red tint: styles/row-tones) survive the hover, and it reads on light and dark themes alike. */
 .table-hover tbody tr:hover {
   background-color: rgba(128, 128, 128, 0.18);
 }

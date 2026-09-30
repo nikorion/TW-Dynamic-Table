@@ -19,11 +19,13 @@ type: text/vnd.tiddlywiki
 
 <td class="nk-dyntable-title nk-dyntable-cell-left">
 <!-- the record's caption when it has one, rendered as the core renders it in a tab (wikitext), the link's tooltip
-  giving the actual title ("actual title: …", the one the rename button changes); else its title. The table still
-  sorts on the title. -->
+  saying so on its first line, then giving the actual title ("actual title: …", the one the rename button changes);
+  else its title. The table still sorts on the title. -->
 <%if [<currentRecord>has[caption]] %>
-<$let captionTooltip=<<dyntable-lingo-text "Tables/Title/CaptionTooltip">>>
-<$link to=<<currentRecord>> tooltip={{{ [<captionTooltip>addsuffix[ ]addsuffix<currentRecord>] }}}><$transclude tiddler=<<currentRecord>> field="caption"/></$link>
+<$let captionShown=<<dyntable-lingo-text "Tables/Title/CaptionShown">>
+	captionTooltip=<<dyntable-lingo-text "Tables/Title/CaptionTooltip">>
+>
+<$link to=<<currentRecord>> tooltip={{{ [<captionShown>] [charcode[10]] [<captionTooltip>] [[ ]] [<currentRecord>] +[join[]] }}}><$transclude tiddler=<<currentRecord>> field="caption"/></$link>
 </$let>
 <%else%>
 <$link to=<<currentRecord>>><$text text=<<currentRecord>> /></$link>

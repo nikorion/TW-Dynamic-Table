@@ -3,11 +3,20 @@ type: text/vnd.tiddlywiki
 
 <!-- A record with no value sorts below every value: an empty key is the lowest string and date; for a numeric sort, the lowest safe integer. -->
 \function nk-dyntable-empty-sort-key() [<sortType>match[number]] [<sortType>match[integer]] +[then[-9007199254740991]]
-\function tableFilter()   "[subfilter<inputFilter>]:sort:$(sortType)$:$(sortFlag)$[$(getType)$<sortIndex>else<nk-dyntable-empty-sort-key>]" :map[substitute[]]
+<!-- A computed column (no field behind it) sorts on the key its body template gives: its
+  `nk-dyntable-sort-filter`, evaluated with the record as input, and its `nk-dyntable-sort-type`, which overrides the
+  table's sortType (e.g. nk-size: sorts on the byte count, displays it with a unit). -->
+\function nk-dyntable-sort-template() [all[shadows+tiddlers]tag[$:/tags/nk-dyntable/BodyTemplate]!is[draft]has[nk-dyntable-sort-filter]contains:nk-dyntable-column-list<sortIndex>limit[1]]
+\function tableFilter()   "[subfilter<inputFilter>]:sort:$(sortKeyType)$:$(sortFlag)$[$(sortKey)$]" :map[substitute[]]
 \function tableFilter_with_pagination(thisTableFilter)    [subfilter<thisTableFilter>first<high>] -[subfilter<thisTableFilter>first<low>]
 
 \procedure generate-table-body-rows()
-<$let getType={{{ [<dataType>match[field]then[get]else[getindex]] }}}><!-- get a field or get an index -->
+<$let getType={{{ [<dataType>match[field]then[get]else[getindex]] }}}
+      sortTemplate=<<nk-dyntable-sort-template>>
+      sortKeyFilter={{{ [<sortTemplate>get[nk-dyntable-sort-filter]] }}}
+      sortKeyType={{{ [<sortTemplate>get[nk-dyntable-sort-type]] :else[<sortType>] }}}
+      sortKey={{{ [<sortTemplate>!is[blank]then[subfilter<sortKeyFilter>]] :else[<getType>addsuffix[<sortIndex>else<nk-dyntable-empty-sort-key>]] }}}
+><!-- get a field or get an index, unless the column's template gives its own sort key -->
 <$list filter="[<pagination>match[yes]] :then[function[tableFilter_with_pagination],<tableFilter>] :else[subfilter<tableFilter>]" variable="currentRecord">
 <<display-one-record>>
 </$list>
@@ -42,7 +51,7 @@ type: text/vnd.tiddlywiki
   Row classes: each tiddler tagged $:/tags/nk-dyntable/RowClassFilter holds a filter, evaluated with
   currentRecord, whose results are added to the row's classes — all of them, not the first one, unlike
   the core's TiddlerColourFilter. The plugin ships one (rows/done: a record tagged `Done` reads as done);
-  styles/row-tones styles the classes meant for them, `nk-dyntable-row-success` and `nk-dyntable-row-muted`. -->
+  styles/row-tones styles the classes meant for them, `nk-dyntable-row-success` and `nk-dyntable-row-danger`. -->
 \procedure display-one-record()
 \function nk-dyntable-row-class() [all[shadows+tiddlers]tag[$:/tags/nk-dyntable/RowClassFilter]!is[draft]get[text]] :map:flat[subfilter<currentTiddler>] +[!is[blank]each:value[]join[ ]]
 <tr class=<<nk-dyntable-row-class>> >

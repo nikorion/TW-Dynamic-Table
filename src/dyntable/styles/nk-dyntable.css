@@ -35,17 +35,21 @@ button.nk-dyntable-sort-svg > svg { text-shadow: none; fill:#000000; height:10px
 
 /* a column heading stays on one line: the column widens instead */
 .nk-dyntable-container thead th { white-space: nowrap; }
-/* a heading with a tooltip (a column hint) says so, as a label with an explanation does */
-.nk-dyntable-container thead th button[title]:not([title=""]) { text-decoration: underline dotted; }
+/* a heading with a tooltip (a column hint) says so, as a label with an explanation does; the dots
+  are faded so that they flag without cluttering */
+.nk-dyntable-container thead th button[title]:not([title=""]) {
+	text-decoration: underline dotted color-mix(in srgb, currentColor 40%, transparent);
+}
 
-/* a column holding pills (or a picker) is only as wide as it must be: its heading, its widest pill,
-  its picker. The pills wrap between each other rather than widen it further. A cell width sets its
-  column's preferred width in an auto table, and the column never goes below its content's
-  narrowest width; the spare room of the table goes to the other columns. Its pills are centred,
-  over any alignment set on the cell. */
-.nk-dyntable-container tbody td:has(.tc-tag-label, .tc-edit-add-tag) { width: 1px; text-align: center; }
-/* the gap between pills split on both sides of each (not all on its right), so a centred pill sits in the middle */
-.nk-dyntable-container tbody td .tc-tag-label { margin-left: 3px; margin-right: 3px; }
+/* a column holding pills (or a picker) shows one pill per line, each as wide as its text and centred,
+  over any alignment set on the cell */
+.nk-dyntable-container tbody td:has(.tc-tag-label, .tc-edit-add-tag) { text-align: center; }
+.nk-dyntable-container tbody td .tc-tag-label {
+	display: block;
+	width: fit-content;
+	white-space: nowrap;
+	margin: 3px auto;
+}
 
 /* a picker in a cell (the core's tag picker, or any other plugin's built on its classes): the input
   fills the column, its arrow (and clear) buttons on its right, the add button on the line below.
@@ -68,6 +72,9 @@ button.nk-dyntable-sort-svg > svg { text-shadow: none; fill:#000000; height:10px
 .nk-dyntable-container .tc-add-tag-name .tc-keyboard,
 .nk-dyntable-container td .tc-edit-add-tag .tc-add-tag-name input { flex: 1 0 auto; max-width: none; }
 .nk-dyntable-tc-edit-tags .tc-edit-add-tag .tc-add-tag-name input { width: auto; }
+
+/* a select in a cell never shrinks below a readable width, however narrow its column gets */
+.nk-dyntable-container td select { min-width: 12ch; }
 
 /* a picker borrowing the core tags box (`tc-edit-tags`, as the editor's) drops its frame in a cell:
   the cell already frames it */
@@ -120,6 +127,12 @@ button.nk-dyntable-sort-svg > svg { text-shadow: none; fill:#000000; height:10px
 .nk-dyntable-col-fixedsize{
 	width:5.5rem;
 	white-space: nowrap;
+}
+/* nk-size column: a number with its unit, aligned on the right to compare sizes at a glance */
+.nk-dyntable-size{
+	text-align: right;
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
 }
 /* adjust the size of column with svg icons like: nk-expand, nk-clone, nk-delete, nk-checkbox */
 .nk-dyntable-svg{

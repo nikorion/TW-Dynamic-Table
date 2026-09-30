@@ -4,36 +4,24 @@ type: text/vnd.tiddlywiki
 
 \rules only filteredtranscludeinline transcludeinline macrodef macrocallinline conditional
 
-/* Whole-row text colour, for the classes a row-class filter gives a record (see nk-dyntable-row-class() in
-   segments/nk-dyntable-tbody): nk-dyntable-row-success (done: pale green, theme-aware), nk-dyntable-row-muted (set aside: grey). */
+/* Whole-row tones, for the classes a row-class filter gives a record (see nk-dyntable-row-class() in
+   segments/nk-dyntable-tbody), both theme-aware: nk-dyntable-row-success (done: faint green background),
+   nk-dyntable-row-danger (set aside: faint red background). */
 
-.nk-dyntable-row-success,
-.nk-dyntable-row-success svg,
-.nk-dyntable-row-success a.tc-tiddlylink {
+/* A translucent colour laid as a background image over each cell: it tints whatever lies beneath
+   (a striped cell's colour, the row's hover grey) instead of hiding it. */
+.nk-dyntable-container tbody tr.nk-dyntable-row-success > td {
 <%if [<nk-dyntable-color-scheme>match[dark]] %>
-color: #a5d6a7; /* pale green on dark */
+background-image: linear-gradient(rgba(25, 135, 84, 0.25), rgba(25, 135, 84, 0.25)); /* dark green on dark */
 <%else%>
-color: #6fae73; /* pale green, still readable on light */
+background-image: linear-gradient(rgba(25, 135, 84, 0.1), rgba(25, 135, 84, 0.1)); /* faint green on light */
 <%endif%>
-fill: currentColor;
 }
 
-.nk-dyntable-row-muted,
-.nk-dyntable-row-muted svg,
-.nk-dyntable-row-muted a.tc-tiddlylink {
-color: #8a8a8a;
-fill: currentColor;
-}
-
-/* the title column stays normal on a done record */
-.nk-dyntable-row-success .nk-dyntable-title {
-color: <<colour foreground>>;
-}
-
-.nk-dyntable-row-success .nk-dyntable-title a.tc-tiddlylink {
-color: <<colour tiddler-link-foreground>>;
-}
-
-.nk-dyntable-row-success .nk-dyntable-title svg {
-fill: <<colour foreground>>;
+.nk-dyntable-container tbody tr.nk-dyntable-row-danger > td {
+<%if [<nk-dyntable-color-scheme>match[dark]] %>
+background-image: linear-gradient(rgba(220, 53, 69, 0.25), rgba(220, 53, 69, 0.25)); /* dark red on dark */
+<%else%>
+background-image: linear-gradient(rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.1)); /* faint red on light */
+<%endif%>
 }

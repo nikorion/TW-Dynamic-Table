@@ -1,0 +1,19 @@
+tags: $:/tags/nk-dyntable/BodyTemplate
+nk-dyntable-column-list: nk-size
+nk-dyntable-sort-filter: [get[text]encodeuricomponent[]search-replace:g:regexp[%..],[.]length[]] :else[[0]]
+nk-dyntable-sort-type: number
+nk-dyntable-value-format: nk-dyntable-size
+title: $:/plugins/nikorion/dyntable/templates/body/nk-size
+type: text/vnd.tiddlywiki
+
+<$let bytes={{{ [<currentRecord>subfilter{$:/plugins/nikorion/dyntable/templates/body/nk-size!!nk-dyntable-sort-filter}] }}}
+      units=<<dyntable-lingo-text "Tables/Size/Units">>>
+<td class="nk-dyntable-size" title={{{ [<bytes>] [<units>split[ ]first[]] +[join[ ]] }}}><<nk-dyntable-size value=<<bytes>> >></td>
+</$let>
+<!--
+nk-size: size of the record's text, in UTF-8 bytes — what it weighs on disk (other fields not counted).
+Counted in wikitext: encodeuricomponent writes each non-ASCII byte as %XX, so collapsing every %XX to one
+character leaves one character per byte. The table sorts on that byte count (nk-dyntable-sort-filter, number);
+the cell shows it through nk-dyntable-size (procedures/nk-dyntable-size), the tooltip the exact count; footer
+sums/averages/extremes are shown the same way (nk-dyntable-value-format), counts stay plain numbers. Not editable.
+-->

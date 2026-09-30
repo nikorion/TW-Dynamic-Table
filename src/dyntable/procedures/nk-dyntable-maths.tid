@@ -2,13 +2,28 @@ tags: $:/tags/nk-dyntable/Procedure
 title: $:/plugins/nikorion/dyntable/procedures/nk-dyntable-maths
 type: text/vnd.tiddlywiki
 
-\function column-values() [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>!is[blank]] :else[subfilter<inputFilter>getindex<currentColumn>!is[blank]]
-\function count()     [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>count[]]   :else[subfilter<inputFilter>getindex<currentColumn>count[]]
-\function unique()    [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>!is[blank]each[]count[]] :else[subfilter<inputFilter>getindex<currentColumn>!is[blank]each[]count[]]
-\function average(pn:0) [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>average[]] :else[subfilter<inputFilter>getindex<currentColumn>average[]] :and[fixed<pn>]
-\function median(pn:0)  [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>median[]]  :else[subfilter<inputFilter>getindex<currentColumn>median[]]  :and[fixed<pn>]
-\function sum(pn:0)     [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>sum[]]     :else[subfilter<inputFilter>getindex<currentColumn>sum[]]     :and[fixed<pn>]
-\function product(pn:0) [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>product[]] :else[subfilter<inputFilter>getindex<currentColumn>product[]] :and[fixed<pn>]
-\function minall(pn:0)  [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>minall[]]  :else[subfilter<inputFilter>getindex<currentColumn>minall[]]  :and[fixed<pn>]
+<!-- Values of the current column, one per record that has one (duplicates kept, so sum and count are right):
+  the field or index, or — for a computed column — its body template's nk-dyntable-sort-filter, the same key the
+  column sorts on (e.g. nk-size: the byte count). -->
+\function nk-dyntable-column-template() [all[shadows+tiddlers]tag[$:/tags/nk-dyntable/BodyTemplate]!is[draft]contains:nk-dyntable-column-list<currentColumn>limit[1]]
+\function nk-dyntable-value-filter() [function[nk-dyntable-column-template]get[nk-dyntable-sort-filter]]
+\function nk-dyntable-stored-all() [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>] :else[subfilter<inputFilter>getindex<currentColumn>]
+\function nk-dyntable-computed-all() [subfilter<inputFilter>] :map:flat[subfilter<nk-dyntable-value-filter>]
+\function nk-dyntable-column-all() [function[nk-dyntable-value-filter]] :then[function[nk-dyntable-computed-all]] :else[function[nk-dyntable-stored-all]]
+
+<!-- Columns kept out of footer rows that name no columns (no @): those for which a tiddler tagged
+  $:/tags/nk-dyntable/ColumnNoCalcFilter returns something, its filter evaluated with currentTiddler set to the
+  column (how another plugin says its numeric-looking codes are no quantities). A column named after @ is still
+  computed. -->
+\function nk-dyntable-no-calc() [<currentColumn>] :cascade[all[shadows+tiddlers]tag[$:/tags/nk-dyntable/ColumnNoCalcFilter]!is[draft]get[text]] :and[!is[blank]]
+
+\function column-values() [function[nk-dyntable-column-all]!is[blank]]
+\function count()     [function[nk-dyntable-column-all]count[]]
+\function unique()    [function[nk-dyntable-column-all]!is[blank]each:value[]count[]]
+\function average(pn:0) [function[nk-dyntable-column-all]average[]] :and[fixed<pn>]
+\function median(pn:0)  [function[nk-dyntable-column-all]median[]]  :and[fixed<pn>]
+\function sum(pn:0)     [function[nk-dyntable-column-all]sum[]]     :and[fixed<pn>]
+\function product(pn:0) [function[nk-dyntable-column-all]product[]] :and[fixed<pn>]
+\function minall(pn:0)  [function[nk-dyntable-column-all]minall[]]  :and[fixed<pn>]
 \function range(pn:0)   [function[maxall],[9]] [function[minall],[9]negate[]] +[sum[]] :and[fixed<pn>]
-\function maxall(pn:0)  [<dataType>match[field]] :then[subfilter<inputFilter>get<currentColumn>maxall[]]  :else[subfilter<inputFilter>getindex<currentColumn>maxall[]]  :and[fixed<pn>]
+\function maxall(pn:0)  [function[nk-dyntable-column-all]maxall[]]  :and[fixed<pn>]

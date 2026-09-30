@@ -2,6 +2,8 @@ tags: $:/tags/Stylesheet
 title: $:/plugins/nikorion/dyntable/styles/nk-dyntable-var
 type: text/vnd.tiddlywiki
 
+\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline
+
 /* these are dynamic or variable properties based on the tiddlywiki palette */
 
 .nk-dyntable-page-footer select{
