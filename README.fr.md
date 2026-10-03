@@ -12,6 +12,12 @@ Extrait de la fonction Dynamic Table de [Shiraz](https://github.com/kookma/TW-Sh
 
 La liste complète des paramètres, le mécanisme des modèles de colonnes et les réglages sont documentés dans le readme du plugin lui-même (`src/dyntable/language/<lang>/readme.tid`), visible depuis l'onglet Plugins du panneau de contrôle une fois le plugin installé.
 
+## Sommaire
+
+- [Développement](#développement)
+- [Extension depuis un autre plugin](#extension-depuis-un-autre-plugin)
+- [Licence](#licence)
+
 ## Développement
 
 ```sh
@@ -19,6 +25,8 @@ pnpm install
 pnpm dev     # wiki de dev + rechargement à chaud ; l'URL (port libre aléatoire) s'affiche au démarrage
 pnpm build   # dist/TW-Dynamic-Table-Plugin.json + docs/TW-Dynamic-Table-Wiki.html
 ```
+
+[↑ Retour au sommaire](#sommaire)
 
 ## Extension depuis un autre plugin
 
@@ -36,6 +44,10 @@ Dynamic Table ne connaît aucun champ hormis ceux du core. Un autre plugin lui f
 
 Un modèle de corps voit `currentRecord` (le tiddler de la ligne), `currentColumn` (le champ ou l'index), `tempTableEdit` (`getindex[mode]` vaut `edit` en mode édition) et `tempTableSort` (`getindex[sortIndex]` : la colonne de tri, verrouillée en mode édition), et peut utiliser les chaînes `dyntable-lingo`/`dyntable-lingo-text` (`Tables/Select`, `Tables/Format/Date`…) et les classes de cellule (`nk-dyntable-cell-left`, `nk-dyntable-col-fixedsize`, `nk-dyntable-date`, `nk-dyntable-overdue`, `nk-dyntable-locked-cell`). Ces noms constituent le contrat : [TW-PKM-Fields](https://github.com/nikorion/TW-PKM-Fields) s'appuie dessus pour les colonnes de la suite pkm (`src/pkm-fields/dyntable/`), donc un renommage ici le casse.
 
+[↑ Retour au sommaire](#sommaire)
+
 ## Licence
 
 MIT — voir `LICENSE`.
+
+[↑ Retour au sommaire](#sommaire)
