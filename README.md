@@ -26,7 +26,7 @@ pnpm dev     # dev wiki + hot reload; the URL (random free port) is printed on s
 pnpm build   # dist/TW-Dynamic-Table-Plugin.json + docs/TW-Dynamic-Table-Wiki.html
 ```
 
-[↑ Back to contents](#contents)
+[↑](#contents "Back to contents")
 
 ## Extending from another plugin
 
@@ -44,10 +44,10 @@ Dynamic Table knows no field but the core's. Another plugin teaches it about its
 
 A body template sees `currentRecord` (the row's tiddler), `currentColumn` (the field or index), `tempTableEdit` (`getindex[mode]` is `edit` in edit mode) and `tempTableSort` (`getindex[sortIndex]`: the sort column, locked in edit mode), and may use the `dyntable-lingo`/`dyntable-lingo-text` strings (`Tables/Select`, `Tables/Format/Date`…) and the cell classes (`nk-dyntable-cell-left`, `nk-dyntable-col-fixedsize`, `nk-dyntable-date`, `nk-dyntable-overdue`, `nk-dyntable-locked-cell`). These names are the contract: [TW-PKM-Fields](https://github.com/nikorion/TW-PKM-Fields) relies on them for the pkm suite's columns (`src/pkm-fields/dyntable/`), so a rename here breaks it.
 
-[↑ Back to contents](#contents)
+[↑](#contents "Back to contents")
 
 ## License
 
 MIT — see `LICENSE`.
 
-[↑ Back to contents](#contents)
+[↑](#contents "Back to contents")
