@@ -1,5 +1,7 @@
 # TW-Dynamic-Table
 
+**English** · [Français](README.fr.md)
+
 A [TiddlyWiki](https://tiddlywiki.com) plugin providing `<<dyntable>>`: an editable, sortable, paginated HTML table rendered from a filter — one row per tiddler, one column per field or data-index.
 
 Extracted from [Shiraz](https://github.com/kookma/TW-Shiraz)'s Dynamic Table feature (by Mohammad Rahmani) as an independent plugin, with no dependency on Shiraz itself. Safe to install alongside Shiraz — see the readme's *Compatibility* section.
