@@ -16,19 +16,62 @@
   "languages": [
     "fr-FR"
   ],
-  "pluginPath": ["../src", "../../TW-Plugin-Info-Tree/src", "../../TW-Tiny-Bootstrap/src", "../../TW-Math/src", "../../TW-Scroll-Layout/src"],
+  "pluginPath": [
+    "../src",
+    "../../TW-Plugin-Info-Tree/src",
+    "../../TW-Tiny-Bootstrap/src",
+    "../../TW-Math/src",
+    "../../TW-Scroll-Layout/src"
+  ],
   "config": {
     "retain-original-tiddler-path": true
   },
   "build": {
     "plugin-json": [
-      "--output", "dist",
-      "--render", "$:/core/templates/exporters/JsonFile", "TW-Dynamic-Table-Plugin.json", "text/plain", "", "exportFilter", "[[$:/plugins/nikorion/dyntable]]"
+      "--output",
+      "dist",
+      "--render",
+      "$:/core/templates/exporters/JsonFile",
+      "TW-Dynamic-Table-Plugin.json",
+      "text/plain",
+      "",
+      "exportFilter",
+      "[[$:/plugins/nikorion/dyntable]]"
     ],
-    "html": [
-      "--output", "docs",
-      "--rendertiddler", "$:/core/save/all", "TW-Dynamic-Table-Wiki.html", "text/plain", "",
-      "publishFilter", "-[[$:/config/SyncFilter]] -[[$:/config/FileSystemPaths]] -[[$:/config/OriginalTiddlerPaths]]"
+    "demo": [
+      "--output",
+      "docs",
+      "--render",
+      "$:/core/templates/exporters/JsonFile",
+      "TW-Dynamic-Table-Plugin.json",
+      "text/plain",
+      "",
+      "exportFilter",
+      "[[$:/plugins/nikorion/dyntable]]",
+      "--savetiddlers",
+      "[!is[system]] :filter[get[type]prefix[image/]] -[get[type]match[image/svg+xml]]",
+      "images",
+      "--setfield",
+      "[!is[system]] :filter[get[type]prefix[image/]] -[get[type]match[image/svg+xml]]",
+      "_canonical_uri",
+      "$:/core/templates/canonical-uri-external-image",
+      "text/plain",
+      "--setfield",
+      "[!is[system]] :filter[get[type]prefix[image/]] -[get[type]match[image/svg+xml]]",
+      "text",
+      "",
+      "text/plain",
+      "--rendertiddler",
+      "$:/core/save/offline-external-js",
+      "index.html",
+      "text/plain",
+      "",
+      "publishFilter",
+      "-[[$:/config/SyncFilter]] -[[$:/config/FileSystemPaths]] -[[$:/config/OriginalTiddlerPaths]]",
+      "--render",
+      "$:/core/templates/tiddlywiki5.js",
+      "[[tiddlywikicore-]addsuffix<version>addsuffix[.js]]",
+      "text/plain"
     ]
   }
 }

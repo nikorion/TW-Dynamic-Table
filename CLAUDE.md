@@ -66,13 +66,13 @@ src/dyntable/
 
 wiki/                      ← wiki TW de dev, **sans la suite pkm** (Dynamic Table seul, avec ses compagnons) : Playground.tid (i18n via `detect-language-lingo`, chaînes sous `wiki/tiddlers/language/`) + tiddlers de démo (tags "Demo Task", "Demo Expense", "Demo Ticket", "Demo Student")
 dist/                      ← généré par pnpm build, gitignored
-docs/                      ← TW-Dynamic-Table-Wiki.html standalone (distribution)
+docs/                      ← démo générée par `pnpm build` (`index.html` + moteur externe), gitignorée, publiée par la CI
 ```
 
 ## Spécificités dev
 - Aucun module JS → pas de `pnpm lint`.
 - HMR : tout est `.tid`/`.css`/`.multids`, poussé à chaud dans le navigateur déjà ouvert. Un changement de `plugin.info` reboote (nodemon).
-- `pnpm build` → `dist/TW-Dynamic-Table-Plugin.json` + `docs/TW-Dynamic-Table-Wiki.html`.
+- `pnpm build` → `dist/TW-Dynamic-Table-Plugin.json` + démo `docs/` (publiée par la CI : `../guides/publication.md`).
 
 ## Points d'attention portage
 - **`nk-dyntable-column-list` pilote la sélection de template**, pas le nom de fichier : ajouter une colonne = ajouter un tiddler taggé `$:/tags/nk-dyntable/{Header,Body,Footer}Template` avec ce champ, pas modifier `nk-dyntable-thead`/`nk-dyntable-tbody`/`nk-dyntable-tfoot`. Repli (corps seulement, 2026-09-28) : `nk-dyntable-column-filter`, filtre évalué avec `currentColumn` (via `:filter[subfilter{!!nk-dyntable-column-filter}]` dans l'`emptyValue` du `$set` de `nk-dyntable-tbody`) — un nom explicite gagne toujours.

@@ -17,7 +17,7 @@ Full parameter list, column-template mechanism, and settings are documented in t
 ```sh
 pnpm install
 pnpm dev     # dev wiki + hot reload; the URL (random free port) is printed on start
-pnpm build   # dist/TW-Dynamic-Table-Plugin.json + docs/TW-Dynamic-Table-Wiki.html
+pnpm build   # dist/TW-Dynamic-Table-Plugin.json + docs/ (demo wiki, published by CI)
 ```
 
 ## Extending from another plugin
@@ -35,6 +35,19 @@ Dynamic Table knows no field but the core's. Another plugin teaches it about its
 | `$:/tags/nk-dyntable/Procedure` | procedures and functions imported into every table (`\import`), for the templates to call | — |
 
 A body template sees `currentRecord` (the row's tiddler), `currentColumn` (the field or index), `tempTableEdit` (`getindex[mode]` is `edit` in edit mode) and `tempTableSort` (`getindex[sortIndex]`: the sort column, locked in edit mode), and may use the `dyntable-lingo`/`dyntable-lingo-text` strings (`Tables/Select`, `Tables/Format/Date`…) and the cell classes (`nk-dyntable-cell-left`, `nk-dyntable-col-fixedsize`, `nk-dyntable-date`, `nk-dyntable-overdue`, `nk-dyntable-locked-cell`). These names are the contract: [TW-PKM-Fields](https://github.com/nikorion/TW-PKM-Fields) relies on them for the pkm suite's columns (`src/pkm-fields/dyntable/`), so a rename here breaks it.
+
+## Installation
+
+**Live demo**: [https://nikorion.github.io/TW-Dynamic-Table/](https://nikorion.github.io/TW-Dynamic-Table/) — try the plugin before installing it.
+
+**From the nikorion plugin library** (TiddlyWiki then offers each new version as an update):
+
+1. In your wiki, create a tiddler tagged `$:/tags/PluginLibrary`, with a field `url` set to `https://nikorion.github.io/tw-dev/library/index.html` and a `caption` such as `nikorion`.
+2. Open *Control Panel → Plugins → Get more plugins*, choose the nikorion library and install **Dynamic Table**.
+
+**By hand**: download [`TW-Dynamic-Table-Plugin.json`](https://nikorion.github.io/TW-Dynamic-Table/TW-Dynamic-Table-Plugin.json) and drag it onto your wiki.
+
+Requires TiddlyWiki ≥ 5.3.5.
 
 ## License
 

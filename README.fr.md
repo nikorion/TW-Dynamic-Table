@@ -17,7 +17,7 @@ La liste complète des paramètres, le mécanisme des modèles de colonnes et le
 ```sh
 pnpm install
 pnpm dev     # wiki de dev + rechargement à chaud ; l'URL (port libre aléatoire) s'affiche au démarrage
-pnpm build   # dist/TW-Dynamic-Table-Plugin.json + docs/TW-Dynamic-Table-Wiki.html
+pnpm build   # dist/TW-Dynamic-Table-Plugin.json + docs/ (wiki de démo, publié par la CI)
 ```
 
 ## Extension depuis un autre plugin
@@ -35,6 +35,19 @@ Dynamic Table ne connaît aucun champ hormis ceux du core. Un autre plugin lui f
 | `$:/tags/nk-dyntable/Procedure` | procédures et fonctions importées dans chaque tableau (`\import`), à l'usage des modèles | — |
 
 Un modèle de corps voit `currentRecord` (le tiddler de la ligne), `currentColumn` (le champ ou l'index), `tempTableEdit` (`getindex[mode]` vaut `edit` en mode édition) et `tempTableSort` (`getindex[sortIndex]` : la colonne de tri, verrouillée en mode édition), et peut utiliser les chaînes `dyntable-lingo`/`dyntable-lingo-text` (`Tables/Select`, `Tables/Format/Date`…) et les classes de cellule (`nk-dyntable-cell-left`, `nk-dyntable-col-fixedsize`, `nk-dyntable-date`, `nk-dyntable-overdue`, `nk-dyntable-locked-cell`). Ces noms constituent le contrat : [TW-PKM-Fields](https://github.com/nikorion/TW-PKM-Fields) s'appuie dessus pour les colonnes de la suite pkm (`src/pkm-fields/dyntable/`), donc un renommage ici le casse.
+
+## Installation
+
+**Démo en ligne** : [https://nikorion.github.io/TW-Dynamic-Table/](https://nikorion.github.io/TW-Dynamic-Table/) — pour essayer le plugin avant de l'installer.
+
+**Depuis la bibliothèque de plugins nikorion** (TiddlyWiki propose ensuite chaque nouvelle version en mise à jour) :
+
+1. Dans votre wiki, créer un tiddler tagué `$:/tags/PluginLibrary`, avec un champ `url` valant `https://nikorion.github.io/tw-dev/library/index.html` et une `caption` comme `nikorion`.
+2. Ouvrir *Panneau de configuration → Plugins → Obtenir d'autres plugins*, choisir la bibliothèque nikorion et installer **Dynamic Table**.
+
+**À la main** : télécharger [`TW-Dynamic-Table-Plugin.json`](https://nikorion.github.io/TW-Dynamic-Table/TW-Dynamic-Table-Plugin.json) et le glisser-déposer sur votre wiki.
+
+Nécessite TiddlyWiki ≥ 5.3.5.
 
 ## Licence
 
