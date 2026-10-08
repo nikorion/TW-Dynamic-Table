@@ -70,7 +70,7 @@ docs/                      ← TW-Dynamic-Table-Wiki.html standalone (distributi
 ```
 
 ## Spécificités dev
-- Aucun module JS → pas de `pnpm lint`, `nodemon.json` ne surveille que `plugin.info`.
+- Aucun module JS → pas de `pnpm lint`.
 - HMR : tout est `.tid`/`.css`/`.multids`, poussé à chaud dans le navigateur déjà ouvert. Un changement de `plugin.info` reboote (nodemon).
 - `pnpm build` → `dist/TW-Dynamic-Table-Plugin.json` + `docs/TW-Dynamic-Table-Wiki.html`.
 
