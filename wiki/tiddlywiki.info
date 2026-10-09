@@ -16,13 +16,6 @@
   "languages": [
     "fr-FR"
   ],
-  "pluginPath": [
-    "../src",
-    "../../TW-Plugin-Info-Tree/src",
-    "../../TW-Tiny-Bootstrap/src",
-    "../../TW-Math/src",
-    "../../TW-Scroll-Layout/src"
-  ],
   "config": {
     "retain-original-tiddler-path": true
   },
