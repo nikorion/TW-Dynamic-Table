@@ -8,6 +8,9 @@
     "nikorion/tiny-bootstrap",
     "nikorion/math",
     "nikorion/scroll-layout",
+    "tiddlywiki/highlight",
+    "tiddlywiki/katex",
+    "nikorion/font-manager",
     "nikorion/detect-language"
   ],
   "themes": [
@@ -60,7 +63,7 @@
       "text/plain",
       "",
       "publishFilter",
-      "-[[$:/config/SyncFilter]] -[[$:/config/FileSystemPaths]] -[[$:/config/OriginalTiddlerPaths]]",
+      "-[[$:/config/SyncFilter]] -[[$:/config/FileSystemPaths]] -[[$:/config/OriginalTiddlerPaths]] -[[$:/plugins/kookma/commander]]",
       "--render",
       "$:/core/templates/tiddlywiki5.js",
       "[[tiddlywikicore-]addsuffix<version>addsuffix[.js]]",
