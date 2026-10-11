@@ -4,6 +4,7 @@
 	"description": "Dynamic Table: editable, sortable, paginated HTML tables from a filter",
 	"author": "nikorion",
 	"version": "1.0.0",
+	"stability": "STABILITY_1_EXPERIMENTAL",
 	"core-version": ">=5.3.5",
 	"list": "readme license history",
 	"source": "https://github.com/nikorion/TW-Dynamic-Table",
