@@ -40,12 +40,12 @@ Tables/Clone/RecordTooltip: dupliquer cet enregistrement
 Tables/Clone/NameLabel: nouveau nom
 Tables/Clone/Confirm: dupliquer
 Tables/Clone/Cancel: annuler
-Tables/Clone/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
+Tables/Clone/ExistsWarning: un tiddler porte déjà ce titre, choisissez-en un autre
 Tables/Rename/Tooltip: renommer cet enregistrement
 Tables/Rename/NameLabel: nouveau titre
 Tables/Rename/Confirm: renommer
 Tables/Rename/Cancel: annuler
-Tables/Rename/ExistsWarning: un tiddler porte déjà ce titre, choisis-en un autre
+Tables/Rename/ExistsWarning: un tiddler porte déjà ce titre, choisissez-en un autre
 Tables/Title/CaptionShown: Valeur du champ 'caption' affichée
 Tables/Title/CaptionTooltip: titre réel :
 Tables/Checkbox/RecordTooltip: marquer cet enregistrement comme fait
