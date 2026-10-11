@@ -1,8 +1,6 @@
 title: $:/plugins/nikorion/dyntable/language/fr-FR/readme
 type: text/vnd.tiddlywiki
 
-\whitespace trim
-
 Affiche un tableau HTML éditable, triable et paginable à partir d'un filtre — une ligne par tiddler, une colonne par champ ou index de data-tiddler. Extrait de la fonctionnalité Dynamic Table de [[Shiraz|https://github.com/kookma/TW-Shiraz]] sous forme de plugin indépendant, sans dépendance à Shiraz lui-même.
 
 ! Utilisation
