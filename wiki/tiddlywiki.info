@@ -7,7 +7,7 @@
     "nikorion/plugin-info-tree",
     "nikorion/tiny-bootstrap",
     "nikorion/math",
-    "nikorion/scroll-layout",
+    "nikorion/layout",
     "tiddlywiki/highlight",
     "tiddlywiki/katex",
     "nikorion/font-manager",
