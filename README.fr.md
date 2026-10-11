@@ -2,6 +2,8 @@
 
 [English](README.md) · **Français**
 
+![Status](https://img.shields.io/badge/status-experimental-orange)
+
 Un plugin [TiddlyWiki](https://tiddlywiki.com) qui fournit `<<dyntable>>` : un tableau HTML éditable, triable et paginé, construit à partir d'un filtre — une ligne par tiddler, une colonne par champ ou par index de données.
 
 Extrait de la fonction Dynamic Table de [Shiraz](https://github.com/kookma/TW-Shiraz) (de Mohammad Rahmani) pour en faire un plugin indépendant, sans aucune dépendance à Shiraz. Il peut être installé à côté de Shiraz sans risque — voir la section *Compatibility* du readme.
